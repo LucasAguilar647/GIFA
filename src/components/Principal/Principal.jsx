@@ -13,6 +13,7 @@ import TablaPedidosRealizados from '../TablaPedidos/TablaPedidosRealizados';
 import { RegistroProveedor } from '../RegistroProveedor.jsx/RegistroProveedor';
 import TablaDeInventario from '../TablaInventario/TablaInventario';
 import { TablaDeProveedores } from '../TablaProveedores/TablaProveedores';
+import TablaPedidosAceptados from '../TablaPedidos/TablaPedidosAceptados';
 
 
 
@@ -27,6 +28,7 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'Inventario' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR' || userRole === 'OPERADOR' ) && <TablaDeInventario userRole={userRole} />}
       {activeMenu === 'Choferes' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR') && <TablaDeChoferes/> }  
       {activeMenu === 'RegistroProveedor' && userRole === 'ADMINISTRADOR' && <RegistroProveedor/> }
+      {activeMenu === 'PedidosAceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
       {activeMenu === 'Pedidos' && userRole === 'SUPERVISOR' && <TablaPedidosRealizados/> }  
       {activeMenu === 'Proveedores' && userRole === 'SUPERVISOR' && <TablaDeProveedores/> }  
       {activeMenu === 'Colectivos' && <TablaDeColectivos userRole={userRole} />} 
