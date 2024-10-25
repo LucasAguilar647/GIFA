@@ -20,23 +20,26 @@ export function TablaPedidosAceptados() {
     const [loading, setLoading] = useState(true);
     const token = useSelector((state) => state.user.token);
 
-
     const fetchData = async () => {
         setLoading(true);
         try {
             const response = await verPedidosAceptados(token);
-            console.log(response)
             if (response) {
-                const mappedRows = response.map((item, index) => ({
-                    key: index.toString(),
-                    id: item.id, 
-                    nombre: item.item,
-                    fecha: item.fecha ? new Date(item.fecha[0], item.fecha[1] - 1, item.fecha[2]).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : "Sin fecha",
-                    cantidad: item.cantidad,
-                    motivo: item.motivo,
-                    estado: item.estadoPedido,
-                }));
-                
+                const mappedRows = response.map((item, index) => {
+                    const formattedDate = item.fecha
+                        ? new Date(item.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+                        : "Sin fecha";
+                    
+                    return {
+                        key: index.toString(),
+                        id: item.item.id,
+                        nombre: item.item.nombre, 
+                        fecha: formattedDate,
+                        cantidad: item.cantidad,
+                        motivo: item.motivo,
+                        estado: item.estadoPedido,
+                    };
+                });
                 setFilas(mappedRows);
             }
         } catch (error) {
@@ -46,9 +49,9 @@ export function TablaPedidosAceptados() {
         }
     };
 
-
     const confirmarPedido = async (id) => {
-    
+        console.log(id)
+
         try {
             await confirmarPedidoRecibido(id, token);
             alert("Pedido confirmado exitosamente.");

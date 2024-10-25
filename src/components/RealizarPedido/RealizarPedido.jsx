@@ -13,14 +13,14 @@ export const RealizarPedido = ({ idItem, onSubmit, onCancel }) => {
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === 'cantidad' ? parseInt(value) : value,  
+      [name]: name === 'cantidad' ? (isNaN(parseInt(value)) ? '' : parseInt(value)) : value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const cantidad = parseInt(formData.cantidad);
+    const cantidad = parseInt(formData.cantidad) || 0;  
     const motivo = formData.motivo.trim();
 
     if (cantidad <= 0) {
@@ -36,10 +36,10 @@ export const RealizarPedido = ({ idItem, onSubmit, onCancel }) => {
     const data = {
       cantidad,
       motivo,
-      idItem,  
+      idItem,
     };
 
-    onSubmit(data);  
+    onSubmit(data);
   };
 
   return (
@@ -52,7 +52,7 @@ export const RealizarPedido = ({ idItem, onSubmit, onCancel }) => {
             <input
               type="number"
               name="cantidad"
-              value={formData.cantidad}
+              value={formData.cantidad === 0 ? '' : formData.cantidad}  
               onChange={handleChange}
               min="1"
               step="1"

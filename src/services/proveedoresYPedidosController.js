@@ -9,7 +9,7 @@ public class RegistroProveedorRequestDTO {
 }
 */
 export const registrarProveedor = async (data, token) => {
-    const endpoint = backendUrl + '/pedido/registrar';
+    const endpoint = backendUrl + '/proveedor/registrar';
     return await executeFetch(endpoint, data, HttpMethods.POST, token, 201);
 };
 

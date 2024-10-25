@@ -31,12 +31,12 @@ export function TablaPedidosRealizados() {
       if (response) {
         const mappedRows = response.map((item, index) => {
           const formattedDate = item.fecha 
-            ? new Date(item.fecha[0], item.fecha[1] - 1, item.fecha[2]).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+            ? new Date(item.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
             : "Sin fecha";
             
           return {
             key: index.toString(),
-            nombre: item.item,
+            nombre: item.item.nombre, 
             fecha: formattedDate,
             cantidad: item.cantidad,
             motivo: item.motivo,
@@ -54,7 +54,7 @@ export function TablaPedidosRealizados() {
       setTimeoutId(id);
     }
   };
-
+  
   useEffect(() => {
     fetchData();
 
