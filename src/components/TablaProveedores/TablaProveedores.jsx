@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
+import RegistroDeAsociacionDeItem from "../RegistroDeAsociacionDeItem/RegistroDeAsociacionDeItem";
 import { verProveedoresDeItems } from "../../services/proveedoresYPedidosController";
+
 
 const columns = [
   { uid: "item", name: "NOMBRE DEL ITEM" },
@@ -14,27 +16,40 @@ const columns = [
 export function TablaDeProveedores() {
   const [filas, setFilas] = useState([]);
   const [filterValue, setFilterValue] = useState("");
+  const [showAsociarItem, setShowAsociarItem] = useState(false);
   const token = useSelector((state) => state.user.token);
 
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
-        const proveedores = await verProveedoresDeItems(token);
-        const mappedRows = proveedores.map((entry, index) => ({
+        const proveedoresData = await verProveedoresDeItems(token); 
+        const mappedRows = proveedoresData.map((entry, index) => ({
           key: index.toString(),
-          id: entry.item.id, 
+          id: entry.item.id,
           item: entry.item.nombre,
-          proveedor: entry.proveedor.nombre, 
-          emailProveedor: entry.proveedor.email, 
-          precio: entry.precio, 
+          proveedor: entry.proveedor.nombre,
+          emailProveedor: entry.proveedor.email,
+          precio: entry.precio,
         }));
         setFilas(mappedRows);
       } catch (error) {
         console.error("Error al obtener los proveedores:", error);
+        setFilas([]); 
       }
     };
+
     fetchProveedores();
-  }, [token]);
+  }, [token]); 
+
+
+  const handleOnSubmit = (newItem) => {
+    console.log("Nuevo ítem registrado:", newItem);
+    setShowAsociarItem(false);
+  };
+
+  const handleOnCancel = () => {
+    setShowAsociarItem(false);
+  };
 
   const filteredRows = useMemo(() => {
     return filas.filter((row) =>
@@ -57,17 +72,27 @@ export function TablaDeProveedores() {
         onClear={() => setFilterValue("")}
         onValueChange={setFilterValue}
       />
+      <Button onClick={() => setShowAsociarItem(true)} color="primary">
+        Asociar nuevo item
+      </Button>
     </div>
   );
 
   return (
     <>
-      <TablaGenerica
-        data={filteredRows}
-        columns={columns}
-        renderCell={renderCell}
-        topContent={topContent}
-      />
+      {showAsociarItem ? (
+        <RegistroDeAsociacionDeItem
+          onSubmit={handleOnSubmit}
+          onCancel={handleOnCancel}
+        />
+      ) : (
+        <TablaGenerica
+          data={filteredRows}
+          columns={columns}
+          renderCell={renderCell}
+          topContent={topContent}
+        />
+      )}
     </>
   );
 }

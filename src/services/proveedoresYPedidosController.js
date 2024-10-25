@@ -21,7 +21,7 @@ public class AsociacionProveedorDeITemDTO {
 }
 */
 export const asociarProveedor = async (data, token) => {
-    const endpoint = backendUrl + '/pedido/asociarAitem';
+    const endpoint = backendUrl + '/proveedor/asociarAitem';
     return await executeFetch(endpoint, data, HttpMethods.POST, token, 201);
 };
 
