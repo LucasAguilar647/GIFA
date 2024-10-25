@@ -87,7 +87,7 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
   };
 
   const handlePedidoSubmit = async (data) => {
-    console.log(data);
+ 
     try {
       const response = await generarPedido(data, token); 
       if (response) {

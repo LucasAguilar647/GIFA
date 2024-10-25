@@ -29,11 +29,11 @@ export function TablaPedidosAceptados() {
                     const formattedDate = item.fecha
                         ? new Date(item.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
                         : "Sin fecha";
-                    
+
                     return {
                         key: index.toString(),
                         id: item.item.id,
-                        nombre: item.item.nombre, 
+                        nombre: item.item.nombre,
                         fecha: formattedDate,
                         cantidad: item.cantidad,
                         motivo: item.motivo,
@@ -50,12 +50,11 @@ export function TablaPedidosAceptados() {
     };
 
     const confirmarPedido = async (id) => {
-        console.log(id)
 
         try {
             await confirmarPedidoRecibido(id, token);
             alert("Pedido confirmado exitosamente.");
-            fetchData(); 
+            fetchData();
         } catch (error) {
             alert("Error al confirmar el pedido. Por favor, intente nuevamente.");
         }
@@ -65,8 +64,8 @@ export function TablaPedidosAceptados() {
         fetchData();
     }, [token]);
 
-    const filteredRows = useMemo(() => 
-        filas.filter((fila) => fila.nombre.toLowerCase().includes(filterValue.toLowerCase())), 
+    const filteredRows = useMemo(() =>
+        filas.filter((fila) => fila.nombre.toLowerCase().includes(filterValue.toLowerCase())),
         [filas, filterValue]
     );
 
