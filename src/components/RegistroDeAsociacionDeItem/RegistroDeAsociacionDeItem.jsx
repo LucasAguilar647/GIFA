@@ -4,16 +4,16 @@ import fetchProveedores from "../TablaProveedores/FetchProveedores";
 import FetchItems from "../TablaProveedores/FetchItems";
 import { useSelector } from "react-redux";
 import { asociarProveedor } from "../../services/proveedoresYPedidosController";
+import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
+import { showErrorAlert } from "../SweetAlert/SweetAlertError";
 
-export const RegistroDeAsociacionDeItem = ({ onSubmit, onCancel }) => {
+export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
     const [selectedItem, setSelectedItem] = useState("");
-    const [selectedProveedor, setSelectedProveedor] = useState(""); // Este debe ser el ID
+    const [selectedProveedor, setSelectedProveedor] = useState(""); 
     const [proveedores, setProveedores] = useState([]);
     const [items, setItems] = useState([]);
     const token = useSelector((state) => state.user.token);
     const [formData, setFormData] = useState({
-        idItem: 0,
-        idProveedor: 0,
         precio: 0,
     });
 
@@ -56,28 +56,26 @@ export const RegistroDeAsociacionDeItem = ({ onSubmit, onCancel }) => {
     };
 
     const handleSubmit = async () => {
-        // Validar campos seleccionados
         if (!selectedProveedor || !selectedItem || formData.precio <= 0) {
             alert("Por favor, completa todos los campos correctamente.");
             return;
         }
 
-        // Preparar datos para enviar
+        
         const dataToSubmit = {
             ...formData,
-            idItem: selectedItem,  // ID del ítem seleccionado
-            idProveedor: selectedProveedor,  // ID del proveedor seleccionado
+            idItem: selectedItem,  
+            idProveedor: selectedProveedor, 
         };
-        console.log(dataToSubmit);
 
         try {
-            // Llamar al servicio para asociar el proveedor
             await asociarProveedor(dataToSubmit, token);
-            onSubmit(dataToSubmit); // Enviar datos al componente padre
+            showsuccessAlert('¡Asociacion exitosa!','El item fue asociado correctamente')
+            onCancel()
         } catch (error) {
-            console.error("Error al asociar proveedor:", error);
-            alert("Error al asociar proveedor. Intenta nuevamente.");
+            showErrorAlert('Error al asociar un item',error)
         }
+       
     };
 
     return (

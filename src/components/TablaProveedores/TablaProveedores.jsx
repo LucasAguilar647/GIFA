@@ -42,10 +42,7 @@ export function TablaDeProveedores() {
   }, [token]); 
 
 
-  const handleOnSubmit = (newItem) => {
-    console.log("Nuevo ítem registrado:", newItem);
-    setShowAsociarItem(false);
-  };
+
 
   const handleOnCancel = () => {
     setShowAsociarItem(false);
@@ -82,7 +79,6 @@ export function TablaDeProveedores() {
     <>
       {showAsociarItem ? (
         <RegistroDeAsociacionDeItem
-          onSubmit={handleOnSubmit}
           onCancel={handleOnCancel}
         />
       ) : (
