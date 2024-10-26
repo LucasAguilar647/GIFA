@@ -32,7 +32,7 @@ export function TablaPedidosAceptados() {
 
                     return {
                         key: index.toString(),
-                        id: item.item.id,
+                        idPedido:item.idPedido,
                         nombre: item.item.nombre,
                         fecha: formattedDate,
                         cantidad: item.cantidad,
@@ -93,7 +93,7 @@ export function TablaPedidosAceptados() {
                 );
             case "acciones":
                 return (
-                    <Button color="success" size="sm" onClick={() => confirmarPedido(item.id)}>
+                    <Button color="success" size="sm" onClick={() => confirmarPedido(item.idPedido)}>
                         Confirmar
                     </Button>
                 );
