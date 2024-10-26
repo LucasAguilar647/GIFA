@@ -22,7 +22,7 @@ public class AsociacionProveedorDeITemDTO {
 */
 export const asociarProveedor = async (data, token) => {
     const endpoint = backendUrl + '/proveedor/asociarAitem';
-    return await executeFetch(endpoint, data, HttpMethods.POST, token, 201);
+    return await executeFetch(endpoint, data, HttpMethods.POST, token, 200);
 };
 
 
@@ -84,7 +84,7 @@ public class PedidoManualDTO {
 */
 export const generarPedido = async (data, token) => {
     const endpoint = backendUrl + '/pedido/generarPedido';
-    return await executeFetch(endpoint, data, HttpMethods.POST, token, 201);
+    return await executeFetch(endpoint, data, HttpMethods.POST, token, 200);
 };
 
 export const confirmarPedidoRecibido = async (id, token) => { 

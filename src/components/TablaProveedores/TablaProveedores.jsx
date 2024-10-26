@@ -5,7 +5,6 @@ import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import RegistroDeAsociacionDeItem from "../RegistroDeAsociacionDeItem/RegistroDeAsociacionDeItem";
 import { verProveedoresDeItems } from "../../services/proveedoresYPedidosController";
 
-
 const columns = [
   { uid: "item", name: "NOMBRE DEL ITEM" },
   { uid: "proveedor", name: "NOMBRE DEL PROVEEDOR" },
@@ -19,33 +18,32 @@ export function TablaDeProveedores() {
   const [showAsociarItem, setShowAsociarItem] = useState(false);
   const token = useSelector((state) => state.user.token);
 
+  
+  const fetchProveedores = async () => {
+    try {
+      const proveedoresData = await verProveedoresDeItems(token); 
+      const mappedRows = proveedoresData.map((entry, index) => ({
+        key: index.toString(),
+        id: entry.item.id,
+        item: entry.item.nombre,
+        proveedor: entry.proveedor.nombre,
+        emailProveedor: entry.proveedor.email,
+        precio: entry.precio,
+      }));
+      setFilas(mappedRows);
+    } catch (error) {
+      console.error("Error al obtener los proveedores:", error);
+      setFilas([]); 
+    }
+  };
+
   useEffect(() => {
-    const fetchProveedores = async () => {
-      try {
-        const proveedoresData = await verProveedoresDeItems(token); 
-        const mappedRows = proveedoresData.map((entry, index) => ({
-          key: index.toString(),
-          id: entry.item.id,
-          item: entry.item.nombre,
-          proveedor: entry.proveedor.nombre,
-          emailProveedor: entry.proveedor.email,
-          precio: entry.precio,
-        }));
-        setFilas(mappedRows);
-      } catch (error) {
-        console.error("Error al obtener los proveedores:", error);
-        setFilas([]); 
-      }
-    };
-
-    fetchProveedores();
+    fetchProveedores(); 
   }, [token]); 
-
-
-
 
   const handleOnCancel = () => {
     setShowAsociarItem(false);
+    fetchProveedores(); 
   };
 
   const filteredRows = useMemo(() => {
@@ -78,9 +76,7 @@ export function TablaDeProveedores() {
   return (
     <>
       {showAsociarItem ? (
-        <RegistroDeAsociacionDeItem
-          onCancel={handleOnCancel}
-        />
+        <RegistroDeAsociacionDeItem onCancel={handleOnCancel} />
       ) : (
         <TablaGenerica
           data={filteredRows}

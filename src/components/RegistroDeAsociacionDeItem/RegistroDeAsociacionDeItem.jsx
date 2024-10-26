@@ -6,10 +6,11 @@ import { useSelector } from "react-redux";
 import { asociarProveedor } from "../../services/proveedoresYPedidosController";
 import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 import { showErrorAlert } from "../SweetAlert/SweetAlertError";
+import './styles/RegistroDeAsociacionDeItem.css'
 
 export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
     const [selectedItem, setSelectedItem] = useState("");
-    const [selectedProveedor, setSelectedProveedor] = useState(""); 
+    const [selectedProveedor, setSelectedProveedor] = useState("");
     const [proveedores, setProveedores] = useState([]);
     const [items, setItems] = useState([]);
     const token = useSelector((state) => state.user.token);
@@ -61,27 +62,27 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
             return;
         }
 
-        
+
         const dataToSubmit = {
             ...formData,
-            idItem: selectedItem,  
-            idProveedor: selectedProveedor, 
+            idItem: selectedItem,
+            idProveedor: selectedProveedor,
         };
 
         try {
             await asociarProveedor(dataToSubmit, token);
-            showsuccessAlert('¡Asociacion exitosa!','El item fue asociado correctamente')
+            showsuccessAlert('¡Asociacion exitosa!', 'El item fue asociado correctamente')
             onCancel()
         } catch (error) {
-            showErrorAlert('Error al asociar un item',error)
+            showErrorAlert('Error al asociar un item', error)
         }
-       
+
     };
 
     return (
         <div>
             <h2>Asociar Nuevo Item</h2>
-            <select onChange={(e) => setSelectedProveedor(e.target.value)} value={selectedProveedor}>
+            <select className="select" onChange={(e) => setSelectedProveedor(e.target.value)} value={selectedProveedor}>
                 <option value="">Selecciona un proveedor</option>
                 {proveedores.map((proveedor) => (
                     <option key={proveedor.id} value={proveedor.id}>
@@ -90,7 +91,7 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
                 ))}
             </select>
 
-            <select onChange={(e) => setSelectedItem(e.target.value)} value={selectedItem}>
+            <select className="select" onChange={(e) => setSelectedItem(e.target.value)} value={selectedItem}>
                 <option value="">Selecciona un item</option>
                 {items.map((item) => (
                     <option key={item.id} value={item.id}>
@@ -98,6 +99,7 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
                     </option>
                 ))}
             </select>
+
 
             <div className="form-group">
                 <label className="label">
@@ -116,7 +118,7 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
             <Button onClick={handleSubmit} color="primary">
                 Asociar
             </Button>
-            <Button onClick={onCancel} color="error">
+            <Button onClick={onCancel} color="danger">
                 Cancelar
             </Button>
         </div>
