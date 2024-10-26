@@ -50,6 +50,28 @@ export const TareasAsignadas = () => {
   return (
     <div className="tarjeta-container">
       <div className="columna">
+        <h3>Aprobadas</h3>
+        <input
+          type="text"
+          className="filtro-busqueda"
+          placeholder="Buscar tareas aprobadas..."
+          value={filtroAprobadas}
+          onChange={(e) => setFiltroAprobadas(e.target.value)}
+        />
+        {tareas
+          .filter(tarea => tarea.estadoMantenimiento === "APROBADO" && tarea.asunto.toLowerCase().includes(filtroAprobadas.toLowerCase()))
+          .map((tarea) => (
+            <div className="tarjeta" key={tarea.id}>
+              <TarjetaMantenimiento 
+                tarea={tarea} 
+                token={token} 
+                onTareaFinalizada={handleTareaFinalizada}
+              />
+            </div>
+          ))}
+      </div>
+      
+      <div className="columna">
         <h3>Finalizadas</h3>
         <input
           type="text"
@@ -71,27 +93,7 @@ export const TareasAsignadas = () => {
           ))}
       </div>
 
-      <div className="columna">
-        <h3>Aprobadas</h3>
-        <input
-          type="text"
-          className="filtro-busqueda"
-          placeholder="Buscar tareas aprobadas..."
-          value={filtroAprobadas}
-          onChange={(e) => setFiltroAprobadas(e.target.value)}
-        />
-        {tareas
-          .filter(tarea => tarea.estadoMantenimiento === "APROBADO" && tarea.asunto.toLowerCase().includes(filtroAprobadas.toLowerCase()))
-          .map((tarea) => (
-            <div className="tarjeta" key={tarea.id}>
-              <TarjetaMantenimiento 
-                tarea={tarea} 
-                token={token} 
-                onTareaFinalizada={handleTareaFinalizada}
-              />
-            </div>
-          ))}
-      </div>
+      
     </div>
   );
 };
