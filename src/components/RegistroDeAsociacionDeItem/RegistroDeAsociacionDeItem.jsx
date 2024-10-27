@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { asociarProveedor } from "../../services/proveedoresYPedidosController";
 import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 import { showErrorAlert } from "../SweetAlert/SweetAlertError";
-import './styles/RegistroDeAsociacionDeItem.css'
+//import './styles/RegistroDeAsociacionDeItem.css' //me hace conflictos en los otros registros, revisar
 
 export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
     const [selectedItem, setSelectedItem] = useState("");
