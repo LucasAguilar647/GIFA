@@ -5,6 +5,7 @@ import RegistrarMantenimiento from "../RegistroDeControlesRutinarios/RegistroDeC
 import Loader from "../Loader/Loader";
 import { Input, Button, Chip } from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
+import DetalleVehiculo from "./DetalleVehiculo";
 
 const columns = [
   { uid: "patente", name: "PATENTE" },
@@ -23,6 +24,7 @@ export function TablaDeColectivos({ userRole }) {
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
   const [loading, setLoading] = useState(true);
   const [timeoutId, setTimeoutId] = useState(null);
+  const [mostrarDetalle, setMostrarDetalle] = useState(false);
 
   const token = useSelector((state) => state.user.token);
 
@@ -30,6 +32,7 @@ export function TablaDeColectivos({ userRole }) {
     setLoading(true);
     try {
       const response = await verVehiculos(token);
+      console.log(response)
       if (response && response.vehiculos) {
         const mappedRows = response.vehiculos.map((item, index) => ({
           key: index.toString(),
@@ -87,13 +90,23 @@ export function TablaDeColectivos({ userRole }) {
     }
   };
 
+ 
+
   const handleRegistrarMantenimiento = (id) => {
     setVehiculoSeleccionado(id);
     setMostrarRegistroControles(true);
   };
 
+  const handleVerDetalle = (item) => {
+    setVehiculoSeleccionado(item); 
+    setMostrarDetalle(true); 
+  };
+
+
+
   const irAtras = () => {
     setMostrarRegistroControles(false);
+    setMostrarDetalle(false);
     fetchData(); 
   };
 
@@ -123,8 +136,8 @@ export function TablaDeColectivos({ userRole }) {
   );
 
   const renderCell = (item, columnKey) => {
-    const cellValue = item[columnKey];
-
+    const cellValue = item[columnKey]; 
+  
     switch (columnKey) {
       case "estado":
         return (
@@ -148,6 +161,15 @@ export function TablaDeColectivos({ userRole }) {
                 {item.estado === "HABILITADO" ? "Inhabilitar" : "Habilitar"}
               </Button>
             )}
+            {userRole === "ADMINISTRADOR" && (
+              <Button
+                color="primary"
+                variant="shadow"
+                onClick={() => handleVerDetalle(item)}
+              >
+                Ver Detalle
+              </Button>
+            )}
             {userRole === "SUPERVISOR" && item.estado === "HABILITADO" && (
               <Button color="danger" onClick={() => handleRegistrarMantenimiento(item.id)}>
                 Registrar mantenimiento
@@ -156,9 +178,11 @@ export function TablaDeColectivos({ userRole }) {
           </div>
         );
       default:
-        return cellValue;
+        return cellValue; 
     }
   };
+  
+  
 
   return (
     <div>
@@ -171,6 +195,8 @@ export function TablaDeColectivos({ userRole }) {
             <h2>Cargando colectivos...</h2>
           </div>
         </>
+      ) : mostrarDetalle ? (
+        <DetalleVehiculo vehiculo={vehiculoSeleccionado} irAtras={irAtras} />
       ) : !mostrarRegistroControles ? (
         <TablaGenerica
           data={filteredRows}
