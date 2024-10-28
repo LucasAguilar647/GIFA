@@ -14,7 +14,7 @@ export const MetricaGlobales = ({ dashboardId }) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const id = dashboardId || 34;
+        const id = dashboardId || 5;
         const response = await getMetabaseToken(id, userToken);
 
         if (response && response.token) {
@@ -40,7 +40,8 @@ export const MetricaGlobales = ({ dashboardId }) => {
     return <div>Error al obtener el token para el dashboard.</div>;
   }
 
- 
+  
+
   const iframeUrl = `${metaBaseUrl}/embed/dashboard/${metabaseToken}#theme=night&bordered=true&titled=true`;
 
   return (
