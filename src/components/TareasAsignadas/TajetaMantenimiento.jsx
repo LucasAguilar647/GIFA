@@ -57,15 +57,16 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
 
   const handleCantidadChange = (id, cantidad) => {
     const cantidadNumerica = parseInt(cantidad);
-
-    if (cantidadNumerica >= 1) {
+  
+    if (cantidad === "" || cantidadNumerica >= 1) {
       setItemsUsados(itemsUsados.map(item =>
-        item.id === id ? { ...item, cantidad: cantidadNumerica } : item
+        item.id === id ? { ...item, cantidad: cantidad === "" ? "" : cantidadNumerica } : item
       ));
     } else {
       alert("La cantidad no puede ser menor que 1");
     }
   };
+  
 
 
   const handleOcultarInventario = () => {
