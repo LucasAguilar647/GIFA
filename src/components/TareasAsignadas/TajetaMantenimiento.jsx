@@ -4,6 +4,8 @@ import mantenimientoImagen from '../../assets/Images/LogoNavBar.jpeg';
 import { finalizarMantenimiento } from '../../services/mantenimientoService';
 import { utilizarItem } from '../../services/inventarioService';
 import TablaDeInventario from '../TablaInventario/TablaInventario';
+import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
+import { showErrorAlert } from '../SweetAlert/SweetAlertError';
 
 const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
   const [itemsUsados, setItemsUsados] = useState([]);
@@ -35,12 +37,12 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
       console.log(data);
 
       await finalizarMantenimiento(tarea.id, data, token);
+      showsuccessAlert('¡Tarea finalizada!','Los ítems han sido descontados del stock')
 
-      alert("Tarea finalizada y los ítems han sido descontados del stock.");
       onTareaFinalizada(tarea.id);
 
     } catch (error) {
-      alert("Error al finalizar la tarea.");
+      showErrorAlert('Error al finalizar la tarea',error)
     }
   };
 
