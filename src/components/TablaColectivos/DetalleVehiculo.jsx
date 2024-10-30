@@ -1,6 +1,6 @@
 import React from "react";
-import { QRCodeCanvas } from "qrcode.react"; 
-import { Button } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Image, Button, Divider } from "@nextui-org/react";
+import { QRCodeCanvas } from "qrcode.react";
 
 function DetalleVehiculo({ vehiculo, irAtras }) {
   const handleDownloadQR = () => {
@@ -16,30 +16,46 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
     document.body.removeChild(downloadLink);
   };
 
-
-
   return (
-    <div>
-      <h2>Detalles del Vehículo</h2>
-      <p><strong>Patente:</strong> {vehiculo.patente}</p>
-      <p><strong>Antigüedad:</strong> {vehiculo.antiguedad} años</p>
-      <p><strong>Kilometraje:</strong> {vehiculo.kilometraje} km</p>
-      <p><strong>Modelo:</strong> {vehiculo.modelo}</p>
-      <p><strong>Estado:</strong> {vehiculo.estadoVehiculo}</p>
-      <p><strong>Fecha de Vencimiento:</strong> {vehiculo.fechaVencimiento}</p>
+    <Card className="py-4 max-w-[400px]">
+      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+        <p className="text-tiny uppercase font-bold">Detalles del Vehículo</p>
+        <small className="text-default-500">Información Básica</small>
+        <h4 className="font-bold text-large">{vehiculo.patente}</h4>
+      </CardHeader>
+      <CardBody className="overflow-visible py-2 px-4">
+        
+        <Divider />
+        
+        <div className="mt-4">
+          <p><strong>Patente:</strong> {vehiculo.patente}</p>
+          <p><strong>Antigüedad:</strong> {vehiculo.antiguedad} años</p>
+          <p><strong>Kilometraje:</strong> {vehiculo.kilometraje} km</p>
+          <p><strong>Estado:</strong> {vehiculo.estado}</p>
+        </div>
 
-      <div>
-        <h3>Código QR</h3>
-        <QRCodeCanvas
-          id="qrCanvas"
-          value={vehiculo.qr}
-          size={150}
-        />
-        <Button onClick={handleDownloadQR}>Descargar QR</Button>
-      </div>
+        <Divider className="my-4" />
 
-      <Button onClick={irAtras}>Volver</Button>
-    </div>
+        <div>
+          <h5 className="font-semibold mb-2">Código QR</h5>
+          <QRCodeCanvas
+            id="qrCanvas"
+            value={vehiculo.patente}
+            size={150}
+            className="mb-4"
+          />
+          <Button size="sm" color="secondary" onClick={handleDownloadQR}>
+            Descargar QR
+          </Button>
+        </div>
+
+        <Divider />
+      </CardBody>
+
+      <Button className="m-4" color="danger" onClick={irAtras}>
+        Volver
+      </Button>
+    </Card>
   );
 }
 

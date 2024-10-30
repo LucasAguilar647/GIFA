@@ -32,7 +32,7 @@ export function TablaDeColectivos({ userRole }) {
     setLoading(true);
     try {
       const response = await verVehiculos(token);
-      console.log(response)
+      
       if (response && response.vehiculos) {
         const mappedRows = response.vehiculos.map((item, index) => ({
           key: index.toString(),
