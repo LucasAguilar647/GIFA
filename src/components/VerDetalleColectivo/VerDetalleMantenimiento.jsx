@@ -1,4 +1,4 @@
-// VerDetalleMantenimiento.js
+
 import React, { useEffect, useState } from 'react';
 import { verMantenimientoPorVehiculo } from '../../services/mantenimientoService'; 
 import CardMantenimiento from '../Card/CardMantenimiento';

@@ -59,6 +59,8 @@ export const Home = () => {
             <>
               <div className={`MenuItem ${activeMenu === 'TareasAsignadas' ? 'active' : ''}`} onClick={() => handleMenuClick('TareasAsignadas')}>Mis tareas</div>
               <div className={`MenuItem ${activeMenu === 'AsignarTarea' ? 'active' : ''}`} onClick={() => handleMenuClick('AsignarTarea')}>Pendientes</div>
+              <div className={`MenuItem ${activeMenu === 'ScannerQR' ? 'active' : ''}`} onClick={() => handleMenuClick('ScannerQR')}>Scanner</div>
+              
             </>
           )}
            {userRole === 'GERENTE' && (

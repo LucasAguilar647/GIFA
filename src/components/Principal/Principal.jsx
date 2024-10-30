@@ -14,6 +14,7 @@ import { RegistroProveedor } from '../RegistroProveedor.jsx/RegistroProveedor';
 import TablaDeInventario from '../TablaInventario/TablaInventario';
 import { TablaDeProveedores } from '../TablaProveedores/TablaProveedores';
 import TablaPedidosAceptados from '../TablaPedidos/TablaPedidosAceptados';
+import ScannerQR from '../ScannerQR/ScannerQR';
 
 
 
@@ -35,6 +36,7 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'Mantenimientos' && <HistorialDeMantenimientos userRole={userRole} />} 
       {activeMenu === 'AsignarTarea' && userRole === 'OPERADOR' &&  <AsignarTareas/> } 
       {activeMenu === 'TareasAsignadas' && userRole === 'OPERADOR' &&  <TareasAsignadas/> } 
+      {activeMenu === 'ScannerQR' && userRole === 'OPERADOR' &&  <ScannerQR/> } 
       {activeMenu === 'MetricaBitacora' && userRole === 'GERENTE' &&  <MetricaBitacora/> } 
       {activeMenu === 'MetricaStock' && userRole === 'GERENTE' && <MetricaStock/> } 
       {activeMenu === 'MetricaFlota' && userRole === 'GERENTE' && <MetricaFlota/> } 

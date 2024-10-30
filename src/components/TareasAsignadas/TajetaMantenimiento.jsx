@@ -34,7 +34,7 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
           cantidad: item.cantidad,
         })),
       };
-      console.log(data);
+     
 
       await finalizarMantenimiento(tarea.id, data, token);
       showsuccessAlert('¡Tarea finalizada!','Los ítems han sido descontados del stock')

@@ -1,4 +1,4 @@
-// TarjetaMantenimiento.js
+
 import React from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Divider, Button, Image } from "@nextui-org/react";
 import mantenimientoImagen from '../../assets/Images/LogoNavBar.jpeg';
