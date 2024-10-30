@@ -32,7 +32,7 @@ export function TablaDeColectivos({ userRole }) {
     setLoading(true);
     try {
       const response = await verVehiculos(token);
-      
+    
       if (response && response.vehiculos) {
         const mappedRows = response.vehiculos.map((item, index) => ({
           key: index.toString(),
@@ -42,6 +42,7 @@ export function TablaDeColectivos({ userRole }) {
           kilometraje: item.kilometraje,
           estado: item.estadoDeHabilitacion || "Desconocido",
           fechaDeRevision: item.fechaVencimiento ? new Intl.DateTimeFormat('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.fechaVencimiento)) : "Sin fecha",
+          qr: item.qr,
         }));
         setFilas(mappedRows);
       }

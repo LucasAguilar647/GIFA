@@ -1,8 +1,9 @@
-import React from "react";
-import { Card, CardHeader, CardBody, Image, Button, Divider } from "@nextui-org/react";
+import React, { useState } from "react";
+import { Card, CardHeader, CardBody, Button, Divider } from "@nextui-org/react";
 import { QRCodeCanvas } from "qrcode.react";
 
 function DetalleVehiculo({ vehiculo, irAtras }) {
+
   const handleDownloadQR = () => {
     const canvas = document.getElementById("qrCanvas");
     const pngUrl = canvas
@@ -16,6 +17,9 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
     document.body.removeChild(downloadLink);
   };
 
+
+
+
   return (
     <Card className="py-4 max-w-[400px]">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -24,9 +28,9 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
         <h4 className="font-bold text-large">{vehiculo.patente}</h4>
       </CardHeader>
       <CardBody className="overflow-visible py-2 px-4">
-        
+
         <Divider />
-        
+
         <div className="mt-4">
           <p><strong>Patente:</strong> {vehiculo.patente}</p>
           <p><strong>Antigüedad:</strong> {vehiculo.antiguedad} años</p>
@@ -40,10 +44,11 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
           <h5 className="font-semibold mb-2">Código QR</h5>
           <QRCodeCanvas
             id="qrCanvas"
-            value={vehiculo.patente}
+            value={String(vehiculo.id)} 
             size={150}
             className="mb-4"
           />
+
           <Button size="sm" color="secondary" onClick={handleDownloadQR}>
             Descargar QR
           </Button>

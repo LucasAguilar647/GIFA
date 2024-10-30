@@ -1,6 +1,4 @@
 import { Html5QrcodeScanner } from "html5-qrcode";
-
-
 const handleStartScan = (setScanResult, scannerRef) => {
   setScanResult(null);
 
@@ -12,24 +10,23 @@ const handleStartScan = (setScanResult, scannerRef) => {
       disableFlip: false,
     });
 
-    const onScanSuccess = async (decodedText) => {
-      setScanResult(decodedText); 
+    const onScanSuccess = (decodedText) => {
+      
+      const decodedNumber = parseInt(decodedText, 10);
 
-      /*
-      try {
-        const producto = await getProducto(scannedID);
-        if (producto) {
-          console.log("Producto encontrado:", producto);
-          // Aquí puedes manejar el producto según sea necesario
-        } else {
-          console.warn("Producto no encontrado");
-        }
-      } catch (error) {
-        console.error("Error al obtener producto:", error);
+      if (!isNaN(decodedNumber)) {
+        setScanResult(decodedNumber); 
+        console.log("Número escaneado:", decodedNumber);
+      } else if (decodedText.startsWith("data:image") || decodedText.length > 100) {
+      
+        console.log("Imagen escaneada en formato Base64");
+       
+        setScanResult(decodedText);
+      } else {
+        console.warn("El texto escaneado no es un número entero válido ni una imagen reconocible:", decodedText);
+        setScanResult(decodedText);
       }
-      */
 
-     
       html5QrCodeScanner.clear();
       scannerRef.current = null;
     };
@@ -41,7 +38,6 @@ const handleStartScan = (setScanResult, scannerRef) => {
     html5QrCodeScanner.render(onScanSuccess, onScanError);
     scannerRef.current = html5QrCodeScanner;
   } else {
-    
     scannerRef.current.clear();
     scannerRef.current.render(onScanSuccess, onScanError);
   }
