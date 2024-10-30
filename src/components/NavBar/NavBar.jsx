@@ -28,7 +28,7 @@ export default function NavBar() {
 const handleVerPresupuesto = async () => {
   try {
     const presupuesto = await obtenerPresupuesto(token); 
-    showPresupuesto(`El presupuesto actual es: ${presupuesto.presupuesto}`); 
+    showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`); 
   } catch (error) {
     console.error("Error al obtener el presupuesto:", error);
     showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
