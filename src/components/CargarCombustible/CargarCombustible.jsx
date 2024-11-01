@@ -3,8 +3,6 @@ import '../RegistroDeColectivo/styles/RegistroDeColectivo.css';
 import { Button } from '@nextui-org/react';
 import { cargarCombustible } from '../../services/gestionDeCombustibleService';
 import { useSelector } from 'react-redux';
-import { showErrorAlert } from '../SweetAlert/SweetAlertError';
-import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
 
 export const CargarCombustible = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +23,18 @@ export const CargarCombustible = () => {
     }));
   };
 
+  const formatFechaYhora = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,13 +50,13 @@ export const CargarCombustible = () => {
       return;
     }
 
-    const FechaYhora = new Date().toISOString();
+    const FechaYhora = formatFechaYhora();
+    console.log(FechaYhora)
 
     const data = {
       cantidadLitros,
       FechaYhora,
       numeroTarjeta,
-      fechaYhora: FechaYhora,
     };
 
     try {
@@ -56,9 +66,9 @@ export const CargarCombustible = () => {
         numeroTarjeta: 0,
       });
       
-      showsuccessAlert('¡Registro de carga!', 'La carga fue agregada correctamente');
+      alert('¡Registro de carga exitoso! La carga fue agregada correctamente.');
     } catch (error) {
-      showErrorAlert('Error al cargar combustible', error);
+      alert('Error al cargar combustible: ' + error.message);
     }
   };
 
