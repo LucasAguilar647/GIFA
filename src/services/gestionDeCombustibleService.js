@@ -12,5 +12,5 @@ public class CargaCombustibleRequestDTO {
 */
 export const cargarCombustible = async (data, token) => {
     const endpoint = backendUrl + '/gestionDeCombustible/cargarCombustible';
-    return await executeFetch(endpoint, data, HttpMethods.POST, token, 201);
+    return await executeFetch(endpoint, data, HttpMethods.POST, token, 200);
 };

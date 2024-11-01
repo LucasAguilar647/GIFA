@@ -70,6 +70,13 @@ export const Home = () => {
               <div className={`MenuItem ${activeMenu === 'MetricaFlota' ? 'active' : ''}`} onClick={() => handleMenuClick('MetricaFlota')}>Métrica de Gestión de Controles de Flota</div>
             </>
           )}
+          {userRole === 'CHOFER' && (
+            <>
+              <div className={`MenuItem ${activeMenu === 'CargarCombustible' ? 'active' : ''}`} onClick={() => handleMenuClick('CargarCombustible')}>Cargar combustible</div>
+             
+            </>
+          )}
+          
         </div>
         <div className="ContentArea"> 
           <Principal activeMenu={activeMenu} />

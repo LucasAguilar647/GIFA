@@ -15,6 +15,7 @@ import TablaDeInventario from '../TablaInventario/TablaInventario';
 import { TablaDeProveedores } from '../TablaProveedores/TablaProveedores';
 import TablaPedidosAceptados from '../TablaPedidos/TablaPedidosAceptados';
 import ScannerQR from '../ScannerQR/ScannerQR';
+import { CargarCombustible } from '../CargarCombustible/CargarCombustible';
 
 
 
@@ -40,6 +41,8 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'MetricaBitacora' && userRole === 'GERENTE' &&  <MetricaBitacora/> } 
       {activeMenu === 'MetricaStock' && userRole === 'GERENTE' && <MetricaStock/> } 
       {activeMenu === 'MetricaFlota' && userRole === 'GERENTE' && <MetricaFlota/> } 
+      {activeMenu === 'CargarCombustible' && <CargarCombustible/> }
+      
     </div>
   );
 };
