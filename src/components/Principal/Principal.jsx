@@ -16,6 +16,7 @@ import { TablaDeProveedores } from '../TablaProveedores/TablaProveedores';
 import TablaPedidosAceptados from '../TablaPedidos/TablaPedidosAceptados';
 import ScannerQR from '../ScannerQR/ScannerQR';
 import { CargarCombustible } from '../CargarCombustible/CargarCombustible';
+import { RegistroDispositivo } from '../RegistroDispositivo/RegistroDispositivo';
 
 
 
@@ -26,21 +27,27 @@ export const Principal = ({ activeMenu }) => {
 
   return (
     <div>
-      {activeMenu === 'Registro' && userRole === 'ADMINISTRADOR' && <RegistroDeColectivo />} 
+      {activeMenu === 'RegistroDeColectivo' && userRole === 'ADMINISTRADOR' && <RegistroDeColectivo />} 
       {activeMenu === 'Inventario' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR' || userRole === 'OPERADOR' ) && <TablaDeInventario userRole={userRole} />}
       {activeMenu === 'Choferes' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR') && <TablaDeChoferes/> }  
       {activeMenu === 'RegistroProveedor' && userRole === 'ADMINISTRADOR' && <RegistroProveedor/> }
       {activeMenu === 'PedidosAceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
+      {activeMenu === 'RegistroDispositivo' && userRole === 'ADMINISTRADOR' && <RegistroDispositivo/> }
+      
       {activeMenu === 'Pedidos' && userRole === 'SUPERVISOR' && <TablaPedidosRealizados/> }  
       {activeMenu === 'Proveedores' && userRole === 'SUPERVISOR' && <TablaDeProveedores/> }  
+
       {activeMenu === 'Colectivos' && <TablaDeColectivos userRole={userRole} />} 
       {activeMenu === 'Mantenimientos' && <HistorialDeMantenimientos userRole={userRole} />} 
+
       {activeMenu === 'AsignarTarea' && userRole === 'OPERADOR' &&  <AsignarTareas/> } 
       {activeMenu === 'TareasAsignadas' && userRole === 'OPERADOR' &&  <TareasAsignadas/> } 
       {activeMenu === 'ScannerQR' && userRole === 'OPERADOR' &&  <ScannerQR/> } 
+
       {activeMenu === 'MetricaBitacora' && userRole === 'GERENTE' &&  <MetricaBitacora/> } 
       {activeMenu === 'MetricaStock' && userRole === 'GERENTE' && <MetricaStock/> } 
       {activeMenu === 'MetricaFlota' && userRole === 'GERENTE' && <MetricaFlota/> } 
+
       {activeMenu === 'CargarCombustible' && <CargarCombustible/> }
       
     </div>

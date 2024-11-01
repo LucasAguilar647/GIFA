@@ -18,6 +18,8 @@ export const Home = () => {
         return 'TareasAsignadas'; 
       case 'GERENTE':
         return 'MetricaBitacora'
+      case 'CHOFER':
+        return 'CargarCombustible'
       default:
         return 'Home'; 
     }
@@ -37,12 +39,13 @@ export const Home = () => {
           {userRole === 'ADMINISTRADOR' && (
             <>
               <div className={`MenuItem ${activeMenu === 'Colectivos' ? 'active' : ''}`} onClick={() => handleMenuClick('Colectivos')}>Colectivos</div>
-              <div className={`MenuItem ${activeMenu === 'Registro' ? 'active' : ''}`} onClick={() => handleMenuClick('Registro')}>Registro de colectivo</div>
+              <div className={`MenuItem ${activeMenu === 'RegistroDeColectivo' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroDeColectivo')}>Registro de colectivo</div>
               <div className={`MenuItem ${activeMenu === 'Inventario' ? 'active' : ''}`} onClick={() => handleMenuClick('Inventario')}>Inventario</div>
               <div className={`MenuItem ${activeMenu === 'Mantenimientos' ? 'active' : ''}`} onClick={() => handleMenuClick('Mantenimientos')}>Mantenimientos</div>
               <div className={`MenuItem ${activeMenu === 'Choferes' ? 'active' : ''}`} onClick={() => handleMenuClick('Choferes')}>Choferes</div>
               <div className={`MenuItem ${activeMenu === 'RegistroProveedor' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroProveedor')}>Registro de proveedor</div>
               <div className={`MenuItem ${activeMenu === 'PedidosAceptados' ? 'active' : ''}`} onClick={() => handleMenuClick('PedidosAceptados')}>Pedidos aceptados</div>
+              <div className={`MenuItem ${activeMenu === 'RegistroDispositivo' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroDispositivo')}>Registrar dispositivo</div>
             </>
           )}
           {userRole === 'SUPERVISOR' && (
