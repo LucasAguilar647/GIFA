@@ -17,6 +17,7 @@ import TablaPedidosAceptados from '../TablaPedidos/TablaPedidosAceptados';
 import ScannerQR from '../ScannerQR/ScannerQR';
 import { CargarCombustible } from '../CargarCombustible/CargarCombustible';
 import { RegistroDispositivo } from '../RegistroDispositivo/RegistroDispositivo';
+import { Inconsistencias } from '../Inconsistencias/Inconsistencias';
 
 
 
@@ -33,6 +34,8 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'RegistroProveedor' && userRole === 'ADMINISTRADOR' && <RegistroProveedor/> }
       {activeMenu === 'PedidosAceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
       {activeMenu === 'RegistroDispositivo' && userRole === 'ADMINISTRADOR' && <RegistroDispositivo/> }
+      {activeMenu === 'Inconsistencias' && userRole === 'ADMINISTRADOR' && <Inconsistencias/> }
+     
       
       {activeMenu === 'Pedidos' && userRole === 'SUPERVISOR' && <TablaPedidosRealizados/> }  
       {activeMenu === 'Proveedores' && userRole === 'SUPERVISOR' && <TablaDeProveedores/> }  
