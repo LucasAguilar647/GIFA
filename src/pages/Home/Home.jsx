@@ -26,21 +26,21 @@ export const Home = () => {
   const getDefaultMenu = (role) => {
     switch (role) {
       case 'ADMINISTRADOR':
-        return 'Colectivos'; 
+        return 'Colectivos';
       case 'SUPERVISOR':
-        return 'Colectivos'; 
+        return 'Colectivos';
       case 'OPERADOR':
-        return 'TareasAsignadas'; 
+        return 'TareasAsignadas';
       case 'GERENTE':
         return 'MetricaBitacora'
       case 'CHOFER':
         return 'CargarCombustible'
       default:
-        return 'Home'; 
+        return 'Home';
     }
   };
 
-  const [activeMenu, setActiveMenu] = useState(getDefaultMenu(userRole)); 
+  const [activeMenu, setActiveMenu] = useState(getDefaultMenu(userRole));
 
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
@@ -50,50 +50,50 @@ export const Home = () => {
     <div className="DashboardWrapper">
       <NavBar />
       <div className="MainContent">
-        <div className="Sidebar"> 
+        <div className="Sidebar">
           {userRole === 'ADMINISTRADOR' && (
             <>
               <div className={`MenuItem ${activeMenu === 'Colectivos' ? 'active' : ''}`} onClick={() => handleMenuClick('Colectivos')}>
-              Colectivos
-              <img src={iconColectivos} alt="Colectivos" className="menu-icon" />
+                Colectivos
+                <img src={iconColectivos} alt="Colectivos" className="menu-icon" />
+              </div>
+
+              <div className={`MenuItem ${activeMenu === 'Inventario' ? 'active' : ''}`} onClick={() => handleMenuClick('Inventario')}>
+                Inventario
+                <img src={iconInventario} alt="Inventario" className="menu-icon" />
+              </div>
+
+              <div className={`MenuItem ${activeMenu === 'Mantenimientos' ? 'active' : ''}`} onClick={() => handleMenuClick('Mantenimientos')}>
+                Mantenimientos
+                <img src={iconMantenimiento} alt="Mantenimientos" className="menu-icon" />
+              </div>
+
+              <div className={`MenuItem ${activeMenu === 'Choferes' ? 'active' : ''}`} onClick={() => handleMenuClick('Choferes')}>
+                Choferes
+                <img src={iconChofer} alt="Choferes" className="menu-icon" />
+              </div>
+
+              <div className={`MenuItem ${activeMenu === 'PedidosAceptados' ? 'active' : ''}`} onClick={() => handleMenuClick('PedidosAceptados')}>
+                Pedidos aceptados
+                <img src={iconPedidoAceptado} alt="PedidosAceptados" className="menu-icon" />
               </div>
 
               <div className={`MenuItem ${activeMenu === 'RegistroDeColectivo' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroDeColectivo')}>
                 Registro de colectivo
                 <img src={iconPortapales} alt="RegistroDeColectivo" className="menu-icon" />
-                </div>
-
-              <div className={`MenuItem ${activeMenu === 'Inventario' ? 'active' : ''}`} onClick={() => handleMenuClick('Inventario')}>
-                Inventario
-                <img src={iconInventario} alt="Inventario" className="menu-icon" />
-                </div>
-
-              <div className={`MenuItem ${activeMenu === 'Mantenimientos' ? 'active' : ''}`} onClick={() => handleMenuClick('Mantenimientos')}>
-                Mantenimientos
-                <img src={iconMantenimiento} alt="Mantenimientos" className="menu-icon" />
-                </div>
-
-              <div className={`MenuItem ${activeMenu === 'Choferes' ? 'active' : ''}`} onClick={() => handleMenuClick('Choferes')}>
-                Choferes
-                <img src={iconChofer} alt="Choferes" className="menu-icon" />
-                </div>
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'RegistroProveedor' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroProveedor')}>
                 Registro de proveedor
                 <img src={iconProveeedor} alt="RegistroProveedor" className="menu-icon" />
-                </div>
-
-              <div className={`MenuItem ${activeMenu === 'PedidosAceptados' ? 'active' : ''}`} onClick={() => handleMenuClick('PedidosAceptados')}>
-                Pedidos aceptados
-                <img src={iconPedidoAceptado} alt="PedidosAceptados" className="menu-icon" />
-                </div>
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'Inconsistencias' ? 'active' : ''}`} onClick={() => handleMenuClick('Inconsistencias')}>Inconsistencias</div>
-              
+
               <div className={`MenuItem ${activeMenu === 'Usuarios' ? 'active' : ''}`} onClick={() => handleMenuClick('Usuarios')}>
                 Usuarios
                 <img src={iconUsuarioAdmin} alt="Usuarios" className="menu-icon" />
-                </div>
+              </div>
             </>
           )}
           {userRole === 'SUPERVISOR' && (
@@ -101,29 +101,30 @@ export const Home = () => {
               <div className={`MenuItem ${activeMenu === 'Colectivos' ? 'active' : ''}`} onClick={() => handleMenuClick('Colectivos')}>
                 Colectivos
                 <img src={iconColectivos} alt="Colectivos" className="menu-icon" />
-                </div>
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'Inventario' ? 'active' : ''}`} onClick={() => handleMenuClick('Inventario')}>
                 Inventario
                 <img src={iconInventario} alt="Inventario" className="menu-icon" />
-                </div>
+              </div>
+
+
+              <div className={`MenuItem ${activeMenu === 'Choferes' ? 'active' : ''}`} onClick={() => handleMenuClick('Choferes')}>
+                Choferes
+                <img src={iconChofer} alt="Choferes" className="menu-icon" />
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'Pedidos' ? 'active' : ''}`} onClick={() => handleMenuClick('Pedidos')}>
                 Pedidos
                 <img src={iconPedidoPendiente} alt="PedidosAceptados" className="menu-icon" />
 
-                </div>
-
-              <div className={`MenuItem ${activeMenu === 'Choferes' ? 'active' : ''}`} onClick={() => handleMenuClick('Choferes')}>
-                Choferes
-                <img src={iconChofer} alt="Choferes" className="menu-icon" />
-                </div>
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'Proveedores' ? 'active' : ''}`} onClick={() => handleMenuClick('Proveedores')}>
                 Proveedores
                 <img src={iconProveeedor} alt="RegistroProveedor" className="menu-icon" />
-                </div>
-              
+              </div>
+
             </>
           )}
           {userRole === 'OPERADOR' && (
@@ -131,21 +132,21 @@ export const Home = () => {
               <div className={`MenuItem ${activeMenu === 'TareasAsignadas' ? 'active' : ''}`} onClick={() => handleMenuClick('TareasAsignadas')}>
                 Mis tareas
                 <img src={iconTareas} alt="TareasAsignadas" className="menu-icon" />
-                </div>
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'AsignarTarea' ? 'active' : ''}`} onClick={() => handleMenuClick('AsignarTarea')}>
                 Pendientes
                 <img src={iconTareasToDo} alt="AsignarTarea" className="menu-icon" />
-                </div>
+              </div>
 
               <div className={`MenuItem ${activeMenu === 'ScannerQR' ? 'active' : ''}`} onClick={() => handleMenuClick('ScannerQR')}>
                 Scanner
                 <img src={iconScan} alt="ScannerQR" className="menu-icon" />
-                </div>
-              
+              </div>
+
             </>
           )}
-           {userRole === 'GERENTE' && (
+          {userRole === 'GERENTE' && (
             <>
               <div className={`MenuItem ${activeMenu === 'MetricaBitacora' ? 'active' : ''}`} onClick={() => handleMenuClick('MetricaBitacora')}>Métrica de Bitácora de Mantenimiento y Uso</div>
               <div className={`MenuItem ${activeMenu === 'MetricaStock' ? 'active' : ''}`} onClick={() => handleMenuClick('MetricaStock')}>Métrica de Gestión de Stock y Compras</div>
@@ -158,13 +159,13 @@ export const Home = () => {
                 Cargar combustible
 
                 <img src={iconCombustible} alt="CargarCombustible" className="menu-icon" />
-                </div>
-             
+              </div>
+
             </>
           )}
-          
+
         </div>
-        <div className="ContentArea"> 
+        <div className="ContentArea">
           <Principal activeMenu={activeMenu} />
         </div>
       </div>
