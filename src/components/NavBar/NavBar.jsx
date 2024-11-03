@@ -30,7 +30,6 @@ const handleVerPresupuesto = async () => {
     const presupuesto = await obtenerPresupuesto(token); 
     showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`); 
   } catch (error) {
-    console.error("Error al obtener el presupuesto:", error);
     showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
   }
 }
@@ -51,7 +50,7 @@ const handleVerPresupuesto = async () => {
       }
 
       <NavbarContent as="div" className="items-center navbar-content" justify="end">
-        <p className="role-text">{role || "No Role"}</p>
+       
 
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
