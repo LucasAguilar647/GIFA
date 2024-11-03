@@ -33,7 +33,6 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'Choferes' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR') && <TablaDeChoferes/> }  
       {activeMenu === 'RegistroProveedor' && userRole === 'ADMINISTRADOR' && <RegistroProveedor/> }
       {activeMenu === 'PedidosAceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
-      {activeMenu === 'RegistroDispositivo' && userRole === 'ADMINISTRADOR' && <RegistroDispositivo/> }
       {activeMenu === 'Inconsistencias' && userRole === 'ADMINISTRADOR' && <Inconsistencias/> }
      
       
