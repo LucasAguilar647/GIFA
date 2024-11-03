@@ -29,3 +29,9 @@ export const logout = async (token) => {
     const endpoint = backendUrl + '/auth/logout';
     return await executeFetch(endpoint, null, HttpMethods.POST, token, 200);
 };
+
+
+export const verAllUsers = async (token) => {
+    const endpoint = backendUrl + '/auth/getAllUsers';
+    return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
+};
