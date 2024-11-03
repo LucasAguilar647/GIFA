@@ -33,6 +33,7 @@ export const Login = () => {
           username: result.username,
           role: result.role,
           token: result.token,
+          roleEntity: result.roleEntity,
         }));
         navigate('/home');
       } else {

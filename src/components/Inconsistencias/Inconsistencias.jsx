@@ -9,6 +9,7 @@ export const Inconsistencias = () => {
     const data = {
         fecha: new Date().toISOString() 
     };
+    console.log(data)
 
     const fetchData = async () => {
         try {

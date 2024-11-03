@@ -6,8 +6,7 @@ import {HttpMethods} from '../connection/HttpMethods'
 /*
 public class CargaCombustibleRequestDTO {
      Integer cantidadLitros;
-     LocalDateTime FechaYhora;
-     Integer numeroTarjeta;
+     Integer tarjetaId;
 }
 */
 export const cargarCombustible = async (data, token) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../RegistroDeColectivo/styles/RegistroDeColectivo.css';
 import { Button } from '@nextui-org/react';
 import { cargarCombustible } from '../../services/gestionDeCombustibleService';
@@ -7,25 +7,36 @@ import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
 import { showErrorAlert } from '../SweetAlert/SweetAlertError';
 
 export const CargarCombustible = () => {
+  const token = useSelector((state) => state.user.token);
+  const numeroTarjeta = useSelector((state) => state.user.roleEntity.numeroTarjeta);
+  const tarjetaId = useSelector((state) => state.user.roleEntity.tarjetaId);
+
+  console.log('Número de tarjeta desde el estado:', numeroTarjeta);
+
   const [formData, setFormData] = useState({
     cantidadLitros: 0,
-    numeroTarjeta: 0,
+    numeroTarjeta: '',
   });
 
-  const token = useSelector((state) => state.user.token); 
+  useEffect(() => {
+    if (numeroTarjeta) {
+      setFormData((prevData) => ({
+        ...prevData,
+        numeroTarjeta: numeroTarjeta,
+      }));
+    }
+  }, [numeroTarjeta]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === 'cantidadLitros' || name === 'numeroTarjeta'
+      [name]: name === 'cantidadLitros'
         ? (isNaN(parseInt(value)) ? '' : parseInt(value))
         : value,
     }));
   };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,30 +48,22 @@ export const CargarCombustible = () => {
       return;
     }
 
-    if (numeroTarjeta <= 0) {
-      alert('Debe proporcionar un número de tarjeta válido');
-      return;
-    }
-
-
     const data = {
       cantidadLitros,
-      numeroTarjeta,
+      tarjetaId,
     };
-
-    console.log(data)
 
     try {
       const response = await cargarCombustible(data, token);
-      console.log(response)
+      console.log(response);
       setFormData({
         cantidadLitros: 0,
-        numeroTarjeta: 0,
+        numeroTarjeta: numeroTarjeta,
       });
       
-      showsuccessAlert('¡Registro exitoso de la carga!','La carga fue agregado correctamente')
+      showsuccessAlert('¡Registro exitoso de la carga!', 'La carga fue agregada correctamente');
     } catch (error) {
-      showErrorAlert('Error al registrar la carga',error);
+      showErrorAlert('Error al registrar la carga', error);
     }
   };
 
@@ -89,10 +92,8 @@ export const CargarCombustible = () => {
             <input
               type="number"
               name="numeroTarjeta"
-              value={formData.numeroTarjeta === 0 ? '' : formData.numeroTarjeta}
-              onChange={handleChange}
-              min="1"
-              required
+              value={formData.numeroTarjeta}
+              readOnly
               className="input-field"
             />
           </label>
