@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
+import avatar from '../../assets/Images/LogoNavBar.jpeg';
+import EditUserForm from './EditUserForm'; 
 
+const TablaUsuarios = ({ users, token }) => {
+  const [editingUser, setEditingUser] = useState(null);
 
+  const handleEdit = (user) => {
+    setEditingUser(user);
+  };
 
+  const handleSave = () => {
+    setEditingUser(null); 
+    
+  };
 
-const TablaUsuarios = ({ users }) => {
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
 
@@ -14,7 +24,7 @@ const TablaUsuarios = ({ users }) => {
       case "username":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }} 
+            avatarProps={{ radius: "lg", src: avatar }} 
             description={`Role: ${user.role}`} 
             name={cellValue}
           >
@@ -31,7 +41,7 @@ const TablaUsuarios = ({ users }) => {
         return (
           <div className="relative flex items-center gap-2">
             <Tooltip color="primary" content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+              <span className="text-lg text-default-400 cursor-pointer active:opacity-50" onClick={() => handleEdit(user)}>
                 <EditIcon />
               </span>
             </Tooltip>
@@ -54,22 +64,33 @@ const TablaUsuarios = ({ users }) => {
   ];
 
   return (
-    <Table aria-label="Example table with custom cells">
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={users}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      {editingUser ? ( 
+        <EditUserForm
+          user={editingUser}
+          onSave={handleSave}
+          onCancel={() => setEditingUser(null)}
+          token={token} 
+        />
+      ) : (
+        <Table aria-label="Example table with custom cells">
+          <TableHeader columns={columns}>
+            {(column) => (
+              <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
+                {column.name}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody items={users}>
+            {(item) => (
+              <TableRow key={item.id}>
+                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
+    </>
   );
 };
 
