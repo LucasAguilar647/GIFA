@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../RegistroDeColectivo/styles/RegistroDeColectivo.css';
 import { Button } from '@nextui-org/react';
 import { cargarCombustible } from '../../services/gestionDeCombustibleService';
@@ -11,21 +11,11 @@ export const CargarCombustible = () => {
   const numeroTarjeta = useSelector((state) => state.user.roleEntity.numeroTarjeta);
   const tarjetaId = useSelector((state) => state.user.roleEntity.tarjetaId);
 
-  console.log('Número de tarjeta desde el estado:', numeroTarjeta);
+  
 
   const [formData, setFormData] = useState({
     cantidadLitros: 0,
-    numeroTarjeta: '',
   });
-
-  useEffect(() => {
-    if (numeroTarjeta) {
-      setFormData((prevData) => ({
-        ...prevData,
-        numeroTarjeta: numeroTarjeta,
-      }));
-    }
-  }, [numeroTarjeta]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,25 +30,26 @@ export const CargarCombustible = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { cantidadLitros, numeroTarjeta } = formData;
-
+  
+    const { cantidadLitros } = formData;
+  
     if (cantidadLitros <= 0) {
       alert('La cantidad de litros debe ser mayor a 0');
       return;
     }
-
+  
     const data = {
       cantidadLitros,
-      tarjetaId,
+      numeroTarjeta: tarjetaId,
     };
+  
 
+    console.log(data)
     try {
       const response = await cargarCombustible(data, token);
       console.log(response);
       setFormData({
         cantidadLitros: 0,
-        numeroTarjeta: numeroTarjeta,
       });
       
       showsuccessAlert('¡Registro exitoso de la carga!', 'La carga fue agregada correctamente');
@@ -66,7 +57,7 @@ export const CargarCombustible = () => {
       showErrorAlert('Error al registrar la carga', error);
     }
   };
-
+  
   return (
     <div className="container">
       <h2>Cargar Combustible</h2>
@@ -92,7 +83,7 @@ export const CargarCombustible = () => {
             <input
               type="number"
               name="numeroTarjeta"
-              value={formData.numeroTarjeta}
+              value={numeroTarjeta} 
               readOnly
               className="input-field"
             />
