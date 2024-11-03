@@ -1,6 +1,6 @@
 import { backendUrl } from '../connection/backUrl';
-import { executeFetch } from '../connection/fetch';
-import { HttpMethods } from '../connection/HttpMethods';
+import {executeFetch} from '../connection/fetch'
+import {HttpMethods} from '../connection/HttpMethods'
 
 export const crearDispositivo = async (data, token) => {
     const endpoint = backendUrl + '/traccar/crearDispositivo';
@@ -12,7 +12,7 @@ export const verDispositivos = async (token) => {
     return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
 };
 
-export const verInconsistencias = async (fecha, token) => {
-    const endpoint = `${backendUrl}/traccar/verInconsistenciasDeCombustible?fecha=${encodeURIComponent(fecha)}`;
-    return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
+export const verInconsistencias = async (data,token) => {
+    const endpoint = backendUrl + '/traccar/verInconsistenciasDeCombustible';
+    return await executeFetch(endpoint, data, HttpMethods.GET, token, 200);
 };

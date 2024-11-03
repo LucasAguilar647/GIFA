@@ -6,19 +6,21 @@ export const Inconsistencias = () => {
     const token = useSelector((state) => state.user.token);
 
     
-    const fecha = new Date().toISOString(); 
-
-    console.log("Fecha actual en formato OffsetDateTime:", fecha);
+    const data = {
+        fecha: new Date().toISOString() 
+    };
+    console.log(data)
 
     const fetchData = async () => {
         try {
-            const response = await verInconsistencias(fecha, token); 
+            const response = await verInconsistencias(data, token);
             console.log(response); 
         } catch (error) {
             console.error("Error fetching data: ", error);
         } 
     };
 
+    
     useEffect(() => {
         fetchData();
     }, []);
