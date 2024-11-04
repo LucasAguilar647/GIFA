@@ -9,7 +9,7 @@ import { showErrorAlert } from '../SweetAlert/SweetAlertError';
 export const CargarCombustible = () => {
   const token = useSelector((state) => state.user.token);
   const numeroTarjeta = useSelector((state) => state.user.roleEntity.numeroTarjeta);
-  const tarjetaId = useSelector((state) => state.user.roleEntity.tarjetaId);
+  const id = useSelector((state) => state.user.roleEntity.tarjetaId);
 
   
 
@@ -40,11 +40,10 @@ export const CargarCombustible = () => {
   
     const data = {
       cantidadLitros,
-      numeroTarjeta: tarjetaId,
+      id,
     };
   
 
-    console.log(data)
     try {
       const response = await cargarCombustible(data, token);
       console.log(response);
