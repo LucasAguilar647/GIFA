@@ -6,7 +6,7 @@ export const Inconsistencias = () => {
     const token = useSelector((state) => state.user.token);
 
     const data = {
-        fecha: "2023-10-20T11:44:14.358167Z"
+        fecha: "2023-10-20"
     }
     
     /*{
