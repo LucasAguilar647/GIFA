@@ -4,6 +4,7 @@ import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import avatar from '../../assets/Images/LogoNavBar.jpeg';
 import EditUserForm from './EditUserForm'; 
+import IconSwitch from "./SwitchIcon";
 
 const TablaUsuarios = ({ users, token }) => {
   const [editingUser, setEditingUser] = useState(null);
@@ -45,9 +46,9 @@ const TablaUsuarios = ({ users, token }) => {
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color="danger" content="Delete user">
+            <Tooltip color="primary" content="Cambiar estado">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <DeleteIcon />
+              <IconSwitch/>
               </span>
             </Tooltip>
           </div>
@@ -60,6 +61,7 @@ const TablaUsuarios = ({ users, token }) => {
   const columns = [
     { uid: "username", name: "Username" },
     { uid: "role", name: "Role" },
+    { uid: "estado", name: "ESTADO" },
     { uid: "actions", name: "Actions" },
   ];
 
