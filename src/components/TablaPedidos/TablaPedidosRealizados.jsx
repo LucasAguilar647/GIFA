@@ -90,6 +90,7 @@ export function TablaPedidosRealizados() {
         <Button onClick={() => handleFilterByStatus("all")}>Todos</Button>
         <Button onClick={() => handleFilterByStatus("RECHAZADO")}>Rechazados</Button>
         <Button onClick={() => handleFilterByStatus("PENDIENTE")}>Pendientes</Button>
+        <Button onClick={() => handleFilterByStatus("BAJOPRESUSPUESTO")}>Bajo presupuesto</Button>
       </div>
     </div>
   );
@@ -102,7 +103,7 @@ export function TablaPedidosRealizados() {
         return (
           <Chip
             className="capitalize"
-            color={cellValue === "RECHAZADO" ? "danger" : "warning"}
+            color={cellValue === "PENDIENTE" ? "warning" : "danger"}
             size="sm"
             variant="flat"
           >
