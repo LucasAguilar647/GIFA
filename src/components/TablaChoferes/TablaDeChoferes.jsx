@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useMemo, cloneElement } from "react";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
-import { Input, Button, Chip } from "@nextui-org/react";
+import { Input, Button} from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import { RegistrarNuevoChofer } from "./RegistrarNuevoChofer";
-import { verChoferes, habilitarChofer, inhabilitarChofer, asignarChofer } from "../../services/choferesService";
+import { verChoferes,asignarChofer } from "../../services/choferesService";
 import fetchVehiculosDisponibles from "./FetchVehiculosDisponible";
 
-const columns = [
-  { uid: "nombre", name: "NOMBRE" },
-  { uid: "vehiculoAsociado", name: "VEHÍCULO ASOCIADO" },
-  { uid: "estado", name: "ESTADO" },
-  { uid: "actions", name: "ACCIONES" },
-];
+
 
 export function TablaDeChoferes() {
   const [filas, setFilas] = useState([]);
@@ -29,6 +24,12 @@ export function TablaDeChoferes() {
 
   const token = useSelector((state) => state.user.token);
 
+  const columns = useMemo(() => [
+    { uid: "nombre", name: "NOMBRE" },
+    { uid: "vehiculoAsociado", name: "VEHÍCULO ASOCIADO" },
+    ...(role !== "ADMINISTRADOR" ? [{ uid: "actions", name: "ACCIONES" }] : []),
+  ], [role]);
+
   const fetchChoferes = async () => {
     setLoading(true);
     try {
@@ -39,7 +40,6 @@ export function TablaDeChoferes() {
           id: item.idChofer,
           nombre: item.nombre,
           vehiculoAsociado: item.patente ? item.patente : 'Sin vehiculo asociado',
-          estado: item.estadoChofer || "Desconocido",
         }));
   
         setFilas(mappedRows); 
@@ -87,11 +87,11 @@ export function TablaDeChoferes() {
     };
   }, [token]);
 
-  const handleFilterByStatus = (status) => {
+  /*const handleFilterByStatus = (status) => {
     setFilterStatus(status);
-  };
+  };*/
 
-  const handleToggleEstado = async (item) => {
+ /* const handleToggleEstado = async (item) => {
     const newState = item.estado === "HABILITADO" ? "INHABILITADO" : "HABILITADO";
     const id = item.id;
 
@@ -110,7 +110,7 @@ export function TablaDeChoferes() {
     } catch (error) {
       alert("Error al cambiar el estado del chofer. Por favor, intente nuevamente.");
     }
-  };
+  };*/
 
   const handleRegistrarChofer = async () => {
     setMostrarRegistroDeChofer(false);
@@ -139,11 +139,6 @@ export function TablaDeChoferes() {
       <Button onClick={() => setMostrarRegistroDeChofer(true)} color="primary">
         Registrar chofer
       </Button>}
-      <div className="flex gap-2">
-        <Button onClick={() => handleFilterByStatus("all")}>Todos</Button>
-        <Button onClick={() => handleFilterByStatus("HABILITADO")}>Habilitados</Button>
-        <Button onClick={() => handleFilterByStatus("INHABILITADO")}>Inhabilitados</Button>
-      </div>
     </div>
   );
 
@@ -151,32 +146,11 @@ export function TablaDeChoferes() {
     const cellValue = item[columnKey];
 
     switch (columnKey) {
-      case "estado":
-        return (
-          <Chip
-            className="capitalize"
-            color={cellValue === "HABILITADO" ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
       case "actions":
         return (
           <div>
-           {
             
-          role === "ADMINISTRADOR" &&
-          <Button
-              color={item.estado === "HABILITADO" ? "danger" : "success"}
-              onClick={() => handleToggleEstado(item)}
-            >
-              {item.estado === "HABILITADO" ? "Inhabilitar" : "Habilitar"}
-            </Button>
-           } 
-            
-            { item.estado === "HABILITADO" && role === "SUPERVISOR" &&
+            { role === "SUPERVISOR" &&
                <Button color="warning" onClick={() => asignarVehiculo(item.id)}>
                Asignar Vehículo
              </Button>
