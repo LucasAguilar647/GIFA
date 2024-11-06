@@ -11,7 +11,7 @@ public class ChoferRegistroDTO {
 */
 export const registrarChofer = async (data, token) => {
     const endpoint = backendUrl + '/chofer/registrar';
-    return await executeFetch(endpoint, data, HttpMethods.POST, token, 200);
+    return await executeFetch(endpoint, data, HttpMethods.POST, token, 201);
 };
 
 /*
