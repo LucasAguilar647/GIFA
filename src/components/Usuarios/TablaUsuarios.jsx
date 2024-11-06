@@ -1,21 +1,43 @@
-import React, { useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, Button } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
-import { DeleteIcon } from "./DeleteIcon";
 import avatar from '../../assets/Images/LogoNavBar.jpeg';
 import EditUserForm from './EditUserForm'; 
-import IconSwitch from "./SwitchIcon";
+import { habilitarUsuario, inhabilitarUsuario } from "../../services/authService";
+
 
 const TablaUsuarios = ({ users, token }) => {
   const [editingUser, setEditingUser] = useState(null);
+  const [filas, setFilas] = useState(users); 
+ 
+
+  useEffect(() => {
+    setFilas(users);
+  }, [users]);
 
   const handleEdit = (user) => {
     setEditingUser(user);
   };
 
   const handleSave = () => {
-    setEditingUser(null); 
-    
+    setEditingUser(null);
+  };
+
+  const handleToggleEstado = async (user) => {
+    const newState = user.estado === "HABILITADO" ? "INHABILITADO" : "HABILITADO";
+    const id = user.id;
+    try {
+      if (newState === "HABILITADO") {
+        await habilitarUsuario(id, token);
+      } else {
+        await inhabilitarUsuario(id, token);
+      }
+      setFilas((prevFilas) =>
+        prevFilas.map((fila) => (fila.id === id ? { ...fila, estado: newState } : fila))
+      );
+    } catch (error) {
+      alert("Error al cambiar el estado del usuario. Por favor, intente nuevamente.",error);
+    }
   };
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -25,11 +47,11 @@ const TablaUsuarios = ({ users, token }) => {
       case "username":
         return (
           <User
-            avatarProps={{ radius: "lg", src: avatar }} 
-            description={`Role: ${user.role}`} 
+            avatarProps={{ radius: "lg", src: avatar }}
+            description={`Role: ${user.role}`}
             name={cellValue}
           >
-            {cellValue} 
+            {cellValue}
           </User>
         );
       case "role":
@@ -37,6 +59,17 @@ const TablaUsuarios = ({ users, token }) => {
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
           </div>
+        );
+      case "estado":
+        return (
+          <Chip
+            className="capitalize"
+            color={user.estado === "HABILITADO" ? "success" : "danger"}
+            size="sm"
+            variant="flat"
+          >
+            {user.estado}
+          </Chip>
         );
       case "actions":
         return (
@@ -46,11 +79,12 @@ const TablaUsuarios = ({ users, token }) => {
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color="primary" content="Cambiar estado">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-              <IconSwitch/>
-              </span>
-            </Tooltip>
+            <Button
+              color={user.estado === "HABILITADO" ? "danger" : "success"}
+              onClick={() => handleToggleEstado(user)}
+            >
+              {user.estado === "HABILITADO" ? "Inhabilitar" : "Habilitar"}
+            </Button>
           </div>
         );
       default:
@@ -67,12 +101,12 @@ const TablaUsuarios = ({ users, token }) => {
 
   return (
     <>
-      {editingUser ? ( 
+      {editingUser ? (
         <EditUserForm
           user={editingUser}
           onSave={handleSave}
           onCancel={() => setEditingUser(null)}
-          token={token} 
+          token={token}
         />
       ) : (
         <Table aria-label="Example table with custom cells">
@@ -83,7 +117,7 @@ const TablaUsuarios = ({ users, token }) => {
               </TableColumn>
             )}
           </TableHeader>
-          <TableBody items={users}>
+          <TableBody items={filas}>
             {(item) => (
               <TableRow key={item.id}>
                 {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

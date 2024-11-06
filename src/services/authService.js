@@ -40,3 +40,15 @@ export const updateUser = async (data,id,token) => {
     const endpoint = backendUrl + '/auth/update/'+ id;
     return await executeFetch(endpoint, data, HttpMethods.PUT, token, 200);
 };
+
+
+export const habilitarUsuario = async (id, token) => { 
+    const endpoint = backendUrl + '/auth/habilitar/' + id;
+    return await executeFetch(endpoint, null, HttpMethods.PATCH, token, 200);
+};
+
+
+export const inhabilitarUsuario = async (id, token) => { 
+    const endpoint = backendUrl + '/auth/inhabilitar/' + id;
+    return await executeFetch(endpoint, null, HttpMethods.PATCH, token, 200);
+};

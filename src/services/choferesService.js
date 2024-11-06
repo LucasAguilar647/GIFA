@@ -26,16 +26,7 @@ export const asignarChofer = async (data, token) => {
 };
 
 
-export const habilitarChofer = async (id, token) => { 
-    const endpoint = backendUrl + '/chofer/habilitar/' + id;
-    return await executeFetch(endpoint, null, HttpMethods.PATCH, token, 200);
-};
 
-
-export const inhabilitarChofer = async (id, token) => { 
-    const endpoint = backendUrl + '/chofer/inhabilitar/' + id;
-    return await executeFetch(endpoint, null, HttpMethods.PATCH, token, 200);
-};
 
 export const verChoferes = async (token) => {
     const endpoint = backendUrl + '/chofer/verChoferes';
