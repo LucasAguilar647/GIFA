@@ -38,7 +38,7 @@ export const verAllUsers = async (token) => {
 
 export const updateUser = async (data,id,token) => {
     const endpoint = backendUrl + '/auth/update/'+ id;
-    return await executeFetch(endpoint, data, HttpMethods.PUT, token, 200);
+    return await executeFetch(endpoint, data, HttpMethods.PUT, token, 201);
 };
 
 

@@ -23,7 +23,7 @@ export const Usuarios = () => {
 
   return (
     <div>
-      <TablaUsuarios users={users} /> 
+      <TablaUsuarios users={users} token={token} /> 
     </div>
   );
 };
