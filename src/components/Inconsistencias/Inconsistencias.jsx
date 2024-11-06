@@ -5,18 +5,11 @@ import { useSelector } from 'react-redux';
 export const Inconsistencias = () => {
     const token = useSelector((state) => state.user.token);
 
-    const data = {
-        fecha: "2023-10-20"
-    }
-    
-    /*{
-        fecha: new Date().toISOString(),
-    };*/
-    
+    const formattedDate = new Date().toISOString().split('T')[0];
 
     const fetchData = async () => {
         try {
-            const response = await verInconsistencias(data, token);
+            const response = await verInconsistencias(formattedDate, token);
             console.log("Response:", response); 
         } catch (error) {
             console.error("Error fetching data: ", error.response ? error.response.data : error.message);

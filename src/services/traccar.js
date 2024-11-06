@@ -12,9 +12,9 @@ export const verDispositivos = async (token) => {
     return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
 };
 
-export const verInconsistencias = async (data,token) => {
-    const endpoint = backendUrl + '/traccar/verInconsistenciasDeCombustible';
-    return await executeFetch(endpoint, data, HttpMethods.GET, token, 201);
+export const verInconsistencias = async (fecha, token) => {
+    const endpoint = backendUrl + '/traccar/verInconsistenciasDeCombustible/' + fecha;
+    return await executeFetch(endpoint, null, HttpMethods.GET, token, 201);
 };
 
 export const verPosiciones = async (id, token) => {
