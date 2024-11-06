@@ -90,6 +90,11 @@ export const Home = () => {
 
               <div className={`MenuItem ${activeMenu === 'Inconsistencias' ? 'active' : ''}`} onClick={() => handleMenuClick('Inconsistencias')}>Inconsistencias</div>
 
+              <div className={`MenuItem ${activeMenu === 'Posiciones' ? 'active' : ''}`} onClick={() => handleMenuClick('Posiciones')}>
+                Posiciones
+                
+              </div>
+
               <div className={`MenuItem ${activeMenu === 'Usuarios' ? 'active' : ''}`} onClick={() => handleMenuClick('Usuarios')}>
                 Usuarios
                 <img src={iconUsuarioAdmin} alt="Usuarios" className="menu-icon" />

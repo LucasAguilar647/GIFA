@@ -18,6 +18,7 @@ import ScannerQR from '../ScannerQR/ScannerQR';
 import { CargarCombustible } from '../CargarCombustible/CargarCombustible';
 import { Inconsistencias } from '../Inconsistencias/Inconsistencias';
 import { Usuarios } from '../Usuarios/Usuarios';
+import { Posiciones } from '../Posiciones/Posiciones';
 
 
 
@@ -35,6 +36,8 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'PedidosAceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
       {activeMenu === 'Inconsistencias' && userRole === 'ADMINISTRADOR' && <Inconsistencias/> }
       {activeMenu === 'Usuarios' && userRole === 'ADMINISTRADOR' && <Usuarios/> }
+      {activeMenu === 'Posiciones' && userRole === 'ADMINISTRADOR' && <Posiciones/> }
+      
       
      
       
