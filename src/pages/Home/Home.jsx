@@ -99,6 +99,13 @@ export const Home = () => {
                 Usuarios
                 <img src={iconUsuarioAdmin} alt="Usuarios" className="menu-icon" />
               </div>
+
+              <div className={`MenuItem ${activeMenu === 'RegistroDeUsuario' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroDeUsuario')}>
+              RegistroDeUsuario
+                <img src={iconUsuarioAdmin} alt="Usuarios" className="menu-icon" />
+              </div>
+
+             
             </>
           )}
           {userRole === 'SUPERVISOR' && (
