@@ -16,6 +16,9 @@ import iconTareasToDo from '../../assets/icons/tareas-todo.png'
 import iconTareas from '../../assets/icons/tareas.png'
 import iconScan from '../../assets/icons/qr.png'
 import iconCombustible from '../../assets/icons/combustible.png'
+import iconMapa from '../../assets/icons/mapa.png'
+import iconAgregarUsuario from '../../assets/icons/agregar-usuario.png'
+import iconInconsistencias from '../../assets/icons/inconsistencias.png'
 
 
 
@@ -88,11 +91,14 @@ export const Home = () => {
                 <img src={iconProveeedor} alt="RegistroProveedor" className="menu-icon" />
               </div>
 
-              <div className={`MenuItem ${activeMenu === 'Inconsistencias' ? 'active' : ''}`} onClick={() => handleMenuClick('Inconsistencias')}>Inconsistencias</div>
+              <div className={`MenuItem ${activeMenu === 'Inconsistencias' ? 'active' : ''}`} onClick={() => handleMenuClick('Inconsistencias')}>
+                Inconsistencias
+                <img src={iconInconsistencias} alt="Inconsistencias" className="menu-icon" />
+                </div>
 
               <div className={`MenuItem ${activeMenu === 'Posiciones' ? 'active' : ''}`} onClick={() => handleMenuClick('Posiciones')}>
                 Posiciones
-                
+                <img src={iconMapa} alt="Posiciones" className="menu-icon" />
               </div>
 
               <div className={`MenuItem ${activeMenu === 'Usuarios' ? 'active' : ''}`} onClick={() => handleMenuClick('Usuarios')}>
@@ -101,8 +107,8 @@ export const Home = () => {
               </div>
 
               <div className={`MenuItem ${activeMenu === 'RegistroDeUsuario' ? 'active' : ''}`} onClick={() => handleMenuClick('RegistroDeUsuario')}>
-              RegistroDeUsuario
-                <img src={iconUsuarioAdmin} alt="Usuarios" className="menu-icon" />
+              Registro de usuario
+                <img src={iconAgregarUsuario} alt="Usuarios" className="menu-icon" />
               </div>
 
              
