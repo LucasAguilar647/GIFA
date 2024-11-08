@@ -14,7 +14,7 @@ export const verDispositivos = async (token) => {
 
 export const verInconsistencias = async (fecha, token) => {
     const endpoint = backendUrl + '/traccar/verInconsistenciasDeCombustible/' + fecha;
-    return await executeFetch(endpoint, null, HttpMethods.GET, token, 201);
+    return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
 };
 
 export const verPosiciones = async (id, token) => {
