@@ -21,24 +21,11 @@ export const RegistroDeUsuario = () => {
         }));
     };
 
-    const validateFormData = () => {
-        const { username, password } = formData;
 
-        const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!mailRegex.test(password)) {
-            alert("Formato de email inválido");
-            return false;
-        }
-
-        return true;
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-       /* if (!validateFormData()) {
-            return;
-        }*/
 
         const dataToSubmit = {
             username: formData.username,

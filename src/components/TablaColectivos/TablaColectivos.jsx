@@ -6,8 +6,10 @@ import Loader from "../Loader/Loader";
 import { Input, Button, Chip } from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import DetalleVehiculo from "./DetalleVehiculo";
+import avatar from '../../assets/Images/TraccarLogo.jpeg';
 
 const columns = [
+  { uid: "avatar", name: "TRACCAR" },
   { uid: "patente", name: "PATENTE" },
   { uid: "antiguedad", name: "ANTIGÜEDAD" },
   { uid: "kilometraje", name: "KILOMETRAJE" },
@@ -37,6 +39,7 @@ export function TablaDeColectivos({ userRole }) {
         const mappedRows = response.vehiculos.map((item, index) => ({
           key: index.toString(),
           id: item.id,
+          avatar, 
           patente: item.patente,
           antiguedad: item.antiguedad,
           kilometraje: item.kilometraje,
@@ -91,8 +94,6 @@ export function TablaDeColectivos({ userRole }) {
     }
   };
 
- 
-
   const handleRegistrarMantenimiento = (id) => {
     setVehiculoSeleccionado(id);
     setMostrarRegistroControles(true);
@@ -102,8 +103,6 @@ export function TablaDeColectivos({ userRole }) {
     setVehiculoSeleccionado(item); 
     setMostrarDetalle(true); 
   };
-
-
 
   const irAtras = () => {
     setMostrarRegistroControles(false);
@@ -140,6 +139,8 @@ export function TablaDeColectivos({ userRole }) {
     const cellValue = item[columnKey]; 
   
     switch (columnKey) {
+      case "avatar":
+        return <img src={avatar} alt="Avatar" style={{ width: 30, height: 30, borderRadius: '50%' }} />;
       case "estado":
         return (
           <Chip
@@ -182,8 +183,6 @@ export function TablaDeColectivos({ userRole }) {
         return cellValue; 
     }
   };
-  
-  
 
   return (
     <div>
