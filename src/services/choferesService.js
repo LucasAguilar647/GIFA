@@ -26,10 +26,12 @@ export const asignarChofer = async (data, token) => {
 };
 
 
-
-
 export const verChoferes = async (token) => {
     const endpoint = backendUrl + '/chofer/verChoferes';
     return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
 };
 
+export const verVehiculoAsociado = async (token) => {
+    const endpoint = backendUrl + '/chofer/verVehiculo';
+    return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
+};

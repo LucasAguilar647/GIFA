@@ -5,6 +5,7 @@ import { cargarCombustible } from '../../services/gestionDeCombustibleService';
 import { useSelector } from 'react-redux';
 import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
 import { showErrorAlert } from '../SweetAlert/SweetAlertError';
+import { VerVehiculoAsociado } from './verVehiculoAsociado';
 
 export const CargarCombustible = () => {
   const token = useSelector((state) => state.user.token);
@@ -59,6 +60,10 @@ export const CargarCombustible = () => {
   
   return (
     <div className="container">
+      <div className="flex items-center mb-4">
+      <VerVehiculoAsociado token={token} />
+
+      </div>
       <h2>Cargar Combustible</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
