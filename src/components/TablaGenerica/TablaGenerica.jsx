@@ -7,10 +7,11 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
+import './styles/tablaGenerica.css'
 
 export function TablaGenerica({ data, columns, renderCell, topContent }) {
   return (
-    <div>
+    <div className="TableContainer">
       {topContent && <div className="mb-4">{topContent}</div>}
       <Table aria-label="Tabla Genérica" isHeaderSticky>
         <TableHeader columns={columns}>
@@ -27,7 +28,11 @@ export function TablaGenerica({ data, columns, renderCell, topContent }) {
           {(item) => (
             <TableRow key={item.key}>
               {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
+                <TableCell 
+                  data-label={columns.find(col => col.uid === columnKey)?.name}
+                >
+                  {renderCell(item, columnKey)}
+                </TableCell>
               )}
             </TableRow>
           )}

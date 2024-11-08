@@ -1,0 +1,69 @@
+
+.TableContainer {
+    overflow-x: auto; 
+    margin-bottom: 20px;
+  }
+  
+  .TableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+  }
+  
+  @media (max-width: 768px) {
+   
+    .TableContainer {
+      margin: 0 10px;
+    }
+  
+    
+    .TableContainer table thead {
+      display: none; 
+    }
+  
+    .TableContainer table td {
+      display: block;
+      width: 100%;
+      text-align: right;
+      border: 1px solid #ddd; 
+      padding: 10px;
+    }
+  
+   
+    .TableContainer table td::before {
+      content: attr(data-label); 
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  
+   
+    .TableContainer table td:nth-of-type(:end) {
+      background-color: #000449;
+    }
+  
+    
+    .TableContainer table td {
+      margin-bottom: 10px;
+    }
+  
+    
+    .TableContainer table td.actions {
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    
+    .TableContainer {
+      margin: 0 5px;
+    }
+  
+    .TableContainer table td {
+      padding: 8px;
+    }
+  
+    .TableContainer table td::before {
+      font-size: 12px; 
+    }
+  }
+  
