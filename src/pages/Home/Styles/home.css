@@ -88,11 +88,9 @@ a:hover {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .Sidebar {
-    width: 100%;
-    position: relative;
-    height: auto; 
+    display: none; 
   }
 
   .ContentArea {

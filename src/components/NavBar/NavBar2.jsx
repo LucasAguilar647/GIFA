@@ -1,16 +1,20 @@
-import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, DropdownMenu, DropdownItem, DropdownTrigger,Dropdown, Avatar} from "@nextui-org/react";
+import React, { useState } from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, DropdownMenu, DropdownItem, DropdownTrigger, Dropdown, Avatar } from "@nextui-org/react";
 import { NavBarLogo } from "../functions/NavBarLogo";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/authService";
 import { showPresupuesto } from "../SweetAlert/SweetAlertPresupuesto";
+import { clearUser } from "../store/userSlice";
+import { obtenerPresupuesto } from "../../services/inventarioService";
+import "./styles/navbar.css";
 
-export default function NavBar2() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+export default function NavBar2({ menuItems, onMenuItemClick }) {
+  const { username, role, token } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { username, role, token } = useSelector((state) => state.user);
+  
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogOut = async () => {
     try {
@@ -21,95 +25,83 @@ export default function NavBar2() {
       console.error("Error al cerrar sesión:", error);
     }
   };
-  
-const handleVerPresupuesto = async () => {
-  try {
-    const presupuesto = await obtenerPresupuesto(token); 
-    showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`); 
-  } catch (error) {
-    showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
-  }
-}
 
-  const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
-  ];
+  const handleVerPresupuesto = async () => {
+    try {
+      const presupuesto = await obtenerPresupuesto(token);
+      showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`);
+    } catch (error) {
+      showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
+    }
+  };
+
+  const handleItemClick = (itemName) => {
+    onMenuItemClick(itemName);
+    setIsMenuOpen(false);
+  };
 
   return (
-    <Navbar >
+    <Navbar className="navbar" disableAnimation={true}>
       <NavbarContent>
         <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          aria-label="Toggle menu"
+          className="sm:hidden navbar-menu-toggle"
+          onChange={() => setIsMenuOpen(!isMenuOpen)} 
         />
         <NavbarBrand>
-        <NavBarLogo />
+          <NavBarLogo />
           <p className="font-bold text-inherit">GIFA</p>
         </NavbarBrand>
-        </NavbarContent>
+      </NavbarContent>
 
-{
-  role === "SUPERVISOR" &&
-  <Button color="primary" onClick={handleVerPresupuesto} >Presupuesto</Button>
-}
+      {role === "SUPERVISOR" && (
+        <Button color="primary" onClick={handleVerPresupuesto}>Presupuesto</Button>
+      )}
 
-<NavbarContent as="div" className="items-center navbar-content" justify="end">
- 
-
-<Dropdown placement="bottom-end">
-    <DropdownTrigger>
-      <Avatar
-        isBordered
-        as="button"
-        className="avatar transition-transform"
-        color="secondary"
-        name={username || "User"}
-        size="sm"
-      />
-    </DropdownTrigger>
-    <DropdownMenu
-      aria-label="Profile Actions"
-      variant="flat"
-      className="dropdown-menu"
-    >
-      <DropdownItem key="profile" className="h-14 gap-2 dropdown-item">
-        <p className="font-semibold">Signed in as</p>
-        <p className="font-semibold">{username || "No User"}</p>
-        <p className="text-sm">Role: {role || "No Role"}</p>
-      </DropdownItem>
-      <DropdownItem
-        key="logout"
-        color="danger"
-        onClick={handleLogOut}
-        className="dropdown-item"
-      >
-        Log Out
-      </DropdownItem>
-    </DropdownMenu>
-    </Dropdown>
- 
-</NavbarContent>
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              className="w-full"
-              href="#"
-              size="lg"
+      <NavbarContent as="div"  justify="end">
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="avatar transition-transform"
+              color="secondary"
+              name={username || "User"}
+              size="sm"
+            />
+          </DropdownTrigger>
+          <DropdownMenu
+            aria-label="Profile Actions"
+            variant="flat"
+            className="dropdown-menu"
+          >
+            <DropdownItem key="profile" className="h-14 gap-2 dropdown-item">
+              <p className="text-sm">Nombre: {username || "No User"}</p>
+              <p className="text-sm">Role: {role || "No Role"}</p>
+            </DropdownItem>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onClick={handleLogOut}
+              className="dropdown-item"
             >
-              {item}
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </NavbarContent>
+
+      <NavbarMenu className="navbar-menu">
+        {menuItems && menuItems.map((item, index) => (
+          <NavbarMenuItem className="menu-item" key={index}>
+            <Link 
+              onClick={() => handleItemClick(item.name)} 
+              color="secondary" 
+              size="lg"
+              className="menu-link"
+            >
+              {item.name}
+              {item.icon && <img src={item.icon} alt={item.name} className="menu-icon" />}
             </Link>
           </NavbarMenuItem>
         ))}

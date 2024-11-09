@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Principal from '../../components/Principal/Principal';
 import NavBar from '../../components/NavBar/NavBar';
+
 import '../Home/Styles/home.css';
-import { MagicMotion } from "react-magic-motion";
+
 
 import iconColectivos from '../../assets/icons/autobus.png';
 import iconInventario from '../../assets/icons/alt-de-inventario.png';
@@ -21,6 +22,7 @@ import iconTareas from '../../assets/icons/tareas.png';
 import iconTareasToDo from '../../assets/icons/tareas-todo.png';
 import iconScan from '../../assets/icons/qr.png';
 import iconCombustible from '../../assets/icons/combustible.png';
+import NavBar2 from '../../components/NavBar/NavBar2';
 
 export const Home = () => {
   const userRole = useSelector((state) => state.user.role);
@@ -47,6 +49,7 @@ export const Home = () => {
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
   };
+  
 
 
   const menuItems = {
@@ -86,27 +89,26 @@ export const Home = () => {
   };
 
   return (
-      <div className="DashboardWrapper">
-        {/*<NavBar2/>*/}
-        <NavBar/>
-        <div className="MainContent">
-          <div className="Sidebar">
-            {menuItems[userRole] && menuItems[userRole].map(item => (
-              <div 
-                key={item.name} 
-                className={`MenuItem ${activeMenu === item.name ? 'active' : ''}`} 
-                onClick={() => handleMenuClick(item.name)}
-              >
-                {item.name}
-                {item.icon && <img src={item.icon} alt={item.name} className="menu-icon" />}
-              </div>
-            ))}
-          </div>
-          <div className="ContentArea">
-            <Principal activeMenu={activeMenu} />
-          </div>
+    <div className="DashboardWrapper">
+      <NavBar2 menuItems={menuItems[userRole]} onMenuItemClick={handleMenuClick} isActive= {activeMenu} />
+      <div className="MainContent">
+        <div className="Sidebar">
+          {menuItems[userRole] && menuItems[userRole].map(item => (
+            <div
+              key={item.name}
+              className={`MenuItem ${activeMenu === item.name ? 'active' : ''}`}
+              onClick={() => handleMenuClick(item.name)}
+            >
+              {item.name}
+              {item.icon && <img src={item.icon} alt={item.name} className="menu-icon" />}
+            </div>
+          ))}
+        </div>
+        <div className="ContentArea">
+          <Principal activeMenu={activeMenu} />
         </div>
       </div>
+    </div>
   );
 };
 
