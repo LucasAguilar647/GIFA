@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { verPosiciones } from '../../services/traccar';
 import MapaPosiciones from './MapaPosiciones';
+import './styles/Posiciones.css'
+import { Button } from '@nextui-org/react';
 
 export const Posiciones = () => {
   const token = useSelector((state) => state.user.token);
   const [id, setId] = useState("");
   const [positions, setPositions] = useState([]); 
 
+  
   const fetchPosiciones = async () => {
     try {
       const response = await verPosiciones(id, token);
@@ -19,10 +22,6 @@ export const Posiciones = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPosiciones();
-  }, []); 
-
   return (
     <div>
       <h2>Recorrido de colectivo</h2>
@@ -32,7 +31,7 @@ export const Posiciones = () => {
         onChange={(e) => setId(e.target.value.toUpperCase())}
         placeholder="Ingrese la patente del colectivo"
       />
-      <button onClick={fetchPosiciones}>Buscar</button>
+      <Button color='primary' onClick={fetchPosiciones}>Buscar</Button>
 
      
       {positions.length > 0 ? (
