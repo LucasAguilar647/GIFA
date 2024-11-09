@@ -10,7 +10,7 @@
     table-layout: auto;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 770px) {
    
     .TableContainer {
       margin: 0 10px;

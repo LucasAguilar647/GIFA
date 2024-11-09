@@ -78,7 +78,7 @@ a:hover {
   transition: margin-left 0.3s ease; 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1020px) {
   .Sidebar {
     width: 180px;
   }
@@ -88,7 +88,7 @@ a:hover {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1020px) {
   .Sidebar {
     display: none; 
   }
