@@ -1,12 +1,13 @@
-h1 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+
+.container-posiciones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    color: #ffffff;
   }
   
- 
-  input {
+  .input-posiciones {
     width: 100%;
     max-width: 300px;
     padding: 10px;
@@ -16,31 +17,28 @@ h1 {
     margin-right: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-  }
-  
- 
-
-  @media (max-width: 600px) {
-   
-  
-    h1 {
-      font-size: 1.2rem;
-    }
-  
-    input {
-      max-width: 100%;
-      margin-right: 0;
-      margin-bottom: 15px;
-    }
-  
-    button {
-      width: 100%;
-    }
-  }
-  
-  p {
-    color: #555;
-    font-size: 1rem;
     text-align: center;
-    margin-top: 20px;
   }
+  
+  .search-icon-posiciones {
+    margin-top: 10px;
+    cursor: pointer;
+    border: 2px solid #000449;  
+    border-radius: 5px; 
+    padding: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;  
+  }
+  
+  
+  .search-icon-posiciones:hover {
+    background-color: #000449;  
+    transform: scale(1.1);
+  }
+  
+  
+  .no-data-posiciones {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  

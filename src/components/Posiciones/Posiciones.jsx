@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { verPosiciones } from '../../services/traccar';
 import MapaPosiciones from './MapaPosiciones';
 import './styles/Posiciones.css';
-import { Button } from '@nextui-org/react';
+import iconBusqueda from '../../assets/icons/busqueda.png';
 
 export const Posiciones = () => {
   const token = useSelector((state) => state.user.token);
   const [id, setId] = useState("");
   const [positions, setPositions] = useState([]); 
-  const [bucarClickeado, setBuscarClickeado] = useState(false); 
+  const [buscarClickeado, setBuscarClickeado] = useState(false); 
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const fetchPosiciones = async () => {
     if (id.trim() !== "") {
@@ -22,28 +23,53 @@ export const Posiciones = () => {
         console.error("Error fetching positions:", error);
         setPositions([]); 
       }
+      
+   
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      
+      const idTimeout = setTimeout(() => {
+        setBuscarClickeado(false);
+      }, 2000);
+      
+      setTimeoutId(idTimeout); 
     } else {
       alert("Por favor, ingrese una patente.");
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      fetchPosiciones(); 
+    }
+  };
+
   return (
-    <div>
+    <div className="container-posiciones">
       <h1>Recorrido de colectivo</h1>
       <input
         type="text"
         value={id}
         onChange={(e) => setId(e.target.value.toUpperCase())}
         placeholder="Ingrese la patente del colectivo"
+        className="input-posiciones"
+        onKeyPress={handleKeyPress}  
       />
-      <Button color="primary" onClick={fetchPosiciones}>Buscar</Button>
-
+    
+      <img
+        src={iconBusqueda}
+        alt="Buscar"
+        className="search-icon-posiciones"
+        onClick={fetchPosiciones}
+      />
 
       {positions.length > 0 ? (
         <MapaPosiciones posiciones={positions} />
       ) : (
-        bucarClickeado && positions.length === 0 && (
-          <p>El colectivo no tiene recorridos hechos.</p>
+        buscarClickeado && positions.length === 0 && (
+          <p className="no-data-posiciones">El colectivo no tiene recorridos hechos.</p>
         )
       )}
     </div>
