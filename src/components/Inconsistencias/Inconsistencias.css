@@ -1,0 +1,22 @@
+
+.label {
+    font-size: 1rem;
+    color: #bbbbbb;
+    margin-right: 10px;
+}
+
+.date-input {
+    background-color: #2b2b3d;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.date-input:focus {
+    border-color: #6a5acd;
+}
+

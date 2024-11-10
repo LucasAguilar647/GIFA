@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { verInconsistencias } from '../../services/traccar';
 import { useSelector } from 'react-redux';
 import TablaGenerica from '../TablaGenerica/TablaGenerica';
+import './Inconsistencias.css';
 
 export const Inconsistencias = () => {
     const token = useSelector((state) => state.user.token);
     const [filas, setFilas] = useState([]);
-    const formattedDate = new Date().toISOString().split('T')[0];
+    const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
 
     const fetchData = async () => {
         try {
-            const response = await verInconsistencias(formattedDate, token);
+            const response = await verInconsistencias(fecha, token);
             const formattedData = response.map((item, index) => ({
                 key: index.toString(),
                 responsable: item.nombresDeResponsables.join(", ") || "Sin asignar",
@@ -27,7 +28,18 @@ export const Inconsistencias = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fecha]);
+
+    const handleFechaChange = (e) => {
+        const selectedDate = e.target.value;
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        
+        if (dateRegex.test(selectedDate)) {
+            setFecha(selectedDate);
+        } else {
+            console.error("La fecha ingresada no tiene el formato correcto (YYYY-MM-DD)");
+        }
+    };
 
     const columns = [
         { uid: "responsable", name: "Responsable" },
@@ -39,7 +51,20 @@ export const Inconsistencias = () => {
 
     return (
         <div>
-            <TablaGenerica data={filas} columns={columns} />
+            <div>
+                <label htmlFor="fecha" className="label">Fecha:</label>
+                <input
+                    type="date"
+                    id="fecha"
+                    value={fecha}
+                    onChange={handleFechaChange}
+                    pattern="\d{4}-\d{2}-\d{2}"
+                    className="date-input"
+                />
+            </div>
+            <div>
+                <TablaGenerica data={filas} columns={columns} />
+            </div>
         </div>
     );
 };
