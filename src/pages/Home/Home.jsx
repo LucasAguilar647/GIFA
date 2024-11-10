@@ -58,13 +58,13 @@ export const Home = () => {
       { name: 'Inventario', icon: iconInventario },
       { name: 'Mantenimientos', icon: iconMantenimiento },
       { name: 'Choferes', icon: iconChofer },
-      { name: 'PedidosAceptados', icon: iconPedidoAceptado },
-      { name: 'RegistroDeColectivo', icon: iconPortapales },
-      { name: 'RegistroProveedor', icon: iconProveeedor },
+      { name: 'Pedidos aceptados', icon: iconPedidoAceptado },
+      { name: 'Registro de colectivo', icon: iconPortapales },
+      { name: 'Registro proveedor', icon: iconProveeedor },
       { name: 'Inconsistencias', icon: iconInconsistencias },
       { name: 'Posiciones', icon: iconMapa },
       { name: 'Usuarios', icon: iconUsuarioAdmin },
-      { name: 'RegistroDeUsuario', icon: iconAgregarUsuario },
+      { name: 'Registro de usuario', icon: iconAgregarUsuario },
     ],
     SUPERVISOR: [
       { name: 'Colectivos', icon: iconColectivos },
@@ -74,17 +74,17 @@ export const Home = () => {
       { name: 'Proveedores', icon: iconProveeedor },
     ],
     OPERADOR: [
-      { name: 'TareasAsignadas', icon: iconTareas },
-      { name: 'AsignarTarea', icon: iconTareasToDo },
+      { name: 'Tareas asignadas', icon: iconTareas },
+      { name: 'Asignar tarea', icon: iconTareasToDo },
       { name: 'ScannerQR', icon: iconScan },
     ],
     GERENTE: [
-      { name: 'MetricaBitacora' },
-      { name: 'MetricaStock' },
-      { name: 'MetricaFlota' },
+      { name: 'Metrica bitacora' },
+      { name: 'Metrica stock' },
+      { name: 'Metrica flota' },
     ],
     CHOFER: [
-      { name: 'CargarCombustible', icon: iconCombustible },
+      { name: 'Cargar combustible', icon: iconCombustible },
     ]
   };
 

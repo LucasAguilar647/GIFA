@@ -30,15 +30,15 @@ export const Principal = ({ activeMenu }) => {
 
   return (
     <div>
-      {activeMenu === 'RegistroDeColectivo' && userRole === 'ADMINISTRADOR' && <RegistroDeColectivo />} 
+      {activeMenu === 'Registro de colectivo' && userRole === 'ADMINISTRADOR' && <RegistroDeColectivo />} 
       {activeMenu === 'Inventario' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR' || userRole === 'OPERADOR' ) && <TablaDeInventario userRole={userRole} />}
       {activeMenu === 'Choferes' && (userRole === 'ADMINISTRADOR' || userRole === 'SUPERVISOR') && <TablaDeChoferes/> }  
-      {activeMenu === 'RegistroProveedor' && userRole === 'ADMINISTRADOR' && <RegistroProveedor/> }
-      {activeMenu === 'PedidosAceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
+      {activeMenu === 'Registro proveedor' && userRole === 'ADMINISTRADOR' && <RegistroProveedor/> }
+      {activeMenu === 'Pedidos aceptados' && userRole === 'ADMINISTRADOR' && <TablaPedidosAceptados/> }
       {activeMenu === 'Inconsistencias' && userRole === 'ADMINISTRADOR' && <Inconsistencias/> }
       {activeMenu === 'Usuarios' && userRole === 'ADMINISTRADOR' && <Usuarios/> }
       {activeMenu === 'Posiciones' && userRole === 'ADMINISTRADOR' && <Posiciones/> }
-      {activeMenu === 'RegistroDeUsuario' && userRole === 'ADMINISTRADOR' && <RegistroDeUsuario/> }
+      {activeMenu === 'Registro de usuario' && userRole === 'ADMINISTRADOR' && <RegistroDeUsuario/> }
       
       
      
@@ -49,15 +49,15 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'Colectivos' && <TablaDeColectivos userRole={userRole} />} 
       {activeMenu === 'Mantenimientos' && <HistorialDeMantenimientos userRole={userRole} />} 
 
-      {activeMenu === 'AsignarTarea' && userRole === 'OPERADOR' &&  <AsignarTareas/> } 
-      {activeMenu === 'TareasAsignadas' && userRole === 'OPERADOR' &&  <TareasAsignadas/> } 
+      {activeMenu === 'Asignar tarea' && userRole === 'OPERADOR' &&  <AsignarTareas/> } 
+      {activeMenu === 'Tareas asignadas' && userRole === 'OPERADOR' &&  <TareasAsignadas/> } 
       {activeMenu === 'ScannerQR' && userRole === 'OPERADOR' &&  <ScannerQR/> } 
 
-      {activeMenu === 'MetricaBitacora' && userRole === 'GERENTE' &&  <MetricaBitacora/> } 
-      {activeMenu === 'MetricaStock' && userRole === 'GERENTE' && <MetricaStock/> } 
-      {activeMenu === 'MetricaFlota' && userRole === 'GERENTE' && <MetricaFlota/> } 
+      {activeMenu === 'Metrica bitacora' && userRole === 'GERENTE' &&  <MetricaBitacora/> } 
+      {activeMenu === 'Metrica stock' && userRole === 'GERENTE' && <MetricaStock/> } 
+      {activeMenu === 'Metrica flota' && userRole === 'GERENTE' && <MetricaFlota/> } 
 
-      {activeMenu === 'CargarCombustible' && <CargarCombustible/> }
+      {activeMenu === 'Cargar combustible' && <CargarCombustible/> }
       
     </div>
   );
