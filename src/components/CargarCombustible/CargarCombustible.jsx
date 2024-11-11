@@ -5,7 +5,7 @@ import { cargarCombustible } from '../../services/gestionDeCombustibleService';
 import { useSelector } from 'react-redux';
 import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
 import { showErrorAlert } from '../SweetAlert/SweetAlertError';
-import { VerVehiculoAsociado } from './verVehiculoAsociado';
+import { VerVehiculoAsociado } from './VerVehiculoAsociado';
 
 export const CargarCombustible = () => {
   const token = useSelector((state) => state.user.token);
