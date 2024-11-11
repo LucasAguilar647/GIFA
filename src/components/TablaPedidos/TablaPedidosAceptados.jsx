@@ -4,6 +4,7 @@ import Loader from "../Loader/Loader";
 import { Input, Button, Chip } from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import { confirmarPedidoRecibido, verPedidosAceptados } from "../../services/proveedoresYPedidosController";
+import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 
 const columns = [
     { uid: "nombre", name: "NOMBRE" },
@@ -53,10 +54,10 @@ export function TablaPedidosAceptados() {
 
         try {
             await confirmarPedidoRecibido(id, token);
-            alert("Pedido confirmado exitosamente.");
+            showsuccessAlert('¡Pedido confirmado!','Los ítems han sido sumados al stock')
             fetchData();
         } catch (error) {
-            alert("Error al confirmar el pedido. Por favor, intente nuevamente.");
+            showErrorAlert('Error al confirmar el pedido',error)
         }
     };
 

@@ -34,11 +34,11 @@ export const Home = () => {
       case 'SUPERVISOR':
         return 'Colectivos';
       case 'OPERADOR':
-        return 'TareasAsignadas';
+        return 'Tareas asignadas';
       case 'GERENTE':
-        return 'MetricaBitacora';
+        return 'Metrica bitacora';
       case 'CHOFER':
-        return 'CargarCombustible';
+        return 'Cargar combustible';
       default:
         return 'Home';
     }
