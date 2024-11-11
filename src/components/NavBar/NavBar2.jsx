@@ -41,7 +41,7 @@ export default function NavBar2({ menuItems, onMenuItemClick }) {
   };
 
   return (
-    <Navbar className="navbar" disableAnimation={true}>
+    <Navbar className="navbar" isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} >
       <NavbarContent>
         <NavbarMenuToggle
           aria-label="Toggle menu"
