@@ -6,6 +6,7 @@ import { utilizarItem } from '../../services/inventarioService';
 import TablaDeInventario from '../TablaInventario/TablaInventario';
 import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
 import { showErrorAlert } from '../SweetAlert/SweetAlertError';
+import iconCross from '../../assets/icons/cross.png';
 
 const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
   const [itemsUsados, setItemsUsados] = useState([]);
@@ -23,7 +24,7 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
           const data = { cantidadADisminuir: item.cantidad };
           await utilizarItem(item.id, data, token);
         } catch (error) {
-          alert(`Error al descontar el ítem ${item.nombre}, stock insuficiente.`);
+          showErrorAlert(`Error al descontar el ítem ${item.nombre}`, error);
           return;
         }
       }
@@ -34,15 +35,14 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
           cantidad: item.cantidad,
         })),
       };
-     
 
       await finalizarMantenimiento(tarea.id, data, token);
-      showsuccessAlert('¡Tarea finalizada!','Los ítems han sido descontados del stock')
+      showsuccessAlert('¡Tarea finalizada!', 'Los ítems han sido descontados del stock');
 
       onTareaFinalizada(tarea.id);
 
     } catch (error) {
-      showErrorAlert('Error al finalizar la tarea',error)
+      showErrorAlert('Error al finalizar la tarea', error);
     }
   };
 
@@ -59,7 +59,7 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
 
   const handleCantidadChange = (id, cantidad) => {
     const cantidadNumerica = parseInt(cantidad);
-  
+
     if (cantidad === "" || cantidadNumerica >= 1) {
       setItemsUsados(itemsUsados.map(item =>
         item.id === id ? { ...item, cantidad: cantidad === "" ? "" : cantidadNumerica } : item
@@ -68,8 +68,10 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
       alert("La cantidad no puede ser menor que 1");
     }
   };
-  
 
+  const handleEliminarItem = (id) => {
+    setItemsUsados(itemsUsados.filter(item => item.id !== id));
+  };
 
   const handleOcultarInventario = () => {
     setMostrarInventario(false);
@@ -103,7 +105,6 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
         <p><strong>Fecha de Finalización:</strong> {tarea.fechaFinalizacion}</p>
         <p><strong>Asunto:</strong> {tarea.asunto}</p>
 
-
         {tarea.estadoMantenimiento !== "FINALIZADO" && (
           <Button
             color="primary"
@@ -126,8 +127,8 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
           <div className="mt-4">
             <h4>Repuestos seleccionados:</h4>
             {itemsUsados.map(item => (
-              <div key={item.id} className="mb-2">
-                <p>Repuesto: {item.nombre}</p>
+              <div key={item.id} >
+                <p>{item.nombre}</p>
                 <label htmlFor={`cantidad-${item.id}`}>Cantidad:</label>
                 <input
                   type="number"
@@ -138,6 +139,13 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
                   step="1"
                 />
 
+                <Image
+                  alt="Eliminar"
+                  onClick={() => handleEliminarItem(item.id)}
+                  src={iconCross}
+
+                />
+
               </div>
             ))}
           </div>
@@ -145,7 +153,6 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
       </CardBody>
       <Divider />
       <CardFooter>
-
         {tarea.estadoMantenimiento !== "FINALIZADO" && (
           <Button
             color="secondary"
