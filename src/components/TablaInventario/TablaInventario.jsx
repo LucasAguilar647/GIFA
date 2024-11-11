@@ -126,7 +126,7 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
   };
 
   const topContent = (
-    <div className="flex justify-between items-center mb-4">
+    <div className="flex  items-center mb-4">
       <Input
         isClearable
         placeholder="Buscar por nombre"
@@ -140,7 +140,7 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
         </Button>
       )}
       {userRole === "SUPERVISOR" && (
-        <Button onClick={() => setShowModificarPresupuesto(true)} color="primary">
+        <Button className="pl-5" onClick={() => setShowModificarPresupuesto(true)} color="primary">
           Modificar presupuesto
         </Button>
       )}

@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, Button } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, Button, Input } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
 import avatar from '../../assets/Images/LogoNavBar.jpeg';
 import EditUserForm from './EditUserForm'; 
 import { habilitarUsuario, inhabilitarUsuario } from "../../services/authService";
-
+import './styles/usuarios.css'; 
 
 const TablaUsuarios = ({ users, token }) => {
   const [editingUser, setEditingUser] = useState(null);
-  const [filas, setFilas] = useState(users); 
- 
+  const [filas, setFilas] = useState(users);
+  const [search, setSearch] = useState("");
+  const [selectedRole, setSelectedRole] = useState("TODOS");
+  const isMobile = window.innerWidth <= 770;
 
   useEffect(() => {
-    setFilas(users);
-  }, [users]);
+    const filteredUsers = users.filter(user =>
+      user.username.toLowerCase().includes(search.toLowerCase()) &&
+      (selectedRole === "TODOS" || user.role === selectedRole)
+    );
+    setFilas(filteredUsers);
+  }, [search, selectedRole, users]);
 
   const handleEdit = (user) => {
     setEditingUser(user);
@@ -36,21 +42,16 @@ const TablaUsuarios = ({ users, token }) => {
         prevFilas.map((fila) => (fila.id === id ? { ...fila, estado: newState } : fila))
       );
     } catch (error) {
-      alert("Error al cambiar el estado del usuario. Por favor, intente nuevamente.",error);
+      alert("Error al cambiar el estado del usuario. Por favor, intente nuevamente.", error);
     }
   };
 
-  const renderCell = React.useCallback((user, columnKey) => {
+  const renderCell = (user, columnKey) => {
     const cellValue = user[columnKey];
-
     switch (columnKey) {
       case "username":
         return (
-          <User
-            avatarProps={{ radius: "lg", src: avatar }}
-            description={`Role: ${user.role}`}
-            name={cellValue}
-          >
+          <User avatarProps={{ radius: "lg", src: avatar }} description={`Role: ${user.role}`} name={cellValue}>
             {cellValue}
           </User>
         );
@@ -62,12 +63,7 @@ const TablaUsuarios = ({ users, token }) => {
         );
       case "estado":
         return (
-          <Chip
-            className="capitalize"
-            color={user.estado === "HABILITADO" ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
+          <Chip className="capitalize" color={user.estado === "HABILITADO" ? "success" : "danger"} size="sm" variant="flat">
             {user.estado}
           </Chip>
         );
@@ -79,10 +75,7 @@ const TablaUsuarios = ({ users, token }) => {
                 <EditIcon />
               </span>
             </Tooltip>
-            <Button
-              color={user.estado === "HABILITADO" ? "danger" : "success"}
-              onClick={() => handleToggleEstado(user)}
-            >
+            <Button color={user.estado === "HABILITADO" ? "danger" : "success"} onClick={() => handleToggleEstado(user)}>
               {user.estado === "HABILITADO" ? "Inhabilitar" : "Habilitar"}
             </Button>
           </div>
@@ -90,41 +83,101 @@ const TablaUsuarios = ({ users, token }) => {
       default:
         return cellValue;
     }
-  }, []);
+  };
 
   const columns = [
     { uid: "username", name: "Username" },
     { uid: "role", name: "Role" },
-    { uid: "estado", name: "ESTADO" },
+    { uid: "estado", name: "Estado" },
     { uid: "actions", name: "Actions" },
   ];
+
+
+  const roles = ["ADMINISTRADOR", "GERENTE", "SUPERVISOR", "OPERADOR", "CHOFER", "TODOS"];
 
   return (
     <>
       {editingUser ? (
-        <EditUserForm
-          user={editingUser}
-          onSave={handleSave}
-          onCancel={() => setEditingUser(null)}
-          token={token}
-        />
+        <EditUserForm user={editingUser} onSave={handleSave} onCancel={() => setEditingUser(null)} token={token} />
       ) : (
-        <Table aria-label="Example table with custom cells">
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-                {column.name}
-              </TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={filas}>
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <>
+          <div className="filters">
+           
+            <Input
+              clearable
+              bordered
+              placeholder="Buscar por nombre"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              className="searchInput"
+            />
+            <div className="roleButtons">
+              {roles.map((role) => (
+                <Button
+                  key={role}
+                  bordered
+                  color={selectedRole === role ? "primary" : "default"}
+                  onClick={() => setSelectedRole(role === "TODOS" ? "TODOS" : role)}
+                  className={`roleButton ${selectedRole === role ? "active" : ""}`}
+                >
+                  {role}
+                </Button>
+              ))}
+            </div>
+          </div>
+          {isMobile ? (
+            <div className="CardContainer">
+              {filas.map((user) => (
+                <div key={user.id} className="Card">
+                  <div className="CardItem">
+                    <span className="CardLabel">Nombre:</span>
+                    <span className="CardValue">{user.username}</span>
+                  </div>
+                  <div className="CardItem">
+                    <span className="CardLabel">Rol:</span>
+                    <span className="CardValue">{user.role}</span>
+                  </div>
+                  <div className="CardItem">
+                    <span className="CardLabel">Estado:</span>
+                    <Chip className="capitalize" color={user.estado === "HABILITADO" ? "success" : "danger"} size="sm" variant="flat">
+                      {user.estado}
+                    </Chip>
+                  </div>
+                  <div className="actions">
+                    <Button color={user.estado === "HABILITADO" ? "danger" : "success"} onClick={() => handleToggleEstado(user)}>
+                      {user.estado === "HABILITADO" ? "Inhabilitar" : "Habilitar"}
+                    </Button>
+
+                    <Tooltip color="primary" content="Edit user">
+                      <span className="text-lg relative flex items-center pl-2" onClick={() => handleEdit(user)}>
+                      <EditIcon />
+                      </span>
+                    </Tooltip>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="TableContainer">
+              <Table aria-label="Tabla de Usuarios">
+                <TableHeader columns={columns}>
+                  {(column) => (
+                    <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
+                      {column.name}
+                    </TableColumn>
+                  )}
+                </TableHeader>
+                <TableBody items={filas}>
+                  {(item) => (
+                    <TableRow key={item.id}>
+                      {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </>
       )}
     </>
   );
