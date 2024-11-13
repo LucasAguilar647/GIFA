@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Spinner } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import RegistroDeAsociacionDeItem from "../RegistroDeAsociacionDeItem/RegistroDeAsociacionDeItem";
 import { verProveedoresDeItems } from "../../services/proveedoresYPedidosController";
+import Loader from "../Loader/Loader";
 
 const columns = [
   { uid: "item", name: "NOMBRE DEL ITEM" },
@@ -16,10 +17,11 @@ export function TablaDeProveedores() {
   const [filas, setFilas] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [showAsociarItem, setShowAsociarItem] = useState(false);
+  const [loading, setLoading] = useState(false); // Add loading state
   const token = useSelector((state) => state.user.token);
 
-  
   const fetchProveedores = async () => {
+    setLoading(true); // Set loading to true before starting the fetch
     try {
       const proveedoresData = await verProveedoresDeItems(token); 
       const mappedRows = proveedoresData.map((entry, index) => ({
@@ -34,6 +36,9 @@ export function TablaDeProveedores() {
     } catch (error) {
       console.error("Error al obtener los proveedores:", error);
       setFilas([]); 
+    } finally {
+      
+      setTimeout(() => setLoading(false), 2000); 
     }
   };
 
@@ -77,6 +82,15 @@ export function TablaDeProveedores() {
     <>
       {showAsociarItem ? (
         <RegistroDeAsociacionDeItem onCancel={handleOnCancel} />
+      ) : loading ? ( 
+        <>
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+        <div className="flex justify-center items-center h-full">
+          <h2>Cargando proveedores...</h2>
+        </div>
+      </>
       ) : (
         <TablaGenerica
           data={filteredRows}

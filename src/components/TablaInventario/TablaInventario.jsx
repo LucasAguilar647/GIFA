@@ -9,7 +9,7 @@ import { RealizarPedido } from "../RealizarPedido/RealizarPedido";
 import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 import { showErrorAlert } from "../SweetAlert/SweetAlertError";
 import { generarPedido } from "../../services/proveedoresYPedidosController";
-
+import Loader from "../Loader/Loader";
 
 const columns = [
   { uid: "nombre", name: "NOMBRE" },
@@ -26,23 +26,30 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
   const [showModificarPresupuesto, setShowModificarPresupuesto] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [showRealizarPedido, setShowRealizarPedido] = useState(false);
+  const [loading, setLoading] = useState(false);
   const token = useSelector((state) => state.user.token);
 
   useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true);
       try {
-        const items = await obtenerItems(token);
-        const mappedRows = items.map((item, index) => ({
-          key: index.toString(),
-          id: item.id,
-          nombre: item.nombre,
-          umbral: item.umbral,
-          stock: item.stock,
-          cantCompraAutomatica: item.cantCompraAutomatica,
-        }));
-        setFilas(mappedRows);
+       
+        setTimeout(async () => {
+          const items = await obtenerItems(token);
+          const mappedRows = items.map((item, index) => ({
+            key: index.toString(),
+            id: item.id,
+            nombre: item.nombre,
+            umbral: item.umbral,
+            stock: item.stock,
+            cantCompraAutomatica: item.cantCompraAutomatica,
+          }));
+          setFilas(mappedRows);
+          setLoading(false); 
+        }, 2000); 
       } catch (error) {
         console.error("Error al obtener los artículos:", error);
+        setLoading(false); 
       }
     };
     fetchItems();
@@ -87,9 +94,8 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
   };
 
   const handlePedidoSubmit = async (data) => {
- 
     try {
-      const response = await generarPedido(data, token); 
+      const response = await generarPedido(data, token);
       if (response) {
         showsuccessAlert('¡Pedido realizado!', 'El pedido fue realizado correctamente');
         setShowRealizarPedido(false);
@@ -98,8 +104,6 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
       showErrorAlert('Error al generar un pedido', error.message);
     }
   };
-  
-  
 
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
@@ -159,7 +163,16 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
 
   return (
     <>
-      {showRegistro && userRole === "ADMINISTRADOR" ? (
+      {loading ? (
+        <>
+          <div className="flex justify-center items-center h-full">
+            <Loader />
+          </div>
+          <div className="flex justify-center items-center h-full">
+            <h2>Cargando inventario...</h2>
+          </div>
+        </>
+      ) : showRegistro && userRole === "ADMINISTRADOR" ? (
         <RegistroItemInventario onSubmit={handleRegistroSubmit} onCancel={() => setShowRegistro(false)} />
       ) : showModificarPresupuesto ? (
         <RegistroModificarPresupuesto
@@ -168,7 +181,7 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
         />
       ) : showRealizarPedido ? (
         <RealizarPedido
-          idItem={selectedItemId} 
+          idItem={selectedItemId}
           onCancel={() => setShowRealizarPedido(false)}
           onSubmit={handlePedidoSubmit}
         />

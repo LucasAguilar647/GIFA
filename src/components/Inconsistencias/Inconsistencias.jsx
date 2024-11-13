@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { verInconsistencias } from '../../services/traccar';
 import { useSelector } from 'react-redux';
 import TablaGenerica from '../TablaGenerica/TablaGenerica';
@@ -26,19 +26,8 @@ export const Inconsistencias = () => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, [fecha]);
-
     const handleFechaChange = (e) => {
-        const selectedDate = e.target.value;
-        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-        
-        if (dateRegex.test(selectedDate)) {
-            setFecha(selectedDate);
-        } else {
-            console.error("La fecha ingresada no tiene el formato correcto (YYYY-MM-DD)");
-        }
+        setFecha(e.target.value);
     };
 
     const columns = [
@@ -58,9 +47,11 @@ export const Inconsistencias = () => {
                     id="fecha"
                     value={fecha}
                     onChange={handleFechaChange}
-                    pattern="\d{4}-\d{2}-\d{2}"
                     className="date-input"
                 />
+            </div>
+            <div>
+                <button onClick={fetchData} className="search-button">Buscar</button>
             </div>
             <div>
                 <TablaGenerica data={filas} columns={columns} />
