@@ -3,6 +3,6 @@ import { MetricaGlobales } from '../MetricasGlobales'
 
 export const MetricaBitacora = () => {
   return (
-    <MetricaGlobales dashboardId={5}/>
+    <MetricaGlobales dashboardId={2}/>
   )
 }
