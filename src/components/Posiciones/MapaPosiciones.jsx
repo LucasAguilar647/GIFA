@@ -2,25 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import marcadorPersonalizado from '../../assets/icons/marcador.png';  
 
 
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerIconRetina from 'leaflet/dist/images/marker-icon-2x.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-
-const DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  iconRetinaUrl: markerIconRetina,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+const CustomIcon = L.icon({
+  iconUrl: marcadorPersonalizado,
+  iconSize: [40, 40], 
+  iconAnchor: [15, 50],
+  popupAnchor: [0, -50] 
 });
-
-
-L.Marker.prototype.options.icon = DefaultIcon;
 
 const MapaPosiciones = ({ posiciones }) => {
   const [center, setCenter] = useState([0, 0]);
@@ -45,7 +35,7 @@ const MapaPosiciones = ({ posiciones }) => {
       {posiciones.length > 1 && <Polyline positions={posiciones} color="red" />}
 
       {posiciones.map((pos, index) => (
-        <Marker key={index} position={pos}>
+        <Marker key={index} position={pos} icon={CustomIcon}>
           <Popup>
             <div>Posición: {pos}</div>
           </Popup>
