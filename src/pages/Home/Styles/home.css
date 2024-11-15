@@ -73,8 +73,7 @@ a:hover {
   color: #ffffff;
   border-radius: 8px;
   margin-left: 220px; 
-  height: calc(100vh - 2em); 
-  overflow-y: auto;
+  height: calc(94.9vh - 2em); 
   transition: margin-left 0.3s ease; 
 }
 

@@ -87,7 +87,7 @@ export const RegistroDeColectivo = () => {
 
   return (
     <div className="container">
-      <h2>Registro de Colectivo</h2>
+     
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label className="label">
