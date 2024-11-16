@@ -15,6 +15,7 @@ export const PosicionesEnRango = () => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
+  //la fecha de fin deberia tener un dias mas cuando se le apsa al back
 
   const fetchPosiciones = async () => {
     if (id.trim() !== "" && fechaInicio && fechaFin) {
