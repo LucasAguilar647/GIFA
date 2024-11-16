@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { verPosiciones } from '../../services/traccar';
 import MapaPosiciones from './MapaPosiciones';
@@ -11,35 +11,24 @@ export const Posiciones = () => {
   const [positions, setPositions] = useState([]);
   const [buscarClickeado, setBuscarClickeado] = useState(false);
   const [loading, setLoading] = useState(false); 
-  const [timeoutId, setTimeoutId] = useState(null);
-  const [intervalId, setIntervalId] = useState(null);
+  const [intervalId, setIntervalId] = useState(null); 
 
   const fetchPosiciones = async () => {
     if (id.trim() !== "") {
-      setLoading(true); 
+      setLoading(true);
       setBuscarClickeado(true);
-
       
-      const delayTimeoutId = setTimeout(async () => {
-        try {
-          const response = await verPosiciones(id, token);
-          console.log(response)
-          const posiciones = response.map((pos) => [pos.latitude, pos.longitude]);
-
-          setPositions(posiciones);
-        } catch (error) {
-          console.error("Error fetching positions:", error);
-          setPositions([]);
-        } finally {
-          setLoading(false); 
-        }
-      }, 2000);
-
-     
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      try {
+        const response = await verPosiciones(id, token);
+        console.log(response);
+        const posiciones = response.map((pos) => [pos.latitude, pos.longitude]);
+        setPositions(posiciones);
+      } catch (error) {
+        console.error("Error fetching positions:", error);
+        setPositions([]);
+      } finally {
+        setLoading(false); 
       }
-      setTimeoutId(delayTimeoutId);
     } else {
       alert("Por favor, ingrese una patente.");
     }
@@ -52,6 +41,21 @@ export const Posiciones = () => {
   };
 
   
+  useEffect(() => {
+    if (id && intervalId === null) {
+      
+      const idInterval = setInterval(fetchPosiciones, 5000);
+      setIntervalId(idInterval); 
+    }
+
+    
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(null); 
+      }
+    };
+  }, [id, intervalId]); 
 
   return (
     <div className="container-posiciones">
