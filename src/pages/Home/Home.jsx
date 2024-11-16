@@ -63,6 +63,7 @@ export const Home = () => {
       { name: 'Registro proveedor', icon: iconProveeedor },
       { name: 'Inconsistencias', icon: iconInconsistencias },
       { name: 'Posiciones', icon: iconMapa },
+      { name: 'PosicionesEnRango', icon: iconMapa },
       { name: 'Usuarios', icon: iconUsuarioAdmin },
       { name: 'Registro de usuario', icon: iconAgregarUsuario },
     ],

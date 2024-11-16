@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { verPosiciones } from '../../services/traccar';
+import { verPosicionesEnFechas } from '../../services/traccar';
 import MapaPosiciones from './MapaPosiciones';
 import './styles/Posiciones.css';
 import iconBusqueda from '../../assets/icons/busqueda.png';
 
-export const Posiciones = () => {
+export const PosicionesEnRango = () => {
   const token = useSelector((state) => state.user.token);
   const [id, setId] = useState("");
   const [positions, setPositions] = useState([]);
   const [buscarClickeado, setBuscarClickeado] = useState(false);
   const [loading, setLoading] = useState(false); 
   const [timeoutId, setTimeoutId] = useState(null);
-  const [intervalId, setIntervalId] = useState(null);
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
+
 
   const fetchPosiciones = async () => {
-    if (id.trim() !== "") {
+    if (id.trim() !== "" && fechaInicio && fechaFin) {
       setLoading(true); 
       setBuscarClickeado(true);
 
-      
       const delayTimeoutId = setTimeout(async () => {
         try {
-          const response = await verPosiciones(id, token);
-          console.log(response)
+          const response = await verPosicionesEnFechas(id, token, fechaInicio, fechaFin);
+          console.log(response);
           const posiciones = response.map((pos) => [pos.latitude, pos.longitude]);
 
           setPositions(posiciones);
@@ -35,13 +36,12 @@ export const Posiciones = () => {
         }
       }, 2000);
 
-     
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
       setTimeoutId(delayTimeoutId);
     } else {
-      alert("Por favor, ingrese una patente.");
+      alert("Por favor, ingrese la patente del colectivo y ambas fechas.");
     }
   };
 
@@ -51,11 +51,10 @@ export const Posiciones = () => {
     }
   };
 
-  
-
   return (
     <div className="container-posiciones">
       <h1>Recorrido de colectivo</h1>
+      
       <input
         type="text"
         value={id}
@@ -64,6 +63,23 @@ export const Posiciones = () => {
         className="input-posiciones"
         onKeyPress={handleKeyPress}
       />
+      
+      <div className="fecha-inputs">
+        <input
+          type="date"
+          value={fechaInicio}
+          onChange={(e) => setFechaInicio(e.target.value)}
+          placeholder="Fecha de inicio"
+          className="input-fecha"
+        />
+        <input
+          type="date"
+          value={fechaFin}
+          onChange={(e) => setFechaFin(e.target.value)}
+          placeholder="Fecha final"
+          className="input-fecha"
+        />
+      </div>
     
       <img
         src={iconBusqueda}
@@ -78,11 +94,11 @@ export const Posiciones = () => {
         <MapaPosiciones posiciones={positions} />
       ) : (
         buscarClickeado && positions.length === 0 && (
-          <p className="no-data-posiciones">El colectivo no tiene recorridos hechos.</p>
+          <p className="no-data-posiciones">El colectivo no tiene recorridos hechos en este rango de fechas.</p>
         )
       )}
     </div>
   );
 };
 
-export default Posiciones;
+export default PosicionesEnRango;

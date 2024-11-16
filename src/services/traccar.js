@@ -18,6 +18,11 @@ export const verInconsistencias = async (fecha, token) => {
 };
 
 export const verPosiciones = async (id, token) => {
-    const endpoint = backendUrl + '/traccar/getPosiciones/' + id;
+    const endpoint = backendUrl + '/traccar/getPosicionesEnVivo/' + id;
+    return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
+};
+
+export const verPosicionesEnFechas = async (id, token, fechaInicio, fechaFin) => {
+    const endpoint = `${backendUrl}/traccar/getPosicionesEnRangoDeFechas/${id}?from=${fechaInicio}&to=${fechaFin}`;
     return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
 };
