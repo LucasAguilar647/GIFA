@@ -41,4 +41,19 @@
     font-weight: bold;
     font-size: 1rem;
   }
+
+  .fecha-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input-fecha {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 190px;
+}
   

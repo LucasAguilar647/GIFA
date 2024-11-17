@@ -25,9 +25,7 @@ export const PosicionesEnRango = () => {
       const delayTimeoutId = setTimeout(async () => {
         try {
           const response = await verPosicionesEnFechas(id, token, fechaInicio, fechaFin);
-          console.log(response);
           const posiciones = response.map((pos) => [pos.latitude, pos.longitude]);
-
           setPositions(posiciones);
         } catch (error) {
           console.error("Error fetching positions:", error);

@@ -7,18 +7,20 @@ import './Inconsistencias.css';
 export const Inconsistencias = () => {
     const token = useSelector((state) => state.user.token);
     const [filas, setFilas] = useState([]);
-    const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
+    const [from, setFrom] = useState(new Date().toISOString().split('T')[0]);
+    const [to, setTo] = useState(new Date().toISOString().split('T')[0]);
 
     const fetchData = async () => {
         try {
-            const response = await verInconsistencias(fecha, token);
+            const response = await verInconsistencias(from, to, token);
+            console.log(response)
             const formattedData = response.map((item, index) => ({
                 key: index.toString(),
                 responsable: item.nombresDeResponsables.join(", ") || "Sin asignar",
                 patente: item.vehiculo.patente,
                 kilometrajeRecorrido: item.kilometrajeRecorrido,
                 litrosCargados: item.litrosCargados,
-                litrosInconsistente: item.litrosInconsistente,
+                //litrosInconsistente: item.litrosInconsistente,
             }));
             setFilas(formattedData);
         } catch (error) {
@@ -26,8 +28,12 @@ export const Inconsistencias = () => {
         }
     };
 
-    const handleFechaChange = (e) => {
-        setFecha(e.target.value);
+    const handleFromChange = (e) => {
+        setFrom(e.target.value);
+    };
+
+    const handleToChange = (e) => {
+        setTo(e.target.value);
     };
 
     const columns = [
@@ -35,18 +41,32 @@ export const Inconsistencias = () => {
         { uid: "patente", name: "Patente" },
         { uid: "kilometrajeRecorrido", name: "Kilometraje Recorrido (km)" },
         { uid: "litrosCargados", name: "Litros Cargados" },
-        { uid: "litrosInconsistente", name: "Litros Inconsistente" }
+       //{ uid: "litrosInconsistente", name: "Litros Inconsistentes" }
     ];
+
+    const renderCell = (item, columnKey) => {
+        return item[columnKey] !== undefined ? item[columnKey] : "-";
+    };
 
     return (
         <div>
             <div>
-                <label htmlFor="fecha" className="label">Fecha:</label>
+                <label htmlFor="from" className="label">Fecha Inicio:</label>
                 <input
                     type="date"
-                    id="fecha"
-                    value={fecha}
-                    onChange={handleFechaChange}
+                    id="from"
+                    value={from}
+                    onChange={handleFromChange}
+                    className="date-input"
+                />
+            </div>
+            <div>
+                <label htmlFor="to" className="label">Fecha Fin:</label>
+                <input
+                    type="date"
+                    id="to"
+                    value={to}
+                    onChange={handleToChange}
                     className="date-input"
                 />
             </div>
@@ -54,7 +74,11 @@ export const Inconsistencias = () => {
                 <button onClick={fetchData} className="search-button">Buscar</button>
             </div>
             <div>
-                <TablaGenerica data={filas} columns={columns} />
+                <TablaGenerica 
+                    data={filas} 
+                    columns={columns} 
+                    renderCell={renderCell} 
+                />
             </div>
         </div>
     );
