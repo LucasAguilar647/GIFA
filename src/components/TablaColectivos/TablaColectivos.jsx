@@ -11,8 +11,6 @@ import avatar from '../../assets/Images/TraccarLogo.jpeg';
 const columns = [
   { uid: "avatar", name: "TRACCAR" },
   { uid: "patente", name: "PATENTE" },
-  { uid: "antiguedad", name: "ANTIGÜEDAD" },
-  { uid: "kilometraje", name: "KILOMETRAJE" },
   { uid: "estado", name: "ESTADO" },
   { uid: "fechaDeRevision", name: "FECHA DE REVISION" },
   { uid: "actions", name: "ACCIONES" },
