@@ -12,11 +12,12 @@ import { verMantenimientosPendientes, asignarMantenimiento } from "../../service
 import { useSelector } from "react-redux"; 
 import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 import { showErrorAlert } from "../SweetAlert/SweetAlertError";
+import Loader from "../Loader/Loader";
+
 
 const columns = [
   { uid: "patente", name: "Patente" },
   { uid: "asunto", name: "Asunto" },
-  { uid: "estadoMantenimiento", name: "Estado" },
   { uid: "actions", name: "Acciones" },
 ];
 
@@ -60,7 +61,14 @@ export function AsignarMantenimiento() {
   return (
     <div>
       {isLoading ? (
-        <p>Cargando mantenimientos...</p>
+       <>
+       <div className="flex justify-center items-center h-full">
+         <Loader />
+       </div>
+       <div className="flex justify-center items-center h-full">
+         <h2>Cargando proveedores...</h2>
+       </div>
+     </>
       ) : mantenimientos.length === 0 ? (  
         <p>No hay tareas pendientes.</p>
       ) : (
@@ -75,7 +83,6 @@ export function AsignarMantenimiento() {
               <TableRow key={item.id}>
                 <TableCell>{item.vehiculo.patente}</TableCell> 
                 <TableCell>{item.asunto}</TableCell> 
-                <TableCell>{item.estadoMantenimiento}</TableCell>
                 <TableCell>
                   <Button
                     color="primary"
