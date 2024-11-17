@@ -37,8 +37,6 @@ export const CardMantenimiento = ({ mantenimiento, repuestosAgrupados, onVolver 
           <li key={item}>{item} (Cantidad: {cantidad})</li>
         ))}
       </ul>
-      <Divider />
-      <p><strong>Estado del Mantenimiento:</strong> {mantenimiento.estadoMantenimiento}</p>
     </CardBody>
     <Divider />
     <CardFooter>

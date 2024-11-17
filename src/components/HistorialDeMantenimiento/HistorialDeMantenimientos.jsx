@@ -9,7 +9,6 @@ import { Button, Input } from "@nextui-org/react";
 const columns = [
   { uid: "patente", name: "PATENTE" },
   { uid: "fecha", name: "FECHA DEL MANTENIMIENTO" },
-  { uid: "repuesto", name: "REPUESTO USADO" },
   { uid: "realizadoPor", name: "REALIZADO POR" },
   { uid: "actions", name: "ACCIONES" },
 ];
