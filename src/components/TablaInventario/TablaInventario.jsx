@@ -141,9 +141,9 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
   };
 
   const topContent = (
-    <div className="filtros-container">
+    <div className="flex  items-center mb-4">
       <Input
-      className="input-container"
+      className=""
         isClearable
         placeholder="Buscar por nombre"
         value={filterValue}
