@@ -172,7 +172,7 @@ export function TablaDeColectivos({ userRole }) {
             )}
             {userRole === "SUPERVISOR" && item.estado === "HABILITADO" && (
               <Button color="danger" onClick={() => handleRegistrarMantenimiento(item.id)}>
-                Registrar mantenimiento
+                Mantenimiento
               </Button>
             )}
           </div>

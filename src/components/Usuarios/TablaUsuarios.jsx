@@ -51,7 +51,7 @@ const TablaUsuarios = ({ users, token }) => {
     switch (columnKey) {
       case "username":
         return (
-          <User avatarProps={{ radius: "lg", src: avatar }} description={`Role: ${user.role}`} name={cellValue}>
+          <User avatarProps={{ radius: "lg", src: avatar }}  name={cellValue}>
             {cellValue}
           </User>
         );

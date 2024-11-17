@@ -87,30 +87,6 @@ export function TablaDeChoferes() {
     };
   }, [token]);
 
-  /*const handleFilterByStatus = (status) => {
-    setFilterStatus(status);
-  };*/
-
- /* const handleToggleEstado = async (item) => {
-    const newState = item.estado === "HABILITADO" ? "INHABILITADO" : "HABILITADO";
-    const id = item.id;
-
-    try {
-      if (newState === "HABILITADO") {
-        await habilitarChofer(id, token);
-      } else {
-        await inhabilitarChofer(id, token);
-      }
-
-      setFilas((prevRows) =>
-        prevRows.map((row) =>
-          row.id === id ? { ...row, estado: newState } : row
-        )
-      );
-    } catch (error) {
-      alert("Error al cambiar el estado del chofer. Por favor, intente nuevamente.");
-    }
-  };*/
 
   const handleRegistrarChofer = async () => {
     setMostrarRegistroDeChofer(false);
