@@ -41,7 +41,6 @@ export const VerDetalleMantenimiento = ({ idVehiculo, token, irAtras }) => {
     return acc;
   }, {});
 
-
   return (
     <CardMantenimiento 
       mantenimiento={mantenimiento} 
