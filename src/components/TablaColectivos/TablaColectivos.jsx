@@ -7,6 +7,7 @@ import { Input, Button, Chip } from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import DetalleVehiculo from "./DetalleVehiculo";
 import avatar from '../../assets/Images/TraccarLogo.jpeg';
+import "./styles/filtros.css"
 
 const columns = [
   { uid: "avatar", name: "TRACCAR" },
@@ -116,21 +117,24 @@ export function TablaDeColectivos({ userRole }) {
   }, [filas, filterValue, filterStatus]);
 
   const topContent = (
-    <div className="flex justify-between items-end mb-4">
+    <div className="topContent">
+    <div className="inputContainer">
       <Input
         isClearable
-        className="w-full sm:max-w-[44%]"
+        className="w-full"
         placeholder="Buscar por patente..."
         value={filterValue}
         onClear={() => setFilterValue("")}
         onValueChange={setFilterValue}
       />
-      <div className="flex gap-2">
-        <Button onClick={() => handleFilterByStatus("all")}>Todos</Button>
-        <Button onClick={() => handleFilterByStatus("HABILITADO")}>Habilitados</Button>
-        <Button onClick={() => handleFilterByStatus("INHABILITADO")}>Inhabilitados</Button>
-      </div>
     </div>
+    <div className="buttonContainer">
+      <Button onClick={() => handleFilterByStatus("all")}>Todos</Button>
+      <Button onClick={() => handleFilterByStatus("HABILITADO")}>Habilitados</Button>
+      <Button onClick={() => handleFilterByStatus("INHABILITADO")}>Inhabilitados</Button>
+    </div>
+  </div>
+  
   );
 
   const renderCell = (item, columnKey) => {

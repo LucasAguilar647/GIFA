@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from 'react-redux';
-
 import Loader from "../Loader/Loader";
 import { Input, Button, Chip } from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import { verPedidosRechazadosYpendientes } from "../../services/proveedoresYPedidosController";
+import "../TablaColectivos/styles/filtros.css"
 
 
 const columns = [
@@ -77,16 +77,18 @@ export function TablaPedidosRealizados() {
   }, [filas, filterValue, filterStatus]);
 
   const topContent = (
-    <div className="flex justify-between items-end mb-4">
-      <Input
-        isClearable
-        className="w-full sm:max-w-[44%]"
-        placeholder="Buscar por nombre..."
-        value={filterValue}
-        onClear={() => setFilterValue("")}
-        onValueChange={setFilterValue}
-      />
-      <div className="flex gap-2">
+    <div className="topContent">
+      <div className="input-container">
+        <Input
+          isClearable
+          className="w-full"
+          placeholder="Buscar por nombre..."
+          value={filterValue}
+          onClear={() => setFilterValue("")}
+          onValueChange={setFilterValue}
+        />
+      </div>
+      <div className="button-group">
         <Button onClick={() => handleFilterByStatus("all")}>Todos</Button>
         <Button onClick={() => handleFilterByStatus("RECHAZADO")}>Rechazados</Button>
         <Button onClick={() => handleFilterByStatus("PENDIENTE")}>Pendientes</Button>
@@ -94,6 +96,8 @@ export function TablaPedidosRealizados() {
       </div>
     </div>
   );
+  
+  
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];

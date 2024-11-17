@@ -106,10 +106,14 @@ export function TablaPedidosAceptados() {
     return (
         <div>
             {loading ? (
-                <div className="flex justify-center items-center h-full">
-                    <Loader />
-                    <h2>Cargando pedidos aceptados...</h2>
-                </div>
+               <>
+               <div className="flex justify-center items-center h-full">
+                 <Loader />
+               </div>
+               <div className="flex justify-center items-center h-full">
+                 <h2>Cargando pedidos aceptados...</h2>
+               </div>
+             </>
             ) : (
                 <TablaGenerica
                     data={filteredRows}
