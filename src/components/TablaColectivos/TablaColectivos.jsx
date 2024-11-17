@@ -41,7 +41,7 @@ export function TablaDeColectivos({ userRole }) {
           avatar, 
           patente: item.patente,
           antiguedad: item.antiguedad,
-          kilometraje: item.kilometraje,
+          kilometrajeTotal: item.kilometrajeTotal,
           estado: item.estadoDeHabilitacion || "Desconocido",
           fechaDeRevision: item.fechaVencimiento ? new Intl.DateTimeFormat('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.fechaVencimiento)) : "Sin fecha",
           qr: item.qr,

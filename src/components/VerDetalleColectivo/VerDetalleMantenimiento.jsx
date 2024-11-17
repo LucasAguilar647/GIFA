@@ -7,6 +7,7 @@ export const VerDetalleMantenimiento = ({ idVehiculo, token, irAtras }) => {
   const [mantenimiento, setMantenimiento] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+ 
 
   useEffect(() => {
     const fetchMantenimiento = async () => {
@@ -39,6 +40,7 @@ export const VerDetalleMantenimiento = ({ idVehiculo, token, irAtras }) => {
     }
     return acc;
   }, {});
+
 
   return (
     <CardMantenimiento 

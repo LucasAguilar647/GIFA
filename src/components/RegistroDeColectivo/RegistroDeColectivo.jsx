@@ -9,7 +9,7 @@ export const RegistroDeColectivo = () => {
   const [formData, setFormData] = useState({
     patente: '',
     antiguedad: '',
-    kilometraje: '',
+    kilometrajeUsado: '',
     modelo: '',  
     fechaRevision: '',  
   });
@@ -25,7 +25,7 @@ export const RegistroDeColectivo = () => {
   };
 
   const validateFormData = () => {
-    const { patente, antiguedad, kilometraje, fechaRevision } = formData;
+    const { patente, antiguedad, kilometrajeUsado, fechaRevision } = formData;
 
     const patenteRegex = /^(?:[A-Z]{2}\d{3}[A-Z]{2}|[A-Z]{3}\d{3})$/;
     if (!patenteRegex.test(patente.toUpperCase())) {
@@ -34,7 +34,7 @@ export const RegistroDeColectivo = () => {
     }
 
    
-    if (antiguedad < 0 || kilometraje < 0) {
+    if (antiguedad < 0 || kilometrajeUsado < 0) {
       alert("Antigüedad y kilometraje no pueden ser negativos.");
       return false;
     }
@@ -63,7 +63,7 @@ export const RegistroDeColectivo = () => {
     const dataToSubmit = {
       patente: formData.patente.toUpperCase(),
       antiguedad: parseInt(formData.antiguedad),  
-      kilometraje: parseInt(formData.kilometraje),  
+      kilometrajeUsado: parseInt(formData.kilometrajeUsado),  
       modelo: formData.modelo, 
       fechaRevision: fechaRevisionString, 
     };
@@ -73,7 +73,7 @@ export const RegistroDeColectivo = () => {
       setFormData({
         patente: '',
         antiguedad: '',
-        kilometraje: '',
+        kilometrajeUsado: '',
         modelo: '',  
         fechaRevision: '',  
       });
@@ -121,8 +121,8 @@ export const RegistroDeColectivo = () => {
             Kilometraje:
             <input
               type="number"
-              name="kilometraje"
-              value={formData.kilometraje}
+              name="kilometrajeUsado"
+              value={formData.kilometrajeUsado}
               onChange={handleChange}
               required
               className="input-field"

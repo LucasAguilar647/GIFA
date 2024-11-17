@@ -23,7 +23,7 @@ export const CardMantenimiento = ({ mantenimiento, repuestosAgrupados, onVolver 
       <p><strong>Detalles del Vehículo:</strong></p>
       <p><strong>Patente:</strong> {mantenimiento.vehiculo.patente}</p>
       <p><strong>Antigüedad:</strong> {mantenimiento.vehiculo.antiguedad} años</p>
-      <p><strong>Kilometraje:</strong> {mantenimiento.vehiculo.kilometraje} km</p>
+      <p><strong>Kilometraje:</strong> {mantenimiento.vehiculo.kilometrajeTotal} km</p>
       <p><strong>Estado de Habilitación:</strong> {mantenimiento.vehiculo.estadoDeHabilitacion}</p>
       <Divider />
       <p><strong>Fechas de Mantenimiento:</strong></p>
