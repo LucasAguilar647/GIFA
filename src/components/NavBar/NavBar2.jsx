@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, DropdownMenu, DropdownItem, DropdownTrigger, Dropdown, Avatar } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, DropdownMenu, DropdownItem, DropdownTrigger, Dropdown, Avatar } from "@nextui-org/react";
 import { NavBarLogo } from "../functions/NavBarLogo";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/authService";
-import { showPresupuesto } from "../SweetAlert/SweetAlertPresupuesto";
 import { clearUser } from "../store/userSlice";
-import { obtenerPresupuesto } from "../../services/inventarioService";
 import "./styles/navbar.css";
 
 export default function NavBar2({ menuItems, onMenuItemClick }) {
@@ -25,15 +23,8 @@ export default function NavBar2({ menuItems, onMenuItemClick }) {
       console.error("Error al cerrar sesión:", error);
     }
   };
+  
 
-  const handleVerPresupuesto = async () => {
-    try {
-      const presupuesto = await obtenerPresupuesto(token);
-      showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`);
-    } catch (error) {
-      showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
-    }
-  };
 
   const handleItemClick = (itemName) => {
     onMenuItemClick(itemName);
@@ -54,9 +45,7 @@ export default function NavBar2({ menuItems, onMenuItemClick }) {
         </NavbarBrand>
       </NavbarContent>
 
-      {role === "SUPERVISOR" && (
-        <Button color="primary" onClick={handleVerPresupuesto}>Presupuesto</Button>
-      )}
+     
 
       <NavbarContent as="div"  justify="end">
         <Dropdown placement="bottom-end">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Input, Button } from "@nextui-org/react";
-import { obtenerItems, modificarPresupuesto } from "../../services/inventarioService";
+import { obtenerItems, modificarPresupuesto, obtenerPresupuesto } from "../../services/inventarioService";
 import { useSelector } from "react-redux";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import RegistroItemInventario from "../../components/RegistroItemInventario/RegistroItemInventario";
@@ -10,6 +10,8 @@ import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 import { showErrorAlert } from "../SweetAlert/SweetAlertError";
 import { generarPedido } from "../../services/proveedoresYPedidosController";
 import Loader from "../Loader/Loader";
+import { showPresupuesto } from "../SweetAlert/SweetAlertPresupuesto";
+import '../TablaColectivos/styles/filtros.css'
 
 const columns = [
   { uid: "nombre", name: "NOMBRE" },
@@ -105,6 +107,15 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
     }
   };
 
+  const handleVerPresupuesto = async () => {
+    try {
+      const presupuesto = await obtenerPresupuesto(token);
+      showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`);
+    } catch (error) {
+      showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
+    }
+  };
+
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
       case "acciones":
@@ -130,14 +141,16 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
   };
 
   const topContent = (
-    <div className="flex  items-center mb-4">
+    <div className="filtros-container">
       <Input
+      className="input-container"
         isClearable
         placeholder="Buscar por nombre"
         value={filterValue}
         onClear={() => setFilterValue("")}
         onValueChange={setFilterValue}
       />
+      <div className="button-group">
       {userRole === "ADMINISTRADOR" && (
         <Button onClick={() => setShowRegistro(true)} color="primary">
           Agregar Item
@@ -148,6 +161,10 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
           Modificar presupuesto
         </Button>
       )}
+      {userRole === "SUPERVISOR" && (
+        <Button color="primary" onClick={handleVerPresupuesto}>Ver presupuesto</Button>
+      )}
+      </div>
     </div>
   );
 
