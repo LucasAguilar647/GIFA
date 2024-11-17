@@ -5,11 +5,12 @@ import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import RegistroDeAsociacionDeItem from "../RegistroDeAsociacionDeItem/RegistroDeAsociacionDeItem";
 import { verProveedoresDeItems } from "../../services/proveedoresYPedidosController";
 import Loader from "../Loader/Loader";
+import '../TablaColectivos/styles/filtros.css'
 
 const columns = [
   { uid: "item", name: "NOMBRE DEL ITEM" },
-  { uid: "proveedor", name: "NOMBRE DEL PROVEEDOR" },
-  { uid: "emailProveedor", name: "EMAIL DEL PROVEEDOR" },
+  { uid: "proveedor", name: "NOMBRE" },
+  { uid: "emailProveedor", name: "EMAIL" },
   { uid: "precio", name: "PRECIO" },
 ];
 
@@ -17,11 +18,11 @@ export function TablaDeProveedores() {
   const [filas, setFilas] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [showAsociarItem, setShowAsociarItem] = useState(false);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
   const token = useSelector((state) => state.user.token);
 
   const fetchProveedores = async () => {
-    setLoading(true); // Set loading to true before starting the fetch
+    setLoading(true);
     try {
       const proveedoresData = await verProveedoresDeItems(token); 
       const mappedRows = proveedoresData.map((entry, index) => ({
@@ -72,9 +73,11 @@ export function TablaDeProveedores() {
         onClear={() => setFilterValue("")}
         onValueChange={setFilterValue}
       />
-      <Button onClick={() => setShowAsociarItem(true)} color="primary">
+      <div className="button-group">
+      <Button   onClick={() => setShowAsociarItem(true)} color="primary">
         Asociar nuevo item
       </Button>
+      </div>
     </div>
   );
 
