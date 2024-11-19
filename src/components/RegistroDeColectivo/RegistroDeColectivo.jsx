@@ -26,28 +26,35 @@ export const RegistroDeColectivo = () => {
 
   const validateFormData = () => {
     const { patente, antiguedad, kilometrajeUsado, fechaRevision } = formData;
-
+  
+    
     const patenteRegex = /^(?:[A-Z]{2}\d{3}[A-Z]{2}|[A-Z]{3}\d{3})$/;
     if (!patenteRegex.test(patente.toUpperCase())) {
       alert("Formato de patente inválido. Debe ser '11AAA11' o 'AAA111'.");
       return false;
     }
-
-   
+  
+    
     if (antiguedad < 0 || kilometrajeUsado < 0) {
       alert("Antigüedad y kilometraje no pueden ser negativos.");
       return false;
     }
-
+  
    
+    if (!Number.isInteger(parseFloat(kilometrajeUsado)) || kilometrajeUsado < 0) {
+      alert("El kilometraje debe ser un número entero positivo en kilómetros.");
+      return false;
+    }
+  
+    
     if (new Date(fechaRevision) < new Date()) {
       alert("La fecha de revisión no puede ser anterior a la fecha actual.");
       return false;
     }
-
+  
     return true;
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -55,17 +62,18 @@ export const RegistroDeColectivo = () => {
       return; 
     }
   
-    
+  
     const [anio, mes, dia] = formData.fechaRevision.split('-');
     const fechaRevisionString = `${dia}/${mes}/${anio}`;  
-   
+  
+    const kilometrajeEnKm = Math.floor(parseInt(formData.kilometrajeUsado) / 1000);
   
     const dataToSubmit = {
       patente: formData.patente.toUpperCase(),
-      antiguedad: parseInt(formData.antiguedad),  
-      kilometrajeUsado: parseInt(formData.kilometrajeUsado),  
-      modelo: formData.modelo, 
-      fechaRevision: fechaRevisionString, 
+      antiguedad: parseInt(formData.antiguedad),
+      kilometrajeUsado: kilometrajeEnKm,  
+      modelo: formData.modelo,
+      fechaRevision: fechaRevisionString,
     };
   
     try {
@@ -78,9 +86,9 @@ export const RegistroDeColectivo = () => {
         fechaRevision: '',  
       });
   
-      showsuccessAlert('¡Registro exitoso de colectivo!','El colectivo fue agregado correctamente')
+      showsuccessAlert('¡Registro exitoso de colectivo!', 'El colectivo fue agregado correctamente');
     } catch (error) {
-      showErrorAlert('Error al registrar un colectivo',error)
+      showErrorAlert('Error al registrar un colectivo', error);
     }
   };
   
@@ -118,7 +126,7 @@ export const RegistroDeColectivo = () => {
         </div>
         <div className="form-group">
           <label className="label">
-            Kilometraje:
+            Kilometraje usado:
             <input
               type="number"
               name="kilometrajeUsado"
