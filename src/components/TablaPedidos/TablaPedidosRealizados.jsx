@@ -25,35 +25,39 @@ export function TablaPedidosRealizados() {
   const token = useSelector((state) => state.user.token);
 
   const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await verPedidosRechazadosYpendientes(token);
-      if (response) {
-        const mappedRows = response.map((item, index) => {
-          const formattedDate = item.fecha 
-            ? new Date(item.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
-            : "Sin fecha";
-            
-          return {
-            key: index.toString(),
-            nombre: item.item.nombre, 
-            fecha: formattedDate,
-            cantidad: item.cantidad,
-            motivo: item.motivo,
-            estado: item.estadoPedido,
-          };
-        });
-        setFilas(mappedRows);
-      }
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    } finally {
-      const id = setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-      setTimeoutId(id);
+  setLoading(true);
+  try {
+    const response = await verPedidosRechazadosYpendientes(token);
+    if (response) {
+      const mappedRows = response.map((item, index) => {
+        const formattedDate = item.fecha
+          ? (() => {
+              const [year, month, day] = item.fecha.split("-");
+              return `${day}/${month}/${year}`;
+            })()
+          : "Sin fecha";
+
+        return {
+          key: index.toString(),
+          nombre: item.item.nombre, 
+          fecha: formattedDate,
+          cantidad: item.cantidad,
+          motivo: item.motivo,
+          estado: item.estadoPedido,
+        };
+      });
+      setFilas(mappedRows);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  } finally {
+    const id = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    setTimeoutId(id);
+  }
+};
+
   
   useEffect(() => {
     fetchData();
@@ -92,7 +96,9 @@ export function TablaPedidosRealizados() {
         <Button onClick={() => handleFilterByStatus("all")}>Todos</Button>
         <Button onClick={() => handleFilterByStatus("RECHAZADO")}>Rechazados</Button>
         <Button onClick={() => handleFilterByStatus("PENDIENTE")}>Pendientes</Button>
-        <Button onClick={() => handleFilterByStatus("BAJOPRESUSPUESTO")}>Bajo presupuesto</Button>
+        <Button onClick={() => handleFilterByStatus("PRESUPUESTO_INSUFICIENTE")}>Presupuesto insuficiente</Button>
+        <Button onClick={() => handleFilterByStatus("SIN_PROVEEDOR")}>Sin proveedores</Button>
+        
       </div>
     </div>
   );

@@ -25,16 +25,21 @@ export function HistorialDeMantenimientos() {
       try {
         const response = await verMantenimientos(token);
         if (response && Array.isArray(response.mantenimientos)) {
-          const mappedRows = response.mantenimientos.map((item, index) => ({
-            key: index.toString(),
-            patente: item.vehiculo.patente,
-            fecha: item.fechaInicio,
-            repuesto: item.itemUtilizado?.length
-              ? agruparItems(item.itemUtilizado).join(", ")
-              : "No especificado",
-            realizadoPor: item.operador?.usuario || "Operador no especificado",
-            idVehiculo: item.vehiculo.id,
-          }));
+          const mappedRows = response.mantenimientos.map((item, index) => {
+            const [anio, mes, dia] = item.fechaInicio.split("-");
+            const fechaFormateada = `${dia}/${mes}/${anio}`;
+  
+            return {
+              key: index.toString(),
+              patente: item.vehiculo.patente,
+              fecha: fechaFormateada,
+              repuesto: item.itemUtilizado?.length
+                ? agruparItems(item.itemUtilizado).join(", ")
+                : "No especificado",
+              realizadoPor: item.operador?.usuario || "Operador no especificado",
+              idVehiculo: item.vehiculo.id,
+            };
+          });
           setMantenimientos(mappedRows);
         } else {
           setMantenimientos([]);
@@ -43,15 +48,15 @@ export function HistorialDeMantenimientos() {
         console.error("Error al cargar los mantenimientos:", error);
         setMantenimientos([]);
       } finally {
-  
         setTimeout(() => {
           setIsLoading(false);
         }, 2000);
       }
     };
-
+  
     cargarMantenimientos();
   }, [token]);
+  
 
   const agruparItems = (items) => {
     const itemsMap = {};

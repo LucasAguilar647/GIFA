@@ -17,10 +17,6 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
     document.body.removeChild(downloadLink);
   };
 
-  console.log(vehiculo)
-
-
-
 
   return (
     <Card className="py-4 max-w-[400px]">

@@ -10,17 +10,24 @@ export const Inconsistencias = () => {
     const [from, setFrom] = useState(new Date().toISOString().split('T')[0]);
     const [to, setTo] = useState(new Date().toISOString().split('T')[0]);
 
+    const formatISODate = (date) => {
+        const d = new Date(date);
+        return d.toISOString().split('.')[0] + 'Z'; 
+    };
+
     const fetchData = async () => {
         try {
-            const response = await verInconsistencias(from, to, token);
-            console.log(response)
+            const formattedFrom = formatISODate(from);
+            const formattedTo = formatISODate(to);
+
+            const response = await verInconsistencias(formattedFrom, formattedTo, token);
+            console.log(response);
             const formattedData = response.map((item, index) => ({
                 key: index.toString(),
                 responsable: item.nombresDeResponsables.join(", ") || "Sin asignar",
                 patente: item.vehiculo.patente,
                 kilometrajeRecorrido: item.kilometrajeRecorrido,
                 litrosCargados: item.litrosCargados,
-                //litrosInconsistente: item.litrosInconsistente,
             }));
             setFilas(formattedData);
         } catch (error) {
@@ -41,7 +48,6 @@ export const Inconsistencias = () => {
         { uid: "patente", name: "Patente" },
         { uid: "kilometrajeRecorrido", name: "Kilometraje Recorrido (km)" },
         { uid: "litrosCargados", name: "Litros Cargados" },
-       //{ uid: "litrosInconsistente", name: "Litros Inconsistentes" }
     ];
 
     const renderCell = (item, columnKey) => {

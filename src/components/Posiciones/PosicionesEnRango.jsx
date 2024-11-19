@@ -15,7 +15,11 @@ export const PosicionesEnRango = () => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
-  //la fecha de fin deberia tener un dias mas cuando se le apsa al back
+  const formatFechaConUnDiaMas = (fecha) => {
+    const fechaObj = new Date(fecha);
+    fechaObj.setDate(fechaObj.getDate() + 1);
+    return fechaObj.toISOString().split('.')[0] + 'Z'; 
+  };
 
   const fetchPosiciones = async () => {
     if (id.trim() !== "" && fechaInicio && fechaFin) {
@@ -24,7 +28,10 @@ export const PosicionesEnRango = () => {
 
       const delayTimeoutId = setTimeout(async () => {
         try {
-          const response = await verPosicionesEnFechas(id, token, fechaInicio, fechaFin);
+          const fechaInicioFormatted = new Date(fechaInicio).toISOString().split('.')[0] + 'Z';
+          const fechaFinFormatted = formatFechaConUnDiaMas(fechaFin);
+
+          const response = await verPosicionesEnFechas(id, token, fechaInicioFormatted, fechaFinFormatted);
           const posiciones = response.map((pos) => [pos.latitude, pos.longitude]);
           setPositions(posiciones);
         } catch (error) {
