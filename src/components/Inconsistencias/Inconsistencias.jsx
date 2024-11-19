@@ -7,13 +7,28 @@ import './Inconsistencias.css';
 export const Inconsistencias = () => {
     const token = useSelector((state) => state.user.token);
     const [filas, setFilas] = useState([]);
-    const [from, setFrom] = useState(new Date().toISOString().split('T')[0]);
-    const [to, setTo] = useState(new Date().toISOString().split('T')[0]);
+
+   
+    const getStartOfDay = () => {
+        const date = new Date();
+        date.setHours(-3, 1, 0, 0); 
+        return date.toISOString().slice(0, 16);  
+    };
+
+    
+    const getEndOfDay = () => {
+        const date = new Date();
+        date.setHours(20, 59, 0, 0); 
+        return date.toISOString().slice(0, 16);  
+    };
 
     const formatISODate = (date) => {
         const d = new Date(date);
         return d.toISOString().split('.')[0] + 'Z'; 
     };
+
+    const [from, setFrom] = useState(getStartOfDay());  
+    const [to, setTo] = useState(getEndOfDay());   
 
     const fetchData = async () => {
         try {
@@ -21,7 +36,6 @@ export const Inconsistencias = () => {
             const formattedTo = formatISODate(to);
 
             const response = await verInconsistencias(formattedFrom, formattedTo, token);
-            console.log(response);
             const formattedData = response.map((item, index) => ({
                 key: index.toString(),
                 responsable: item.nombresDeResponsables.join(", ") || "Sin asignar",
@@ -57,9 +71,9 @@ export const Inconsistencias = () => {
     return (
         <div>
             <div>
-                <label htmlFor="from" className="label">Fecha Inicio:</label>
+                <label htmlFor="from" className="label">Fecha y Hora Inicio:</label>
                 <input
-                    type="date"
+                    type="datetime-local"
                     id="from"
                     value={from}
                     onChange={handleFromChange}
@@ -67,9 +81,9 @@ export const Inconsistencias = () => {
                 />
             </div>
             <div>
-                <label htmlFor="to" className="label">Fecha Fin:</label>
+                <label htmlFor="to" className="label">Fecha y Hora Fin:</label>
                 <input
-                    type="date"
+                    type="datetime-local"
                     id="to"
                     value={to}
                     onChange={handleToChange}

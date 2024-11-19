@@ -20,7 +20,6 @@ export const Posiciones = () => {
       
       try {
         const response = await verPosiciones(id, token);
-        console.log(response);
         const posiciones = response.map((pos) => [pos.latitude, pos.longitude]);
         setPositions(posiciones);
       } catch (error) {
