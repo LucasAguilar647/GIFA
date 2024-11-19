@@ -34,17 +34,25 @@ export function TablaDeColectivos({ userRole }) {
     try {
       const response = await verVehiculos(token);
       if (response && response.vehiculos) {
-        const mappedRows = response.vehiculos.map((item, index) => ({
-          key: index.toString(),
-          id: item.id,
-          avatar, 
-          patente: item.patente,
-          antiguedad: item.antiguedad,
-          kilometrajeTotal: item.kilometrajeTotal,
-          estado: item.estadoDeHabilitacion || "Desconocido",
-          fechaDeRevision: item.fechaVencimiento ,
-          qr: item.qr,
-        }));
+        const mappedRows = response.vehiculos.map((item, index) => {
+        
+          const [anio, mes, dia] = item.fechaVencimiento.split("-");
+          const fechaVencimientoFormateada = `${dia}/${mes}/${anio}`;
+  
+          return {
+            key: index.toString(),
+            id: item.id,
+            avatar,
+            patente: item.patente,
+            antiguedad: item.antiguedad,
+            kilometrajeTotal: item.kilometrajeTotal,
+            kilometrajeUsado: item.kilometrajeUsado,
+            kilometrajeRecorridos: item.kilometrajeRecorridos,
+            estado: item.estadoDeHabilitacion || "Desconocido",
+            fechaDeRevision: fechaVencimientoFormateada,
+            qr: item.qr,
+          };
+        });
         setFilas(mappedRows);
       }
     } catch (error) {
@@ -56,6 +64,7 @@ export function TablaDeColectivos({ userRole }) {
       setTimeoutId(id);
     }
   };
+  
 
   useEffect(() => {
     fetchData();

@@ -17,6 +17,7 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
     document.body.removeChild(downloadLink);
   };
 
+  console.log(vehiculo)
 
 
 
@@ -33,7 +34,9 @@ function DetalleVehiculo({ vehiculo, irAtras }) {
         <div className="mt-4">
           <p><strong>Patente:</strong> {vehiculo.patente}</p>
           <p><strong>Antigüedad:</strong> {vehiculo.antiguedad} años</p>
-          <p><strong>Kilometraje:</strong> {vehiculo.kilometrajeTotal} km</p>
+          <p><strong>Kilometraje inicial:</strong> {vehiculo.kilometrajeUsado} km</p>
+          <p><strong>Kilometraje recorrido:</strong> {vehiculo.kilometrajeRecorridos} km</p>
+          <p><strong>Kilometraje total:</strong> {vehiculo.kilometrajeTotal} km</p>
           <p><strong>Estado:</strong> {vehiculo.estado}</p>
         </div>
 

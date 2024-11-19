@@ -66,12 +66,11 @@ export const RegistroDeColectivo = () => {
     const [anio, mes, dia] = formData.fechaRevision.split('-');
     const fechaRevisionString = `${dia}/${mes}/${anio}`;  
   
-    const kilometrajeEnKm = Math.floor(parseInt(formData.kilometrajeUsado) / 1000);
   
     const dataToSubmit = {
       patente: formData.patente.toUpperCase(),
       antiguedad: parseInt(formData.antiguedad),
-      kilometrajeUsado: kilometrajeEnKm,  
+      kilometrajeUsado: parseInt(formData.kilometrajeUsado),  
       modelo: formData.modelo,
       fechaRevision: fechaRevisionString,
     };
