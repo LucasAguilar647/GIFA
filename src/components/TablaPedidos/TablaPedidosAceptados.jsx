@@ -24,31 +24,38 @@ export function TablaPedidosAceptados() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await verPedidosAceptados(token);
-            if (response) {
-                const mappedRows = response.map((item, index) => {
-                    const formattedDate = item.fecha
-                        ? new Date(item.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
-                        : "Sin fecha";
-
-                    return {
-                        key: index.toString(),
-                        idPedido:item.idPedido,
-                        nombre: item.item.nombre,
-                        fecha: formattedDate,
-                        cantidad: item.cantidad,
-                        motivo: item.motivo,
-                        estado: item.estadoPedido,
-                    };
-                });
-                setFilas(mappedRows);
-            }
+          const response = await verPedidosAceptados(token);
+          if (response) {
+            const mappedRows = response.map((item, index) => {
+              const formattedDate = item.fecha
+                ? (() => {
+                    const dateObj = new Date(item.fecha);
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const year = dateObj.getFullYear();
+                    return `${day}-${month}-${year}`;
+                  })()
+                : "Sin fecha";
+      
+              return {
+                key: index.toString(),
+                idPedido: item.idPedido,
+                nombre: item.item.nombre,
+                fecha: formattedDate,
+                cantidad: item.cantidad,
+                motivo: item.motivo,
+                estado: item.estadoPedido,
+              };
+            });
+            setFilas(mappedRows);
+          }
         } catch (error) {
-            console.error("Error fetching data: ", error);
+          console.error("Error fetching data: ", error);
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
-    };
+      };
+      
 
     const confirmarPedido = async (id) => {
 

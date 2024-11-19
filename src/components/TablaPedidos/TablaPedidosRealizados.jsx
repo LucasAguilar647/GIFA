@@ -25,38 +25,43 @@ export function TablaPedidosRealizados() {
   const token = useSelector((state) => state.user.token);
 
   const fetchData = async () => {
-  setLoading(true);
-  try {
-    const response = await verPedidosRechazadosYpendientes(token);
-    if (response) {
-      const mappedRows = response.map((item, index) => {
-        const formattedDate = item.fecha
-          ? (() => {
-              const [year, month, day] = item.fecha.split("-");
-              return `${day}/${month}/${year}`;
-            })()
-          : "Sin fecha";
+    setLoading(true);
+    try {
+        const response = await verPedidosRechazadosYpendientes(token);
+        if (response) {
+            const mappedRows = response.map((item, index) => {
+              const formattedDate = item.fecha
+              ? (() => {
+                  const dateObj = new Date(item.fecha);
+                  const day = String(dateObj.getDate()).padStart(2, '0');
+                  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                  const year = dateObj.getFullYear();
+                  return `${day}-${month}-${year}`;
+                })()
+              : "Sin fecha";
 
-        return {
-          key: index.toString(),
-          nombre: item.item.nombre, 
-          fecha: formattedDate,
-          cantidad: item.cantidad,
-          motivo: item.motivo,
-          estado: item.estadoPedido,
-        };
-      });
-      setFilas(mappedRows);
+                return {
+                    key: index.toString(),
+                    nombre: item.item.nombre,
+                    fecha: formattedDate,
+                    cantidad: item.cantidad,
+                    motivo: item.motivo,
+                    estado: item.estadoPedido,
+                };
+            });
+            setFilas(mappedRows);
+        }
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+    } finally {
+        const id = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        setTimeoutId(id);
     }
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-  } finally {
-    const id = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    setTimeoutId(id);
-  }
 };
+
+  
 
   
   useEffect(() => {
