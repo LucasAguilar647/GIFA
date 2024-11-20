@@ -65,7 +65,7 @@ export const verPedidos = async (token) => {
 };
 
 export const verPedidosRechazadosYpendientes = async (token) => {
-    const endpoint = backendUrl + '/pedido/getRechazadosPendientesPresupuestoInsuficiente';
+    const endpoint = backendUrl + '/pedido/getRechazadosPendientesPresupuestoInsuficienteSinProveedor';
     return await executeFetch(endpoint, null, HttpMethods.GET, token, 200);
 };
 
