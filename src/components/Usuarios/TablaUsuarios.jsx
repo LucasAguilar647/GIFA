@@ -6,7 +6,7 @@ import EditUserForm from './EditUserForm';
 import { habilitarUsuario, inhabilitarUsuario } from "../../services/authService";
 import './styles/usuarios.css'; 
 
-const TablaUsuarios = ({ users, token }) => {
+const TablaUsuarios = ({ users, token,fetchUsers }) => {
   const [editingUser, setEditingUser] = useState(null);
   const [filas, setFilas] = useState(users);
   const [search, setSearch] = useState("");
@@ -25,8 +25,9 @@ const TablaUsuarios = ({ users, token }) => {
     setEditingUser(user);
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
     setEditingUser(null);
+    await fetchUsers();
   };
 
   const handleToggleEstado = async (user) => {
