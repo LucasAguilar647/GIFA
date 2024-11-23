@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { asociarProveedor } from "../../services/proveedoresYPedidosController";
 import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 import { showErrorAlert } from "../SweetAlert/SweetAlertError";
-//import './styles/RegistroDeAsociacionDeItem.css' //me hace conflictos en los otros registros, revisar
+import './styles/RegistroDeAsociacionDeItem.css'
 
 export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
     const [selectedItem, setSelectedItem] = useState("");
@@ -62,7 +62,6 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
             return;
         }
 
-
         const dataToSubmit = {
             ...formData,
             idItem: selectedItem,
@@ -71,18 +70,21 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
 
         try {
             await asociarProveedor(dataToSubmit, token);
-            showsuccessAlert('¡Asociacion exitosa!', 'El item fue asociado correctamente')
-            onCancel()
+            showsuccessAlert('¡Asociación exitosa!', 'El item fue asociado correctamente');
+            onCancel();
         } catch (error) {
-            showErrorAlert('Error al asociar un item', error)
+            showErrorAlert('Error al asociar un item', error);
         }
-
     };
 
     return (
-        <div>
-            <h2>Asociar Nuevo Item</h2>
-            <select className="select" onChange={(e) => setSelectedProveedor(e.target.value)} value={selectedProveedor}>
+        <div className="registro-asociacion-container">
+            <h2 className="registro-asociacion-heading">Asociar Nuevo Item</h2>
+            <select 
+                className="registro-asociacion-select" 
+                onChange={(e) => setSelectedProveedor(e.target.value)} 
+                value={selectedProveedor}
+            >
                 <option value="">Selecciona un proveedor</option>
                 {proveedores.map((proveedor) => (
                     <option key={proveedor.id} value={proveedor.id}>
@@ -91,7 +93,11 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
                 ))}
             </select>
 
-            <select className="select" onChange={(e) => setSelectedItem(e.target.value)} value={selectedItem}>
+            <select 
+                className="registro-asociacion-select" 
+                onChange={(e) => setSelectedItem(e.target.value)} 
+                value={selectedItem}
+            >
                 <option value="">Selecciona un item</option>
                 {items.map((item) => (
                     <option key={item.id} value={item.id}>
@@ -100,9 +106,8 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
                 ))}
             </select>
 
-
-            <div className="form-group">
-                <label className="label">
+            <div className="registro-asociacion-form-group">
+                <label className="registro-asociacion-label">
                     Precio:
                     <input
                         type="number"
@@ -111,14 +116,24 @@ export const RegistroDeAsociacionDeItem = ({ onCancel }) => {
                         onChange={handleChange}
                         min="0"
                         required
-                        className="input-field"
+                        className="registro-asociacion-input-field"
                     />
                 </label>
             </div>
-            <Button onClick={handleSubmit} color="primary">
+
+            <Button 
+                onClick={handleSubmit} 
+                color="primary" 
+                className="registro-asociacion-submit-button"
+            >
                 Asociar
             </Button>
-            <Button onClick={onCancel} color="danger">
+
+            <Button 
+                onClick={onCancel} 
+                color="danger" 
+                className="registro-asociacion-cancel-button"
+            >
                 Cancelar
             </Button>
         </div>
