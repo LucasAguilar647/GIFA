@@ -30,7 +30,6 @@ const RegistrarMantenimiento = ({ vehiculoId, irAtras }) => {
       showsuccessAlert('¡Mantenimiento registrado con éxito!','El mantenimeinto fue registrado correctamente')
       
       setTimeout(() => {
-        setSuccessMessage(false);
         irAtras(); 
       }, 2000); 
       
