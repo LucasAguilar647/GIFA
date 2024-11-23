@@ -176,7 +176,6 @@ export function TablaDeColectivos({ userRole }) {
             {userRole === "ADMINISTRADOR" && (
               <Button
                 color="primary"
-                variant="shadow"
                 onClick={() => handleVerDetalle(item)}
               >
                 Ver Detalle
