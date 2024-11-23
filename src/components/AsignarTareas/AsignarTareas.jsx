@@ -1,35 +1,40 @@
-import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Button,
-} from "@nextui-org/react";
-import { verMantenimientosPendientes, asignarMantenimiento } from "../../services/mantenimientoService"; 
-import { useSelector } from "react-redux"; 
-import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
-import { showErrorAlert } from "../SweetAlert/SweetAlertError";
+import React, { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { verMantenimientosPendientes, asignarMantenimiento } from "../../services/mantenimientoService";
 import Loader from "../Loader/Loader";
+import { Button, Input } from "@nextui-org/react";
+import TablaGenerica from "../TablaGenerica/TablaGenerica";
+import { showsuccessAlert } from "../SweetAlert/SweetAlertSucces";
 
 
 const columns = [
   { uid: "patente", name: "Patente" },
   { uid: "asunto", name: "Asunto" },
-  { uid: "actions", name: "Acciones" },
+  { uid: "acciones", name: "Acciones" },
 ];
 
-export function AsignarMantenimiento() {
+export function AsignarMantenimiento({ userRole }) {
   const [mantenimientos, setMantenimientos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filterValue, setFilterValue] = useState("");
+
   const token = useSelector((state) => state.user.token);
 
   const fetchMantenimientosPendientes = async () => {
+    setIsLoading(true);
     try {
       const response = await verMantenimientosPendientes(token); 
-      setMantenimientos(response.mantenimientos); 
+      if (response && response.mantenimientos) {
+        const mappedRows = response.mantenimientos.map((item, index) => {
+          return {
+            key: index.toString(),
+            id: item.id,
+            patente: item.vehiculo.patente, 
+            asunto: item.asunto,
+          };
+        });
+        setMantenimientos(mappedRows);
+      }
     } catch (error) {
       console.error("Error al obtener los mantenimientos pendientes:", error);
     } finally {
@@ -38,63 +43,72 @@ export function AsignarMantenimiento() {
   };
 
   useEffect(() => {
-    fetchMantenimientosPendientes(); 
-  }, [token]); 
+    fetchMantenimientosPendientes();
+  }, [token]);
 
-  const handleAsignarMantenimiento = async (mantenimiento) => {
+  const handleAsignarMantenimiento = async (id) => {
     try {
-      setIsLoading(true);
-      
-      await asignarMantenimiento(mantenimiento.id, token);
-      
-      await fetchMantenimientosPendientes();
-  
-      showsuccessAlert('¡Mantenimiento asignado!',`El mantenimiento fue asiganado correctamente`)
-      
+      await asignarMantenimiento(id, token); 
+      showsuccessAlert('¡Mantenimiento asignado!', "El mantenimiento fue asignado correctamente.");
+      fetchMantenimientosPendientes(); 
     } catch (error) {
-      showErrorAlert(`No se pudo asignar mantenimiento`,error)
-    } finally {
-      setIsLoading(false);
+      showErrorAlert('No se pudo asignar mantenimiento', error);
+    }
+  };
+
+  const filteredRows = useMemo(() => {
+    return mantenimientos.filter((row) =>
+      row.patente.toLowerCase().includes(filterValue.toLowerCase())
+    );
+  }, [mantenimientos, filterValue]);
+
+  const topContent = (
+    <div className="inputContainer">
+      <Input
+        isClearable
+        className="w-full"
+        placeholder="Buscar por patente..."
+        value={filterValue}
+        onClear={() => setFilterValue("")}
+        onValueChange={setFilterValue}
+      />
+    </div>
+  );
+
+  const renderCell = (item, columnKey) => {
+    switch (columnKey) {
+      case "acciones":
+        return (
+          <Button
+            color="primary"
+            onClick={() => handleAsignarMantenimiento(item.id)}
+          >
+            Asignar
+          </Button>
+        );
+      default:
+        return item[columnKey];
     }
   };
 
   return (
     <div>
       {isLoading ? (
-       <>
-       <div className="flex justify-center items-center h-full">
-         <Loader />
-       </div>
-       <div className="flex justify-center items-center h-full">
-         <h2>Cargando proveedores...</h2>
-       </div>
-     </>
-      ) : mantenimientos.length === 0 ? (  
-        <p>No hay tareas pendientes.</p>
+        <>
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+        <div className="flex justify-center items-center h-full">
+          <h2>Cargando colectivos...</h2>
+        </div>
+      </>
       ) : (
-        <Table aria-label="Mantenimientos Pendientes">
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.uid}>{column.name}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={mantenimientos}>
-            {(item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.vehiculo.patente}</TableCell> 
-                <TableCell>{item.asunto}</TableCell> 
-                <TableCell>
-                  <Button
-                    color="primary"
-                    onClick={() => handleAsignarMantenimiento(item)}
-                  >
-                    Asignarme
-                  </Button>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <TablaGenerica
+          data={filteredRows}
+          columns={columns}
+          renderCell={renderCell}
+          topContent={topContent}
+        />
       )}
     </div>
   );

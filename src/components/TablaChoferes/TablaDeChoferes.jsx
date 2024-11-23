@@ -121,9 +121,14 @@ export function TablaDeChoferes() {
   return (
     <div>
       {loading ? (
-        <div className="flex justify-center items-center h-full">
-          <h2>Cargando choferes...</h2>
-        </div>
+         <>
+         <div className="flex justify-center items-center h-full">
+           <Loader />
+         </div>
+         <div className="flex justify-center items-center h-full">
+           <h2>Cargando choferes...</h2>
+         </div>
+       </>
       ) : !mostrarRegistroDeChofer ? (
         <>
           <TablaGenerica
