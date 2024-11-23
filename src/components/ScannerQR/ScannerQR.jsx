@@ -3,6 +3,7 @@ import handleStartScan from "../../Hooks/Scan";
 import VerDetalleMantenimiento from "../VerDetalleColectivo/VerDetalleMantenimiento";
 import { useSelector } from "react-redux";
 import "./styles/scannerQR.css";
+import { pedirPermisoCamara } from "./PedirPermisoCamara";
 
 export const ScannerQR = () => {
   const [scanResult, setScanResult] = useState(null);
@@ -20,10 +21,20 @@ export const ScannerQR = () => {
   }, []);
 
   const handleIniciarEscaneo = () => {
-    setScanResult(null); 
-    setError(null); 
-    handleStartScan(setScanResult, scannerRef);
+    setScanResult(null);
+    setError(null);
+    pedirPermisoCamara();
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+       
+        handleStartScan(setScanResult, scannerRef);
+      })
+      .catch((error) => {
+        
+        setError("Por favor, permite el acceso a la cámara.");
+      });
   };
+  
 
   const handleIrAtras = () => {
     setScanResult(null); 
