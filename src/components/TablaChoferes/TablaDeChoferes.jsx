@@ -1,27 +1,21 @@
-import React, { useState, useEffect, useMemo, cloneElement } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import Loader from "../Loader/Loader";
-import { Input, Button} from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import TablaGenerica from "../TablaGenerica/TablaGenerica";
 import { RegistrarNuevoChofer } from "./RegistrarNuevoChofer";
-import { verChoferes,asignarChofer } from "../../services/choferesService";
+import { verChoferes, asignarChofer } from "../../services/choferesService";
 import fetchVehiculosDisponibles from "./FetchVehiculosDisponible";
-
-
+import { SweetAlertAsignar } from "../SweetAlert/SweetAlertAsignar";
 
 export function TablaDeChoferes() {
   const [filas, setFilas] = useState([]);
   const [vehiculosDisponibles, setVehiculosDisponibles] = useState([]);
-  const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState('');
   const [choferIdSeleccionado, setChoferIdSeleccionado] = useState(null);
-  const [mostrarVehiuclosDisponibles, setMostrarVehiuclosDisponibles] = useState(false);
   const [filterValue, setFilterValue] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [mostrarRegistroDeChofer, setMostrarRegistroDeChofer] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [timeoutId, setTimeoutId] = useState(null);
   const { role } = useSelector((state) => state.user);
-
   const token = useSelector((state) => state.user.token);
 
   const columns = useMemo(() => [
@@ -41,27 +35,26 @@ export function TablaDeChoferes() {
           nombre: item.nombre,
           vehiculoAsociado: item.patente ? item.patente : 'Sin vehiculo asociado',
         }));
-  
         setFilas(mappedRows); 
       }
     } catch (error) {
       console.error("Error fetching data: ", error);
     } finally {
-      const id = setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-      setTimeoutId(id);
+      setLoading(false);
     }
   };
-  
 
   const asignarVehiculo = async (idChofer) => {
     setChoferIdSeleccionado(idChofer);
-    setMostrarVehiuclosDisponibles(true);
     await fetchVehiculosDisponibles(setVehiculosDisponibles, token);
+    SweetAlertAsignar({
+      choferId: idChofer,
+      vehiculosDisponibles,
+      onAsignar: handleAsignarVehiculo,
+    });
   };
 
-  const handleAsignarVehiculo = async () => {
+  const handleAsignarVehiculo = async (vehiculoSeleccionado) => {
     if (vehiculoSeleccionado && choferIdSeleccionado) {
       const data = {
         idVehiculo: vehiculoSeleccionado,
@@ -69,9 +62,7 @@ export function TablaDeChoferes() {
       };
       try {
         await asignarChofer(data, token);
-        setMostrarVehiuclosDisponibles(false);
-        setVehiculoSeleccionado('');
-        await fetchChoferes();
+        await fetchChoferes();  
       } catch (error) {
         console.error("Error al asignar el vehículo: ", error);
       }
@@ -80,18 +71,7 @@ export function TablaDeChoferes() {
 
   useEffect(() => {
     fetchChoferes();
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
   }, [token]);
-
-
-  const handleRegistrarChofer = async () => {
-    setMostrarRegistroDeChofer(false);
-    await fetchChoferes();
-  };
 
   const filteredRows = useMemo(() => {
     return filas.filter(
@@ -111,10 +91,11 @@ export function TablaDeChoferes() {
         onClear={() => setFilterValue("")}
         onValueChange={setFilterValue}
       />
-      {role==="ADMINISTRADOR" && 
-      <Button onClick={() => setMostrarRegistroDeChofer(true)} color="primary">
-        Registrar chofer
-      </Button>}
+      {role === "ADMINISTRADOR" && 
+        <Button onClick={() => setMostrarRegistroDeChofer(true)} color="primary">
+          Registrar chofer
+        </Button>
+      }
     </div>
   );
 
@@ -125,14 +106,12 @@ export function TablaDeChoferes() {
       case "actions":
         return (
           <div>
-            
-            { role === "SUPERVISOR" &&
-               <Button color="warning" onClick={() => asignarVehiculo(item.id)}>
-               Asignar Vehículo
-             </Button>
-            }
-           
-            </div>
+            {role === "SUPERVISOR" && (
+              <Button color="warning" onClick={() => asignarVehiculo(item.id)}>
+                Asignar Vehículo
+              </Button>
+            )}
+          </div>
         );
       default:
         return cellValue;
@@ -142,39 +121,20 @@ export function TablaDeChoferes() {
   return (
     <div>
       {loading ? (
-        <>
-          <div className="flex justify-center items-center h-full">
-            <Loader />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <h2>Cargando choferes...</h2>
-          </div>
-        </>
+        <div className="flex justify-center items-center h-full">
+          <h2>Cargando choferes...</h2>
+        </div>
       ) : !mostrarRegistroDeChofer ? (
         <>
-          <TablaGenerica data={filteredRows} columns={columns} renderCell={renderCell} topContent={topContent} />
-
-          {mostrarVehiuclosDisponibles && (
-            <div>
-              <select
-                value={vehiculoSeleccionado}
-                onChange={(e) => setVehiculoSeleccionado(e.target.value)}
-              >
-                <option value="">Seleccionar vehículo</option>
-                {vehiculosDisponibles.map((vehiculo) => (
-                  <option key={vehiculo.id} value={vehiculo.id}>
-                    {vehiculo.patente}
-                  </option>
-                ))}
-              </select>
-              <Button onClick={handleAsignarVehiculo} color="primary">
-                Asignar Vehículo
-              </Button>
-            </div>
-          )}
+          <TablaGenerica
+            data={filteredRows}
+            columns={columns}
+            renderCell={renderCell}
+            topContent={topContent}
+          />
         </>
       ) : (
-        <RegistrarNuevoChofer onSubmit={handleRegistrarChofer} onCancel={() => setMostrarRegistroDeChofer(false)} />
+        <RegistrarNuevoChofer onSubmit={() => setMostrarRegistroDeChofer(false)} />
       )}
     </div>
   );
