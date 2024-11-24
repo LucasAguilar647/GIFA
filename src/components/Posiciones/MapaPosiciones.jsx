@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import marcadorPersonalizado from '../../assets/icons/flag-checkered.png';  
+import './styles/Posiciones.css';
 
 const CustomIcon = L.icon({
   iconUrl: marcadorPersonalizado,
@@ -27,7 +28,7 @@ const MapaPosiciones = ({ posiciones }) => {
   const ultimaPosicion = posiciones[posiciones.length - 1];
 
   return (
-    <MapContainer center={center} zoom={20} style={{ height: '400px', width: '100%' }} key={center.toString()}>
+    <MapContainer center={center} zoom={16} className="m-3" style={{ height: '500px', width: '80%' }} key={center.toString()}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
