@@ -4,15 +4,12 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../store/userSlice';
 import '../login/styles/login.css';
 import { login } from '../../services/authService';
-import FaceIA from '../ReconocimientoFacial/FaceIA';
 
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [showFaceRecognition, setShowFaceRecognition] = useState(false);
-  const [faceRecognitionResult, setFaceRecognitionResult] = useState(null); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,44 +42,6 @@ export const Login = () => {
     }
   };
 
-  const handleFaceRecognitionResult = (result) => {
-    setFaceRecognitionResult(result);
-    if (result === 'Coincidencia') {
-      setUsername('admin'); 
-      setPassword('1234');
-
-  
-      const loginData = {
-        username: 'admin', 
-        password: '1234',  
-      };
-
-      handleLoginWithFaceRecognition(loginData);
-    }
-  };
-
- 
-  const handleLoginWithFaceRecognition = async (loginData) => {
-    setError('');
-
-    try {
-      const result = await login(loginData);
-
-      if (result && result.token) {
-        dispatch(setUser({
-          username: result.username,
-          role: result.role,
-          token: result.token,
-        }));
-        navigate('/home');
-      } else {
-        setError('Credenciales incorrectas');
-      }
-    } catch (error) {
-      console.error(error);
-      setError('Error durante el inicio de sesión');
-    }
-  };
 
   const handleIrAtras=()=>{
     setShowFaceRecognition(false)
@@ -90,14 +49,8 @@ export const Login = () => {
 
   return (
     <div className="styled-wrapper">
-      {showFaceRecognition ? (
-        <FaceIA onResult={handleFaceRecognitionResult} handleIrAtras={handleIrAtras} /> 
-      ) : (
         <div className="card">
           <div className="card2">
-         {/* <button  onClick={() => setShowFaceRecognition(true)}>
-                <img src="\src\assets\icons\scan-circle-outline.svg" alt="Scan Icon" width="40" height="40" />
-                </button>*/}
             <form className="form" onSubmit={handleLogin}>
               <p id="heading">Iniciar sesión</p>
               <div className="field">
@@ -127,10 +80,7 @@ export const Login = () => {
               </div>
             </form>
           </div>
-          
         </div>
-      )}
-  
     </div>
   );
 };
