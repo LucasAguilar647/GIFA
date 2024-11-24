@@ -40,6 +40,14 @@ export const modificarPresupuesto = async (data, token) => {
 };
 
 
+export const modificarConsumo = async (data, token) => {
+    const endpoint = backendUrl + '/gestorOperacional/actualizarConsumoDeLitrosPorKm';
+    return await executeFetch(endpoint, data, HttpMethods.PATCH, token, 200);
+};
+
+
+
+
 
 /*para obtener los datos : {{baseUrl}}/gestorOperacional/obtener
 {
