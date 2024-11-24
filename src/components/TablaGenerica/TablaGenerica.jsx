@@ -37,7 +37,7 @@ export function TablaGenerica({ data, columns, renderCell, topContent }) {
             {(item) => (
               <TableRow key={item.key}>
                 {(columnKey) => (
-                  <TableCell 
+                  <TableCell
                     data-label={columns.find(col => col.uid === columnKey)?.name}
                   >
                     {renderCell(item, columnKey)}
@@ -49,18 +49,22 @@ export function TablaGenerica({ data, columns, renderCell, topContent }) {
         </Table>
       ) : (
         <div className="CardContainer">
-          {data.map((item) => (
-            <div className="Card" key={item.key}>
-              {columns.map((col) => (
-                <div className="CardItem" key={col.uid}>
-                  <span className="CardLabel">{col.name}</span>
-                  <span className="CardValue">
-                    {renderCell(item, col.uid)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          ))}
+          {data.length === 0 ? (
+            <div className="NoDataMessage">No hay datos disponibles</div>
+          ) : (
+            data.map((item) => (
+              <div className="Card" key={item.key}>
+                {columns.map((col) => (
+                  <div className="CardItem" key={col.uid}>
+                    <span className="CardLabel">{col.name}</span>
+                    <span className="CardValue">
+                      {renderCell(item, col.uid)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>

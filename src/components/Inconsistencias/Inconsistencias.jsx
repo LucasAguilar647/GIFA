@@ -91,6 +91,7 @@ export const Inconsistencias = () => {
                 />
             </div>
             <div>
+            
                 <button onClick={fetchData} className="search-button">Buscar</button>
             </div>
             <div>

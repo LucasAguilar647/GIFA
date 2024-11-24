@@ -90,16 +90,27 @@
   text-transform: uppercase;
 }
 
+.NoDataMessage {
+  text-align: center;
+  color: #a0a0b2;
+  padding: 20px;
+  font-size: 1rem;
+}
+
+
 
 @media (max-width: 770px) {
   .TableContainer table {
     display: none;
   }
+  .CardContainer {
+    display: flex;
+  }
 }
-
 
 @media (min-width: 771px) {
   .CardContainer {
     display: none;
   }
 }
+
