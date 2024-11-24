@@ -111,6 +111,7 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
     try {
       const presupuesto = await obtenerPresupuesto(token);
       showPresupuesto(`El presupuesto actual es: $${presupuesto.presupuesto}`);
+      // \n El consumo de combustible por km es: ${presupuesto.consumoDeLitrosPorKm} 
     } catch (error) {
       showPresupuesto(`Error al obtener el presupuesto: ${error.message}`);
     }
