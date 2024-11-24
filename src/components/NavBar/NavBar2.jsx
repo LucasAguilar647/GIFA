@@ -41,7 +41,7 @@ export default function NavBar2({ menuItems, onMenuItemClick }) {
         />
         <NavbarBrand>
           <NavBarLogo />
-          <p className="font-bold text-inherit">GIFA</p>
+          <p className="font-bold text-inherit size-auto">GIFA</p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -56,7 +56,7 @@ export default function NavBar2({ menuItems, onMenuItemClick }) {
               className="avatar transition-transform"
               color="secondary"
               name={username || "User"}
-              size="sm"
+              size="md"
             />
           </DropdownTrigger>
           <DropdownMenu

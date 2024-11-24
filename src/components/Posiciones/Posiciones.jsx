@@ -15,7 +15,7 @@ export const Posiciones = () => {
   return (
     <div>
       <div>
-        <Button color='primary' onClick={toggleComponent}>
+        <Button color='primary' className='m-3' onClick={toggleComponent}>
           {mostrarTiempoReal === null || !mostrarTiempoReal ?  'Posición en Rango' :'Posición en tiempo real'}
         </Button>
       </div>
