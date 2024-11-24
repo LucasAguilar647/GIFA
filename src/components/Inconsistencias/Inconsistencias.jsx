@@ -102,10 +102,14 @@ export const Inconsistencias = () => {
     return (
         <>
             {loading ? (
+                <>
                 <div className="flex justify-center items-center h-full">
-                    <Loader /> 
-                    <h2>Cargando datos de inconsistencias...</h2>
+                  <Loader />
                 </div>
+                <div className="flex justify-center items-center h-full">
+                  <h2>Cargando datos de inconsistencias...</h2>
+                </div>
+              </>
             ) : showModificarConsumo ? (
                 <ModificarConsumo 
                 onCancel={() => setShowModificarConsumo(false)} 
