@@ -59,7 +59,7 @@ export const PosicionesEnRango = () => {
 
   return (
     <div className="container-posiciones">
-      <h1>Recorrido de colectivo</h1>
+      <h1>Posición del colectivo en rango de fechas</h1>
       
       <input
         type="text"

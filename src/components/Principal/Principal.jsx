@@ -20,7 +20,7 @@ import { Inconsistencias } from '../Inconsistencias/Inconsistencias';
 import { Usuarios } from '../Usuarios/Usuarios';
 import { Posiciones } from '../Posiciones/Posiciones';
 import { RegistroDeUsuario } from '../RegistroUsuario/RegistroDeUsuario';
-import { PosicionesEnRango } from '../Posiciones/PosicionesEnRango';
+
 
 
 
@@ -39,7 +39,6 @@ export const Principal = ({ activeMenu }) => {
       {activeMenu === 'Inconsistencias' && userRole === 'ADMINISTRADOR' && <Inconsistencias/> }
       {activeMenu === 'Usuarios' && userRole === 'ADMINISTRADOR' && <Usuarios/> }
       {activeMenu === 'Posiciones' && userRole === 'ADMINISTRADOR' && <Posiciones/> }
-      {activeMenu === 'PosicionesEnRango' && userRole === 'ADMINISTRADOR' && <PosicionesEnRango/> }
       {activeMenu === 'Registro de usuario' && userRole === 'ADMINISTRADOR' && <RegistroDeUsuario/> }
       
       
