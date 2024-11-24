@@ -3,7 +3,9 @@
   background-color: #1e1e2f; 
   color: #ffffff; 
 }
-
+.navbar-menu {
+  z-index: 9999; 
+}
 
 .navbar-content {
   display: flex;
