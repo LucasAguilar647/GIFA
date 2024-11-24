@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import './MainPage.css';  
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/Images/LogoNavBar.jpeg';
+import CardLanding from './CardLanding';
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -47,11 +48,15 @@ const MainPage = () => {
                             Desarrollamos herramientas de gestión de flotas, mantenimiento, inventarios y control de combustible, todo en un solo lugar para una administración más eficiente.
                         </p>
                     </div>
+                    <div className='img-section' >
+                        <CardLanding titulo={"Monitoreo en tiempo real"}  imagen={logo}/>
+                        <CardLanding titulo={"Mantenimiento Programado"}  imagen={logo}/>
+                    </div>
                 </div>
             </div>
 
             <footer className="footer">
-                <p>&copy; 2024 ITlab - Todos los derechos reservados</p>
+                <p>&copy; 2024 ItLab - Todos los derechos reservados</p>
             </footer>
         </div>
     );

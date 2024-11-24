@@ -22,7 +22,7 @@
 .content-wrapper {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 5px;
     flex-grow: 1;
 }
 
@@ -83,7 +83,18 @@
     color: #ccc;
     text-align: center;
     padding: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
     font-size: 0.9rem;
+}
+
+.img-section {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px; 
+    justify-content: center;
 }
 
 

@@ -30,7 +30,7 @@ export const Home = () => {
   const getDefaultMenu = (role) => {
     switch (role) {
       case 'ADMINISTRADOR':
-        return 'Colectivos';
+        return 'Posiciones';
       case 'SUPERVISOR':
         return 'Colectivos';
       case 'OPERADOR':
