@@ -6,6 +6,7 @@ import { RegistrarNuevoChofer } from "./RegistrarNuevoChofer";
 import { verChoferes, asignarChofer } from "../../services/choferesService";
 import fetchVehiculosDisponibles from "./FetchVehiculosDisponible";
 import { SweetAlertAsignar } from "../SweetAlert/SweetAlertAsignar";
+import Loader from "../Loader/Loader";
 
 export function TablaDeChoferes() {
   const [filas, setFilas] = useState([]);
