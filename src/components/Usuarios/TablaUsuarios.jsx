@@ -6,12 +6,21 @@ import EditUserForm from './EditUserForm';
 import { habilitarUsuario, inhabilitarUsuario } from "../../services/authService";
 import './styles/usuarios.css'; 
 
-const TablaUsuarios = ({ users, token,fetchUsers }) => {
+const TablaUsuarios = ({ users, token, fetchUsers }) => {
   const [editingUser, setEditingUser] = useState(null);
   const [filas, setFilas] = useState(users);
   const [search, setSearch] = useState("");
   const [selectedRole, setSelectedRole] = useState("TODOS");
-  const isMobile = window.innerWidth <= 770;
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 770);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 770);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const filteredUsers = users.filter(user =>
@@ -52,7 +61,7 @@ const TablaUsuarios = ({ users, token,fetchUsers }) => {
     switch (columnKey) {
       case "username":
         return (
-          <User avatarProps={{ radius: "lg", src: avatar }}  name={cellValue}>
+          <User avatarProps={{ radius: "lg", src: avatar }} name={cellValue}>
             {cellValue}
           </User>
         );
@@ -93,7 +102,6 @@ const TablaUsuarios = ({ users, token,fetchUsers }) => {
     { uid: "actions", name: "Actions" },
   ];
 
-
   const roles = ["ADMINISTRADOR", "GERENTE", "SUPERVISOR", "OPERADOR", "CHOFER", "TODOS"];
 
   return (
@@ -103,7 +111,6 @@ const TablaUsuarios = ({ users, token,fetchUsers }) => {
       ) : (
         <>
           <div className="filters">
-           
             <Input
               clearable
               bordered
@@ -126,7 +133,9 @@ const TablaUsuarios = ({ users, token,fetchUsers }) => {
               ))}
             </div>
           </div>
-          {isMobile ? (
+          {filas.length === 0 ? (
+            <div className="NoDataMessage">No hay datos disponibles</div>
+          ) : isMobile ? (
             <div className="CardContainer">
               {filas.map((user) => (
                 <div key={user.id} className="Card">
@@ -148,10 +157,9 @@ const TablaUsuarios = ({ users, token,fetchUsers }) => {
                     <Button color={user.estado === "HABILITADO" ? "danger" : "success"} onClick={() => handleToggleEstado(user)}>
                       {user.estado === "HABILITADO" ? "Inhabilitar" : "Habilitar"}
                     </Button>
-
                     <Tooltip color="primary" content="Edit user">
                       <span className="text-lg relative flex items-center pl-2" onClick={() => handleEdit(user)}>
-                      <EditIcon />
+                        <EditIcon />
                       </span>
                     </Tooltip>
                   </div>
