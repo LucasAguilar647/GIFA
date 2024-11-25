@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import './MainPage.css';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/Images/LogoNavBar.jpeg';
-import sampleVideo from '../../assets/Videos/sampleVideo.mp4'; 
+
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -26,19 +26,37 @@ const MainPage = () => {
                         Gestiona y controla la flota de colectivos, mantén un seguimiento de los vehículos, mantenimiento, inventario y más.
                     </p>
                 </div>
-
-
                 <section className="info-section">
+                    <div className="info-item">
+                        <h2>¿Quiénes somos?</h2>
+                        <p>
+                            Somos un equipo dedicado a mejorar la gestión de flotas de transporte. Nuestra misión es optimizar la operación de colectivos a través de soluciones tecnológicas innovadoras.
+                        </p>
+                    </div>
+
+                    <div className="info-item">
+                        <h2>¿Qué hacemos?</h2>
+                        <p>
+                            Desarrollamos herramientas de gestión de flotas, mantenimiento, inventarios y control de combustible, todo en un solo lugar para una administración más eficiente.
+                        </p>
+                    </div>
+
                     <h2>Conoce Nuestro Sistema</h2>
                     <p>Descubre las funcionalidades y ventajas de nuestro sistema de gestión de flotas con el siguiente video.</p>
 
                     <div className="video-container">
-                        <video className="video-player" controls>
-                            <source src={sampleVideo} type="video/mp4" />
-                            Tu navegador no soporta la reproducción de video.
-                        </video>
+                        <iframe
+                            src="https://drive.google.com/file/d/1hgaecOgCoRPEw8m5M1Tu230rXWfZ3zFo/preview"
+                            width="480"
+                            height="480"
+                            allow="autoplay; fullscreen"
+                            allowfullscreen
+                        ></iframe>
                     </div>
                 </section>
+
+
+
             </div>
 
             <footer className="footer">
