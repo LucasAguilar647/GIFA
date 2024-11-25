@@ -1,101 +1,126 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { verMisMantenimientos } from '../../services/mantenimientoService';
-import '../TareasAsignadas/styles/TareasAsignadas.css';
-import TarjetaMantenimiento from './TajetaMantenimiento';
-import Loader from '../Loader/Loader'; 
+import React, { useState, useEffect } from "react";
+import { Button } from "@nextui-org/react";
+import { verMisMantenimientos } from "../../services/mantenimientoService";
+import TablaGenerica from "../TablaGenerica/TablaGenerica";
+import { useSelector } from "react-redux";
+import Loader from "../Loader/Loader";
+import TarjetaMantenimiento from "./TajetaMantenimiento";
 
-export const TareasAsignadas = () => {
+
+export function TareasAsignadas() {
   const [tareas, setTareas] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingTimeout, setLoadingTimeout] = useState(null);
-  const [filtroFinalizadas, setFiltroFinalizadas] = useState("");
-  const [filtroAprobadas, setFiltroAprobadas] = useState("")
-  const token = useSelector((state) => state.user.token); 
+  const token = useSelector((state) => state.user.token);
 
   useEffect(() => {
     const fetchTareas = async () => {
       try {
-        const response = await verMisMantenimientos(token); 
+        setIsLoading(true);  
+        const response = await verMisMantenimientos(token);
+      
+
         if (response && Array.isArray(response.mantenimientos)) {
-          setTareas(response.mantenimientos);
+          
+          const mappedTasks = response.mantenimientos.map((task, index) => ({
+            key: index.toString(),  
+            id: task.id,
+            asunto: task.asunto,
+            operador: task.operador.usuario,  
+            estadoMantenimiento: task.estadoMantenimiento,
+            fechaInicio: task.fechaInicio,
+            fechaFinalizacion: task.fechaFinalizacion,
+            vehiculoPatente: task.vehiculo.patente, 
+            vehiculoModelo: task.vehiculo.modelo,
+            vehiculoAntiguedad: task.vehiculo.antiguedad,
+            vehiculoKilometraje: task.vehiculo.kilometraje,
+          }));
+          setTareas(mappedTasks);  
         } else {
           console.error("La respuesta no contiene un array de mantenimientos:", response);
           setTareas([]); 
         }
       } catch (error) {
         console.error("Error al obtener las tareas: ", error);
-        setTareas([]);
+        setTareas([]);  
       } finally {
-        const timeoutId = setTimeout(() => {
-          setIsLoading(false);
-        }, 2000); 
-        setLoadingTimeout(timeoutId);
+        setIsLoading(false);  
       }
     };
 
     if (token) {
-      fetchTareas(); 
+      fetchTareas();
     }
-
-    return () => {
-      clearTimeout(loadingTimeout);
-    };
   }, [token]);
 
-  const handleTareaFinalizada = (tareaId) => {
-    setTareas((prevTareas) => prevTareas.filter(tarea => tarea.id !== tareaId));
+  
+  const tareasAprobadas = tareas.filter(task => task.estadoMantenimiento === 'APROBADO');
+
+  const columns = [
+    { name: "ID", uid: "id" },
+    { name: "Asunto", uid: "asunto" },
+    { name: "Vehículo", uid: "vehiculoPatente" },
+    { name: "Acciones", uid: "acciones" }
+  ];
+
+  const renderCell = (item, columnKey) => {
+    switch (columnKey) {
+      case "id":
+        return item.id;
+      case "asunto":
+        return item.asunto;
+      case "operador":
+        return item.operador;  
+      case "vehiculoPatente":
+        return item.vehiculoPatente;
+      case "fechaInicio":
+        return item.fechaInicio;
+      case "fechaFinalizacion":
+        return item.fechaFinalizacion;
+      case "acciones":
+        return (
+          <Button onClick={() => handleViewDetails(item)} color="primary">
+            Ver Detalle
+          </Button>
+        );
+      default:
+        return "";
+    }
+  };
+
+  
+  const handleViewDetails = (task) => {
+    setSelectedTask(task);
   };
 
   return (
-    <div className="tarjeta-container">
-      <div className="columna">
-        <h3>Aprobadas</h3>
-        <input
-          type="text"
-          className="filtro-busqueda"
-          placeholder="Buscar tareas aprobadas..."
-          value={filtroAprobadas}
-          onChange={(e) => setFiltroAprobadas(e.target.value)}
-        />
-        {tareas
-          .filter(tarea => tarea.estadoMantenimiento === "APROBADO" && tarea.asunto.toLowerCase().includes(filtroAprobadas.toLowerCase()))
-          .map((tarea) => (
-            <div className="tarjeta" key={tarea.id}>
-              <TarjetaMantenimiento 
-                tarea={tarea} 
-                token={token} 
-                onTareaFinalizada={handleTareaFinalizada}
-              />
+      <div>
+        {isLoading ? (
+          <>
+            <div className="flex justify-center items-center h-full">
+              <Loader />
             </div>
-          ))}
-      </div>
-      
-      <div className="columna">
-        <h3>Finalizadas</h3>
-        <input
-          type="text"
-          className="filtro-busqueda"
-          placeholder="Buscar tareas finalizadas..."
-          value={filtroFinalizadas}
-          onChange={(e) => setFiltroFinalizadas(e.target.value)}
-        />
-        {tareas
-          .filter(tarea => tarea.estadoMantenimiento === "FINALIZADO" && tarea.asunto.toLowerCase().includes(filtroFinalizadas.toLowerCase()))
-          .map((tarea) => (
-            <div className="tarjeta" key={tarea.id}>
-              <TarjetaMantenimiento 
-                tarea={tarea} 
-                token={token} 
-                onTareaFinalizada={handleTareaFinalizada}
-              />
+            <div className="flex justify-center items-center h-full">
+              <h2>Cargando inventario...</h2>
             </div>
-          ))}
+          </>
+        ) : (
+          !selectedTask && ( 
+            <TablaGenerica
+              data={tareasAprobadas}
+              columns={columns}
+              renderCell={renderCell}
+              topContent={<h2>Tareas Aprobadas</h2>}
+            />
+          )
+        )}
+    
+        {selectedTask && ( 
+          <TarjetaMantenimiento task={selectedTask} token={token} onClose={() => setSelectedTask(null)} />
+        )}
       </div>
-
-      
-    </div>
-  );
-};
+    );
+    
+}
 
 export default TareasAsignadas;

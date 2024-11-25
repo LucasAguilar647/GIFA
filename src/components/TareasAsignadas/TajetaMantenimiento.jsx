@@ -8,9 +8,10 @@ import { showsuccessAlert } from '../SweetAlert/SweetAlertSucces';
 import { showErrorAlert } from '../SweetAlert/SweetAlertError';
 import iconCross from '../../assets/icons/cross.png';
 
-const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
+const TarjetaMantenimiento = ({ task, token, onClose}) => {
   const [itemsUsados, setItemsUsados] = useState([]);
   const [mostrarInventario, setMostrarInventario] = useState(false);
+ 
 
   const handleFinalizarTarea = async () => {
     try {
@@ -36,10 +37,11 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
         })),
       };
 
-      await finalizarMantenimiento(tarea.id, data, token);
+      await finalizarMantenimiento(task.id, data, token);
       showsuccessAlert('¡Tarea finalizada!', 'Los ítems han sido descontados del stock');
+      onClose()
 
-      onTareaFinalizada(tarea.id);
+  
 
     } catch (error) {
       showErrorAlert('Error al finalizar la tarea', error);
@@ -79,7 +81,7 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
   };
 
   return (
-    <Card className="max-w-[400px]" key={tarea.id}>
+    <Card className="max-w-[400px]" key={task.id}>
       <CardHeader className="flex gap-3">
         <Image
           alt="Imagen de la tarea"
@@ -89,23 +91,19 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
           width={40}
         />
         <div className="flex flex-col">
-          <p className="text-md font-bold">{tarea.asunto}</p>
+          <p className="text-md font-bold">{task.asunto}</p>
         </div>
       </CardHeader>
       <Divider />
       <CardBody>
-        <p><strong>Estado:</strong> {tarea.estadoMantenimiento}</p>
-        <p><strong>Operador:</strong> {tarea.operador.usuario}</p>
-        <p><strong>Vehículo:</strong> {tarea.vehiculo.patente}</p>
-        <p><strong>Modelo:</strong> {tarea.vehiculo.modelo}</p>
-        <p><strong>Antigüedad:</strong> {tarea.vehiculo.antiguedad} años</p>
-        <p><strong>Kilometraje:</strong> {tarea.vehiculo.kilometraje} km</p>
-        <p><strong>Estado de Habilitación:</strong> {tarea.vehiculo.estadoDeHabilitacion}</p>
-        <p><strong>Fecha de Inicio:</strong> {tarea.fechaInicio}</p>
-        <p><strong>Fecha de Finalización:</strong> {tarea.fechaFinalizacion}</p>
-        <p><strong>Asunto:</strong> {tarea.asunto}</p>
+        <p><strong>Estado:</strong> {task.estadoMantenimiento}</p>
+        <p><strong>Vehículo:</strong> {task.vehiculoPatente}</p>
+        <p><strong>Modelo:</strong> {task.vehiculoModelo}</p>
+        <p><strong>Antigüedad:</strong> {task.vehiculoAntiguedad} años</p>
+        <p><strong>Kilometraje:</strong> {task.vehiculoKilometraje} km</p>
+        <p><strong>Asunto:</strong> {task.asunto}</p>
 
-        {tarea.estadoMantenimiento !== "FINALIZADO" && (
+        {task.estadoMantenimiento !== "FINALIZADO" && (
           <Button
             color="primary"
             onClick={() => setMostrarInventario(true)}
@@ -153,13 +151,23 @@ const TarjetaMantenimiento = ({ tarea, token, onTareaFinalizada }) => {
       </CardBody>
       <Divider />
       <CardFooter>
-        {tarea.estadoMantenimiento !== "FINALIZADO" && (
+        {task.estadoMantenimiento !== "FINALIZADO" && (
+
+          <>
           <Button
-            color="secondary"
+            color="primary"
             onClick={handleFinalizarTarea}
           >
             Finalizar Tarea
           </Button>
+
+          <Button
+            color="danger"
+            onClick={onClose}
+          >
+            volver
+          </Button>
+          </>
         )}
       </CardFooter>
     </Card>
