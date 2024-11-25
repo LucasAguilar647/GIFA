@@ -19,7 +19,7 @@ export const Login = () => {
 
     try {
       const loginData = {
-        username: username.toLowerCase(),
+        username: username,
         password: password,
       };
 
