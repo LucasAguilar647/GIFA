@@ -7,10 +7,11 @@ import Loader from "../Loader/Loader";
 import TarjetaMantenimiento from "./TajetaMantenimiento";
 
 
-export function TareasAsignadas() {
+
+export function TareasFinalizadas() {
   const [tareas, setTareas] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTask, setSelectedTask] = useState(null);
   const token = useSelector((state) => state.user.token);
 
   useEffect(() => {
@@ -54,10 +55,9 @@ export function TareasAsignadas() {
   }, [token]);
 
   
-  const tareasAprobadas = tareas.filter(task => task.estadoMantenimiento === 'APROBADO');
+  const tareasFinalizadas = tareas.filter(task => task.estadoMantenimiento === 'FINALIZADO');
 
   const columns = [
-    { name: "ID", uid: "id" },
     { name: "Asunto", uid: "asunto" },
     { name: "Vehículo", uid: "vehiculoPatente" },
     { name: "Acciones", uid: "acciones" }
@@ -105,22 +105,22 @@ export function TareasAsignadas() {
             </div>
           </>
         ) : (
-          !selectedTask && ( 
-            <TablaGenerica
-              data={tareasAprobadas}
-              columns={columns}
-              renderCell={renderCell}
-              topContent={<h2>Tareas aprobadas</h2>}
-            />
-          )
-        )}
-    
-        {selectedTask && ( 
-          <TarjetaMantenimiento task={selectedTask} token={token} onClose={() => setSelectedTask(null)} />
-        )}
+            !selectedTask && ( 
+              <TablaGenerica
+                data={tareasFinalizadas}
+                columns={columns}
+                renderCell={renderCell}
+                topContent={<h2>Tareas finalizadas</h2>}
+              />
+            )
+          )}
+      
+          {selectedTask && ( 
+            <TarjetaMantenimiento task={selectedTask} token={token} onClose={() => setSelectedTask(null)} />
+          )}
       </div>
     );
     
 }
 
-export default TareasAsignadas;
+export default TareasFinalizadas;

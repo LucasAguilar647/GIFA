@@ -152,23 +152,20 @@ const TarjetaMantenimiento = ({ task, token, onClose}) => {
       <Divider />
       <CardFooter>
         {task.estadoMantenimiento !== "FINALIZADO" && (
-
-          <>
           <Button
-            color="primary"
+            color="secondary"
             onClick={handleFinalizarTarea}
           >
             Finalizar Tarea
           </Button>
-
-          <Button
+        )}
+        <Button
             color="danger"
             onClick={onClose}
           >
             volver
           </Button>
-          </>
-        )}
+
       </CardFooter>
     </Card>
   );

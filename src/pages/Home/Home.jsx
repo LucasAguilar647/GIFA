@@ -77,6 +77,8 @@ export const Home = () => {
       { name: 'Tareas asignadas', icon: iconTareas },
       { name: 'Asignar tarea', icon: iconTareasToDo },
       { name: 'ScannerQR', icon: iconScan },
+      { name: 'Tareas finalizadas', icon: iconTareas },
+      
     ],
     GERENTE: [
       { name: 'Metrica bitacora' },

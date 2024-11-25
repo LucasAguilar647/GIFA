@@ -20,6 +20,7 @@ import { Inconsistencias } from '../Inconsistencias/Inconsistencias';
 import { Usuarios } from '../Usuarios/Usuarios';
 import { Posiciones } from '../Posiciones/Posiciones';
 import { RegistroDeUsuario } from '../RegistroUsuario/RegistroDeUsuario';
+import TareasFinalizadas from '../TareasAsignadas/TareasFinalizadas';
 
 
 
@@ -52,6 +53,8 @@ export const Principal = ({ activeMenu }) => {
 
       {activeMenu === 'Asignar tarea' && userRole === 'OPERADOR' &&  <AsignarTareas/> } 
       {activeMenu === 'Tareas asignadas' && userRole === 'OPERADOR' &&  <TareasAsignadas/> } 
+      {activeMenu === 'Tareas finalizadas' && userRole === 'OPERADOR' &&  <TareasFinalizadas/> } 
+      
       {activeMenu === 'ScannerQR' && userRole === 'OPERADOR' &&  <ScannerQR/> } 
 
       {activeMenu === 'Metrica bitacora' && userRole === 'GERENTE' &&  <MetricaBitacora/> } 
