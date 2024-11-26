@@ -46,7 +46,7 @@ const MainPage = () => {
 
                     <div className="video-container">
                         <iframe
-                            src="https://drive.google.com/file/d/1hgaecOgCoRPEw8m5M1Tu230rXWfZ3zFo/preview"
+                            src="https://mega.nz/embed/Zq0wWQCD#JdxdogvcXNLjTjVi48kwmklcmU5d0N1biKH5Q2m_Sg0"
                             width="480"
                             height="480"
                             allow="autoplay; fullscreen"
