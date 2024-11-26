@@ -3,7 +3,7 @@ import { showsuccessAlert } from './SweetAlertSucces';
 
 export function SweetAlertAsignar({ choferId, vehiculosDisponibles, onAsignar }) {
   const handleAsignar = (vehiculoId) => {
-    onAsignar(vehiculoId);
+    onAsignar(vehiculoId,choferId);
     Swal.close(); 
     showsuccessAlert("Vehículo asignado","El vehículo fue asignado correctamente")
   };

@@ -29,6 +29,7 @@ export function TablaDeChoferes() {
     setLoading(true);
     try {
       const response = await verChoferes(token);
+     
       if (response) {
         const mappedRows = response.map((item, index) => ({
           key: index.toString(),
@@ -55,11 +56,11 @@ export function TablaDeChoferes() {
     });
   };
 
-  const handleAsignarVehiculo = async (vehiculoSeleccionado) => {
-    if (vehiculoSeleccionado && choferIdSeleccionado) {
+  const handleAsignarVehiculo = async (vehiculoSeleccionado,idChofer) => {
+    if (vehiculoSeleccionado && idChofer) {
       const data = {
         idVehiculo: vehiculoSeleccionado,
-        idChofer: choferIdSeleccionado,
+        idChofer: idChofer,
       };
       try {
         await asignarChofer(data, token);
