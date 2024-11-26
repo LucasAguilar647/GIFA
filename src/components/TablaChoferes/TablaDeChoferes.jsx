@@ -47,7 +47,7 @@ export function TablaDeChoferes() {
 
   const asignarVehiculo = async (idChofer) => {
     setChoferIdSeleccionado(idChofer);
-    await fetchVehiculosDisponibles(setVehiculosDisponibles, token);
+    const vehiculosDisponibles = await fetchVehiculosDisponibles(token);
     SweetAlertAsignar({
       choferId: idChofer,
       vehiculosDisponibles,

@@ -16,15 +16,16 @@ export const Posiciones = () => {
     <div>
       <div>
         <Button color='primary' className='m-3' onClick={toggleComponent}>
-          {mostrarTiempoReal === null || !mostrarTiempoReal ?  'Posición en Rango' :'Posición en tiempo real'}
+          {mostrarTiempoReal === null || !mostrarTiempoReal ?  'Posición en tiempo real' :'Posición en rango'}
         </Button>
       </div>
 
      
       {mostrarTiempoReal === null ? null : mostrarTiempoReal ? (
-        <PosicionesEnRango />
+         <PosicionesTiempoReal />
+       
       ) : (
-        <PosicionesTiempoReal />
+        <PosicionesEnRango />
       )}
     </div>
   );
