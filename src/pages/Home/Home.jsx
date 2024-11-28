@@ -34,7 +34,7 @@ export const Home = () => {
       case 'SUPERVISOR':
         return 'Colectivos';
       case 'OPERADOR':
-        return 'Tareas asignadas';
+        return 'Asignar tarea';
       case 'GERENTE':
         return 'Metrica bitacora';
       case 'CHOFER':
@@ -74,9 +74,9 @@ export const Home = () => {
       { name: 'Proveedores', icon: iconProveeedor },
     ],
     OPERADOR: [
-      { name: 'Tareas asignadas', icon: iconTareas },
       { name: 'Asignar tarea', icon: iconTareasToDo },
       { name: 'ScannerQR', icon: iconScan },
+      { name: 'Tareas asignadas', icon: iconTareas },
       { name: 'Tareas finalizadas', icon: iconTareas },
       
     ],
