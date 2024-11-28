@@ -56,7 +56,7 @@ export function TablaPedidosRealizados() {
     } finally {
         const id = setTimeout(() => {
             setLoading(false);
-        }, 2000);
+        }, 500);
         setTimeoutId(id);
     }
 };

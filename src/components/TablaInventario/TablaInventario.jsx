@@ -48,7 +48,7 @@ export function TablaDeInventario({ userRole, onItemSeleccionado }) {
           }));
           setFilas(mappedRows);
           setLoading(false); 
-        }, 2000); 
+        }, 300); 
       } catch (error) {
         console.error("Error al obtener los artículos:", error);
         setLoading(false); 

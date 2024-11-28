@@ -39,7 +39,7 @@ export function TablaDeProveedores() {
       setFilas([]); 
     } finally {
       
-      setTimeout(() => setLoading(false), 2000); 
+      setTimeout(() => setLoading(false), 500); 
     }
   };
 

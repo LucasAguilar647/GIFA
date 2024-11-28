@@ -60,7 +60,7 @@ export function TablaDeColectivos({ userRole }) {
     } finally {
       const id = setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 300);
       setTimeoutId(id);
     }
   };
