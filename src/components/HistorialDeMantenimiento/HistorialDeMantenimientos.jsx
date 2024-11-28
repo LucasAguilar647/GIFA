@@ -8,7 +8,7 @@ import { Button, Input } from "@nextui-org/react";
 
 const columns = [
   { uid: "patente", name: "PATENTE" },
-  { uid: "fecha", name: "FECHA DEL MANTENIMIENTO" },
+  { uid: "fechaInicio", name: "FECHA DEL MANTENIMIENTO" },
   { uid: "realizadoPor", name: "REALIZADO POR" },
   { uid: "actions", name: "ACCIONES" },
 ];
@@ -24,15 +24,19 @@ export function HistorialDeMantenimientos() {
     const cargarMantenimientos = async () => {
       try {
         const response = await verMantenimientos(token);
+        console.log(response)
         if (response && Array.isArray(response.mantenimientos)) {
           const mappedRows = response.mantenimientos.map((item, index) => {
             const [anio, mes, dia] = item.fechaInicio.split("-");
-            const fechaFormateada = `${dia}/${mes}/${anio}`;
+            const fechaFormateadaInicio = `${dia}/${mes}/${anio}`;
+            const [anios, mess, dias] = item.fechaFinalizacion.split("-");
+            const fechaFormateadaFinal = `${dias}/${mess}/${anios}`;
   
             return {
               key: index.toString(),
               patente: item.vehiculo.patente,
-              fecha: fechaFormateada,
+              fechaInicio: fechaFormateadaInicio,
+              fechaFinalizacion: fechaFormateadaFinal,
               repuesto: item.itemUtilizado?.length
                 ? agruparItems(item.itemUtilizado).join(", ")
                 : "No especificado",
@@ -50,7 +54,7 @@ export function HistorialDeMantenimientos() {
       } finally {
         setTimeout(() => {
           setIsLoading(false);
-        }, 2000);
+        }, 300);
       }
     };
   

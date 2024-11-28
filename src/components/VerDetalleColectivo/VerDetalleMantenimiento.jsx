@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { verMantenimientoPorVehiculo } from '../../services/mantenimientoService'; 
 import CardMantenimiento from '../Card/CardMantenimiento';
@@ -7,14 +6,23 @@ export const VerDetalleMantenimiento = ({ idVehiculo, token, irAtras }) => {
   const [mantenimiento, setMantenimiento] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
- 
+
+
+  const formatFecha = (fecha) => {
+    if (!fecha) return null; 
+    const [year, month, day] = fecha.split('-');
+    return `${day}-${month}-${year}`;
+  };
 
   useEffect(() => {
     const fetchMantenimiento = async () => {
       try {
         const response = await verMantenimientoPorVehiculo(idVehiculo, token); 
         if (response.mantenimientos.length > 0) {
-          setMantenimiento(response.mantenimientos[0]); 
+          const ultimoMantenimiento = response.mantenimientos[response.mantenimientos.length - 1];
+          ultimoMantenimiento.fechaInicio = formatFecha(ultimoMantenimiento.fechaInicio);
+          ultimoMantenimiento.fechaFinalizacion = formatFecha(ultimoMantenimiento.fechaFinalizacion);
+          setMantenimiento(ultimoMantenimiento);
         } else {
           setError("No se encontró ningún mantenimiento para este vehículo.");
         }
