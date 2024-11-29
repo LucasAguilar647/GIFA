@@ -15,7 +15,7 @@ const router= createBrowserRouter([
       element: <Login /> 
     },
     {
-        path:'home',
+        path:'/home',
         element: (
           <RutaProtegida>
             <Home />
