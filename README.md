@@ -1,19 +1,38 @@
-GIFA (Gestión Integral de Flota Automotor) es un sistema web y mobile-first que desarrollé con el objetivo de modernizar y centralizar la administración de flotas vehiculares. Este proyecto destaca por su versatilidad y adaptación a diferentes perfiles de usuarios, incluyendo gerentes, supervisores, operadores, administradores y clientes. Sus principales funcionalidades incluyen:
+GIFA (Gestión Integral de Flota Automotor)
+GIFA es un sistema integral diseñado para optimizar la gestión y el control de flotas vehiculares. Este proyecto combina tecnología avanzada y análisis de datos para ofrecer soluciones personalizadas que se adaptan a las necesidades de diversos perfiles de usuarios dentro de una organización.
 
-Gestión de flotas: Verificación y monitoreo periódico de vehículos, con integración de controles internos y externos mediante geoposicionamiento y códigos QR.
-Módulo de analítica: Generación de reportes dinámicos y gráficos de desempeño para la toma de decisiones estratégicas, utilizando herramientas como Metabase.
-Control de stock y compras: Seguimiento de inventario de repuestos, gestión de proveedores y pedidos, y compras automáticas cuando el stock es insuficiente.
-Gestión documental: Registro detallado de reparaciones, uso de vehículos, y bitácoras de mantenimiento, consolidando datos mediante QR y geolocalización.
-Interoperabilidad: Integración con sistemas externos como Traccar para geoposicionamiento y tarjetas de crédito para el control del consumo de combustible.
-El sistema se enfoca en proporcionar una experiencia de usuario robusta y segura, cumpliendo con normativas de protección de datos y ofreciendo autenticación personalizada para cada perfil. Su diseño responsive garantiza un acceso óptimo tanto en dispositivos móviles como de escritorio.
-
-Este proyecto refleja mi capacidad para implementar soluciones tecnológicas completas, desde el análisis inicial hasta la entrega final, incluyendo integración de APIs, diseño centrado en el usuario, y generación de reportes detallados que soportan decisiones estratégicas y operativas.
-
-¡Espero que este sistema sea un excelente ejemplo de mis habilidades para desarrollar soluciones innovadoras y adaptables a las necesidades del cliente!
-
-
-
-
-
-
-
+Características principales
+Gestión de Flotas
+Verificación y monitoreo periódico de controles vehiculares.
+Integración de geoposicionamiento para registrar acciones y eventos.
+Uso de códigos QR para facilitar el registro de operaciones y la gestión documental.
+Módulo de Analítica
+Generación de reportes dinámicos y gráficos de desempeño.
+Optimización de operaciones mediante análisis de datos.
+Integración con sistemas de seguimiento existentes, como Traccar.
+Gestión de Stock y Compras
+Seguimiento de inventario de repuestos frecuentes.
+Gestión automatizada de compras cuando el stock está por debajo del umbral definido.
+Administración de proveedores y pedidos.
+Base de Conocimiento y Mantenimiento
+Registro de reparaciones asociadas a modelos y repuestos utilizados.
+Historial detallado del mantenimiento y uso de los vehículos.
+Consolidación de datos de múltiples fuentes, incluyendo consumo de combustible.
+Interoperabilidad y Seguridad
+Integración con sistemas externos mediante APIs y códigos QR.
+Cumplimiento de normativas de protección de datos.
+Autenticación robusta personalizada por perfil de usuario.
+Perfiles de Usuario
+Gerencia: Supervisión general, acceso a reportes estratégicos.
+Supervisión: Control de operaciones diarias y cumplimiento de protocolos.
+Operadores: Registro de actividades y gestión directa de la flota.
+Administración: Gestión documental, control de stock y compras.
+Aspectos Técnicos
+Arquitectura: Sistema web adaptable con diseño mobile-first.
+Tecnologías:
+Geoposicionamiento: Traccar.
+Analítica de datos: Metabase.
+APIs para integración y automatización de tareas.
+Seguridad: Implementación de autenticación robusta y protección de datos.
+Objetivo del Proyecto
+Desarrollar una solución tecnológica completa para optimizar la administración de flotas vehiculares, ofreciendo herramientas que mejoren la eficiencia operativa y estratégica de una organización.
